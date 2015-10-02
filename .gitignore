@@ -1,0 +1,4 @@
+# 'npm install' and 'bower install' files
+config/env/local.js
+node_modules/
+public/lib/

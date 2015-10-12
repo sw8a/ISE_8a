@@ -1,0 +1,163 @@
+<div class="container">
+	<!-- Information about selected patient -->
+	<div class="row" ng-controller="progressForms">
+		<div class="col-xs-12 col-sm-8 col-md-7 col-md-offset-1" ng-repeat="c in clients">
+			<h1 class="text-info">{{c.petName}}</h1>
+			<h5>Patient: {{c.clientName}}</h5>
+			<h5>Phone: {{c.phone}}</h5>
+			<h5>Contact time: {{c.contactTime}}</h5>
+		</div>
+		<div class="col-xs-12 col-sm-4 pull-right col-md-3">
+			<br/>
+			<br/>
+			<h4>Clinic ID: 000000</h4>
+			<h5>trimauxil Submission: Yes</h5>
+			<h5>Initial Weight: 3 lbs</h5>
+			<h5>Ideal Weight: 2 lbs</h5>
+		</div>
+	</div>
+
+	<hr/>
+
+	<!-- Display all forms -->
+	<div class="panel-group" id="accordion">
+		<!-- Panel  1 -->
+		<div class="panel panel-default">
+		    <!-- Collapse Panel -->
+		    <div class="panel-heading">
+		        <h6 class="panel-title">
+				    <div class="row" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				        <div class="cols-xs-8 col-sm-3">May 5, 2015</div>
+				        <div class="cols-xs-0 hidden-xs col-sm-3 text-center">Weight Loss</div>
+				        <div class="cols-xs-0 hidden-xs col-sm-4 text-center">Dose</div>
+				        <div class="cols-xs-3 col-sm-2">
+				        	<span class="glyphicon glyphicon-chevron-down pull-right"></span>
+				        </div>
+				    </div>
+			    </h6>
+			</div>
+			        
+			<!-- Uncollapse Panel -->
+			<div id="collapseOne" class="panel-collapse collapse in">
+			    <div class="panel-body">
+			    	<!-- Display all forms -->
+					<form class="form-horizontal">
+						<div class="row">
+							<div class="col-sm-8 col-md-7">
+								<!-- Today's Weight -->
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-4 control-label">Today's Weight</label>
+								    <div class="col-xs-10 col-sm-6">
+								    	<input class="form-control" id="focusedInput" type="text" value="Enter pet's weight">
+								    </div>
+								    <div class="col-xs-2">kg</div>
+								</div>
+
+								<!-- Today Weight Loss -->
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-4 control-label">Today Weight Loss</label>
+								    <div class="col-xs-10 col-sm-6">
+								    	<input class="form-control" id="focusedInput" type="text" value="Enter % weight loss">
+								    </div>
+								    <div class="col-xs-2">%</div>
+								</div>
+
+								<!-- Avg Weight Loss -->
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-4  control-label">Avg Weight Loss</label>
+								    <div class="col-xs-10 col-sm-6">
+								    	<input class="form-control" id="focusedInput" type="text" value="Average % weight loss">
+								    </div>
+								    <div class="col-xs-2">%</div>
+								</div>
+
+								<!-- Trimauxil Use -->
+								<div class="col-xs-12 col-sm-4 col-sm-offset-2">
+									<div class="form-group">
+										<label class="control-label">Trimauxil Use</label><br/>
+										<input type="radio" name="trimauxilUse" value="overUse"> Overuse<br/>
+										<input type="radio" name="trimauxilUse" value="justRight"> Just right<br/>
+										<input type="radio" name="trimauxilUse" value="underUse"> Underuse<br/>
+									</div>
+								</div>
+
+								<!-- Weight Loss Appropriate -->
+								<div class="col-xs-12 col-sm-6">
+									<div class="form-group">
+										<label class="control-label">Weight Loss Appropriate</label><br/>
+										<input type="radio" name="trimauxilUse" value="overUse"> Overuse<br/>
+										<input type="radio" name="trimauxilUse" value="justRight"> Just right<br/>
+										<input type="radio" name="trimauxilUse" value="underUse"> Underuse<br/>
+									</div>
+								</div>
+
+								<!-- Trimauxil Dose -->
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-4 control-label">Trimauxil Dose</label>
+								    <div class="col-xs-4 col-sm-2">
+								    	<select class="form-control">
+								    		<option value="1" selected="selected">1</option>
+				  							<option value="1.5">1.5</option>
+				  							<option value="2">2</option>
+								    	</select>
+								    </div>
+								    <div class="col-xs-8 col-sm-4">
+								    	<input class="form-control" id="focusedInput" type="text" value="signed: Jane Doe">
+								    </div>
+								    <div class="colxs-0 hidden col-sm-2"></div>
+								</div>
+
+								<!-- Food Changed -->
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
+								    <div class="col-xs-12 col-sm-4">
+								    	<label class="radio-inline"><input type="radio" name="foodChanged" value="yes"> Yes</label>
+								    	<label class="radio-inline"><input type="radio" name="foodChanged" value="no"> No</label>
+								    </div>
+								    <div class="col-xs-12 col-sm-6 col-sm-offset-4">
+								    	<input class="form-control" id="focusedInput" type="text" value="signed: Jane Doe">
+								    </div>
+								</div>
+							</div>
+
+							<!-- Columns containing Comments and approval -->
+							<div class="col-sm-4 col-md-5">
+								<!-- Trimauxil Dose -->
+								<div class="form-group">
+								  	<label class="col-xs-12" for="comment">Comments</label>
+								  	<div class="col-xs-12">
+								  		<textarea class="form-control" rows="10" id="comment"></textarea>
+								  	</div>
+								</div>
+
+								<!-- Tech Initial -->
+								<div class="form-group">
+								  	<label class="col-xs-12 col-sm-5">Tech Initial</label>
+								  	<div class="col-xs-12 col-sm-7">
+								  		<input class="form-control" id="focusedInput" type="text" value="J.D">
+								  	</div>
+								</div>
+
+								<!-- Vet Initial -->
+								<div class="form-group">
+								  	<label class="col-xs-12 col-sm-5">Vet Initial</label>
+								  	<div class="col-xs-12 col-sm-7">
+								  		<input class="form-control" id="focusedInput" type="text" value="J.D">
+								  	</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Row containing Cancel and Save button -->
+						<div class="row">
+							<div class="col-xs-6 col-xs-offset-6">
+								<button type="button" class="btn btn-primary pull-right">Save</button>
+								<button type="button" class="btn btn-default pull-right">Cancel</button>
+							</div>
+						</div>
+					</form> 	
+			    </div>
+			</div>
+		</div> <!-- End of Panel 1 -->
+	</div> <!-- <div class="panel-group" id="accordion"> -->
+</div> <!-- <div class="container"> -->

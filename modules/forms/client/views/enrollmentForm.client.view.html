@@ -1,0 +1,124 @@
+<div class="page-header">
+  <h1 class="text-center">Initial Health Assessment</h1>
+</div>
+
+<form class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2" data-ng-controller="initialAssessmentController">
+  <div class="form-group">
+    <label for="petName">Pet First Name</label>
+    <input type="text" class="form-control" id="petName" placeholder="Pet Name" data-ng-model="patientInfo.firstName">
+  </div>
+
+  <div class="form-group">
+    <label for="patientID">Patient ID</label>
+    <input type="text" class="form-control" id="patientID" placeholder="Patient ID">
+  </div>
+
+  <div class="form-group">
+    <label for="date">Date</label>
+    <input type="date" class="form-control" id="date">
+  </div>
+
+  <h3 class="text-center">Signalment</h3>
+
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" class="form-control" id="age" placeholder="Age" min="0" max="35" step="0.01" data-ng-model="patientInfo.age">
+  </div>
+
+  <div class="form-group">
+    <label>Sex</label> <br/>
+    <label class="radio-inline"><input type="radio" name="sex" data-ng-model="patientInfo.sex" value="M">Male</label>
+    <label class="radio-inline"><input type="radio" name="sex" data-ng-model="patientInfo.sex" value="F">Female</label>
+  </div>
+
+  <div class="form-group">
+    <label>Castrated?</label> <br/>
+    <label class="radio-inline"><input type="radio" name="castrated" data-ng-model="patientInfo.castrated" value="Y">Castrated</label>
+    <label class="radio-inline"><input type="radio" name="castrated" data-ng-model="patientInfo.castrated" value="N">Intact</label>
+  </div>
+
+  <div class="form-group">
+    <label for="breed">Breed</label>
+    <input type="text" class="form-control" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed">
+  </div>
+
+  <h3 class="text-center">Current Food</h3>
+
+  <div class="form-group">
+    <label for="brand">Brand</label>
+    <input type="text" class="form-control" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand">
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <label class="col-md-2" for="foodAmount">Amount: </label>
+      <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" id="foodAmount" min="1" max="10" step="0.01" data-ng-model="patientInfo.cups">
+      <span class="pull-left">&nbsp;&nbsp;cup(s)</span>
+      <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" min="1" max="10" data-ng-model="patientInfo.perDay">
+      <span class="pull-left">&nbsp;&nbsp;x day</span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="dailyTreats">List treats (with brands if known) and typical table scraps given daily:</label>
+    <textarea class="form-control" id="dailyTreats" rows="3" data-ng-model="patientInfo.treatsAndScraps"></textarea>
+  </div>
+
+  <h3 class="text-center">Medical Background</h3>
+
+  <div class="form-group">
+    <label for="currentMedications">Current Medications/Supplements:</label>
+    <textarea class="form-control" id="currentMedications" rows="3" data-ng-model="patientInfo.currentMedications"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="significantMedicalHistory">Significant Medical History:</label>
+    <textarea class="form-control" id="significantMedicalHistory" rows="3" data-ng-model="patientInfo.significantMedicalHistory"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="significantPEFindings">Today's Significant PE Findings:</label>
+    <textarea class="form-control" id="significantPEFindings" rows="3" data-ng-model="patientInfo.significantPEFindings"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="eligibleDog">Veterinarian, please review inclusion and exclusion criteria. Is this dog eligible to proceed with Trimauxil treatment?</label>
+    <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval.continueWithTrimauxil" value="Y">Yes</label>
+    <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval.continueWithTrimauxil" value="N">No</label>
+  </div>
+
+  <div class="form-group">
+    <label for="vetSignature">Veterinarian Signature</label>
+    <input type="text" class="form-control" id="vetSignature" placeholder="Signature" data-ng-model="vetApproval.vetSignature">
+  </div>
+
+  <h3 class="text-center">Results</h3>
+
+   <div class="form-group">
+      <label class="col-md-4 col-xs-7" for="currentWeight">Today's Weight (kg): </label>
+      <input class="col-md-2 col-xs-5" type="number" id="currentWeight" min="0" max="300" data-ng-model="patientInfo.todayWeight">
+      <label class="col-md-4 col-xs-7" for="BCS">BCS (1-9)*: </label>
+      <input class="col-md-2 col-xs-5" type="number" id="BCS" min="1" max="9" data-ng-model="patientInfo.BCS">
+  </div>
+
+  <div class="form-group">
+      <label class="col-md-4 col-xs-9">Ideal Weight (kg): </label>
+      <span class="col-md-2 col-xs-3">{{patientInfo.idealWeight()}}</span>
+      <label class="col-md-4 col-xs-9">Cups per Feeding: </label>
+      <span class="col-md-2 col-xs-3">{{patientInfo.cupsPerFeeding()}}</span>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2" for="technician">Technician: </label>
+    <input class="col-md-2" type="text" id="technician" data-ng-model="finalApproval.technician">
+    <label class="col-md-2" for="veterinarian">Veterinarian: </label>
+    <input class="col-md-2" type="text" id="veterinarian" data-ng-model="finalApproval.veterinarian">
+    <label class="col-md-2" for="reviewedBy">Reviewed By: <br>(AT Use Only)</label>
+    <input class="col-md-2" type="text" id="reviewedBy" data-ng-model="finalApproval.reviewer">
+  </div>
+
+  <div class="form-group text-center">
+    <button type="submit" class="btn btn-default">Submit</button>
+  </div>
+
+</form>

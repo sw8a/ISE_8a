@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 // Setting up route
 angular.module('patients').config(['$stateProvider',
   function ($stateProvider) {
@@ -14,6 +14,6 @@ angular.module('patients').config(['$stateProvider',
           roles: ['user', 'admin']
         }
       });
-	*/
+	
   }
-]);
+]);*/

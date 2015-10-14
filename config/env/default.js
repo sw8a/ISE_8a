@@ -2,8 +2,8 @@
 
 module.exports = {
   app: {
-    title: 'Trimuaxil',
-    description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
+    title: 'Trimauxil',
+    description: 'Weight loss program for overweight dogs',
     keywords: 'MongoDB, Express, AngularJS, Node.js',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },

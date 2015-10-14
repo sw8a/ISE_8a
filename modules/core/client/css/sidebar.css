@@ -32,6 +32,8 @@ html, body{
 
 	background-color: transparent;
 	border: none;
+
+	outline: none;
 }
 
 .dashGlyph {

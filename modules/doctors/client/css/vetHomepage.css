@@ -1,9 +1,8 @@
-body {
+.homepageBody {
     font-family: "Trajan Pro";
     color: #1E5687;
     width: 90%;
     margin: auto;
-    background-color: #FAFAFA
 }
 
 .h1,h1,.h2,h2,.h3,h3 {

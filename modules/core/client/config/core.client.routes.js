@@ -11,7 +11,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'modules/core/views/home.client.view.html'
+        templateUrl: 'modules/patients/views/overview.client.view.html'
       })
       .state('not-found', {
         url: '/not-found',
@@ -19,7 +19,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('overview', {
         url: '/overview',
-        templateUrl: 'modules/forms/views/overview.client.view.html'
+        templateUrl: 'modules/patients/views/overview.client.view.html'
       })
       .state('progressForms', {
         url: '/progressForms',
@@ -32,6 +32,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       .state('exitForm', {
         url: '/exitForm',
         templateUrl: 'modules/forms/views/exitForm.client.view.html'
+      })
+      .state('vetHomepage', {
+        url: '/vetHomepage',
+        templateUrl: 'modules/doctors/views/vetHomepage.client.view.html'
       })
       .state('login', {
         url: '/login',

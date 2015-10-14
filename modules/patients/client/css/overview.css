@@ -1,0 +1,54 @@
+/* Presented in order of appearance on overview.html */
+
+#progressPage {
+	font-family: Open Sans, Gadget, sans-serif; 
+	width:80%; 
+	padding-left:10%; 
+	padding-right:10%; 
+	min-width:540px;
+}
+
+#headerH1 {
+	background-color:#F4F4F4; 
+	color:#1A4B68; 
+	padding:0px; 
+	width:100%;
+}
+
+#boxOne {
+	background-color:#F4F4F4; 
+	color:#1A4B68; 
+	padding-left:2%; 
+	padding-right:2%; 
+	width:96%; 
+	height:220px; 
+	overflow: auto; 
+	overflow-x: auto; 
+	overflow-y: auto;
+}
+
+#floatLeft {
+	float: left;
+}
+
+#floatLeftPadded {
+	float: left; 
+	padding-right:calc(50% - 200px);
+}
+
+#floatLeftNoPad {
+	float: left; 
+	padding-left:0%;
+}
+
+#boxTwo {
+	background-color:#F4F4F4; 
+	color:#1A4B68; 
+	padding:2%; 
+	width:96%; 
+	height:200px;
+}
+
+#floatRight {
+	float: right;
+}

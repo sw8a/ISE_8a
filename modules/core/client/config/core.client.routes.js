@@ -29,6 +29,5 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         url: '/exitForm',
         templateUrl: 'modules/forms/views/exitForm.client.view.html'
       })
-
   }
 ]);

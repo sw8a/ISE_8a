@@ -2,8 +2,8 @@
 
 module.exports = {
   app: {
-    title: 'Trimuaxil',
-    description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
+    title: 'Trimauxil',
+    description: 'Weight loss program for overweight dogs',
     keywords: 'MongoDB, Express, AngularJS, Node.js',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
@@ -11,6 +11,6 @@ module.exports = {
   templateEngine: 'swig',
   sessionSecret: 'MEAN',
   sessionCollection: 'sessions',
-  logo: 'modules/core/img/brand/logo.png',
-  favicon: 'modules/core/img/brand/favicon.ico'
+  logo: 'modules/core/img/brand/trimLogo.png',
+  favicon: 'modules/core/img/brand/trimFavicon.ico'
 };

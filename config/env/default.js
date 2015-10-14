@@ -11,6 +11,6 @@ module.exports = {
   templateEngine: 'swig',
   sessionSecret: 'MEAN',
   sessionCollection: 'sessions',
-  logo: 'modules/core/img/brand/logo.png',
-  favicon: 'modules/core/img/brand/favicon.ico'
+  logo: 'modules/core/img/brand/trimLogo.png',
+  favicon: 'modules/core/img/brand/trimFavicon.ico'
 };

@@ -6,6 +6,7 @@
 	padding-left: 330px; 
 	padding-right:5%; 
 	min-width:640px;
+	overflow: hidden; 
 }
 
 #headerH1 {

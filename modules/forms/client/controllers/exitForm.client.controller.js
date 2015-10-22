@@ -5,6 +5,13 @@ angular.module('core').controller('exitFormController', ['$scope', 'Authenticati
     // This provides Authentication context.
     $scope.authentication = Authentication;
 
+    var today = new Date();
+    var month = today.getMonth(); //months from 1-12
+    var day = today.getDate();
+    var year = today.getFullYear();
+    today = new Date(year, month, day);
+    $scope.endingDate = today;
+
     // Do they want some prepopulated values?
     $scope.patientInfo = {
         endingReason: "Reached ideal weight",

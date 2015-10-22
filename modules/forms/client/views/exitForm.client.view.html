@@ -31,13 +31,27 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-12 columns">
-          <label class="col-md-3" for="startWeight">Start Weight (kg): </label>
+          <label class="col-md-3" for="startWeightKG">Start Weight (kg): </label>
           <div class="col-md-3">
-            <input class="form-control" type="number" id="startWeight" min="0" max="300" step="0.01" data-ng-model="patientInfo.startWeight">
+            <input class="form-control" type="number" step="any" id="startWeightKG" min="0" max="300" data-ng-change="startToLB()" data-ng-model="patientInfo.startWeightKG">
           </div>
-          <label class="col-md-3" for="finalWeight">Final Weight (kg): </label>
+
+          <label class="col-md-3" for="startWeightLB">Start Weight (lb): </label>
           <div class="col-md-3">
-            <input class="form-control" type="number" id="finalWeight" min="0" max="300" step="0.01" data-ng-model="patientInfo.finalWeight">
+            <input class="form-control" type="number" step="any" id="startWeightLB" min="0" max="300" data-ng-change="startToKG()" data-ng-model="patientInfo.startWeightLB">
+          </div>
+
+          <br>
+          <br>
+
+          <label class="col-md-3" for="finalWeightKG">Final Weight (kg): </label>
+          <div class="col-md-3">
+            <input class="form-control" type="number" step="any" id="finalWeightKG" min="0" max="300" data-ng-change="finalToLB()" data-ng-model="patientInfo.finalWeightKG">
+          </div>
+
+          <label class="col-md-3" for="finalWeightLB">Final Weight (lb): </label>
+          <div class="col-md-3">
+            <input class="form-control" type="number" step="any" id="finalWeightLB" min="0" max="300" data-ng-change="finalToKG()" data-ng-model="patientInfo.finalWeightLB">
           </div>
         </div>
       </div>
@@ -46,8 +60,10 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-12 columns">
-          <label class="col-md-3">Weight Loss Total (kg): </label>
-          <span class="col-md-9">{{patientInfo.weightLossTotal()}}</span>
+          <label class="col-md-4">Weight Loss Total (kg): </label>
+          <span class="col-md-2">{{patientInfo.weightLossTotalKG()}}</span>
+          <label class="col-md-4">Weight Loss Total (lb): </label>
+          <span class="col-md-2">{{patientInfo.weightLossTotalLB()}}</span>
         </div>
       </div>
     </div>
@@ -57,11 +73,11 @@
         <div class="col-md-12 columns">
           <label class="col-md-3" for="startBCS">Start BCS: </label>
           <div class="col-md-3">
-            <input class="form-control" type="number" id="startBCS" min="1" max="9" data-ng-model="patientInfo.startBCS">
+            <input class="form-control" type="number" step="1" id="startBCS" min="1" max="9" data-ng-model="patientInfo.startBCS">
           </div>
           <label class="col-md-3" for="finalBCS">Final BCS: </label>
           <div class="col-md-3">
-            <input class="form-control" type="number"  id="finalBCS" min="1" max="9" data-ng-model="patientInfo.finalBCS">
+            <input class="form-control" type="number" step="1"  id="finalBCS" min="1" max="9" data-ng-model="patientInfo.finalBCS">
           </div>
         </div>
       </div>
@@ -77,9 +93,9 @@
     <div class="form-group">
       <div class="row">
         <label class="col-md-2 col-xs-10" for="foodAmount">Amount: </label>
-        <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" id="foodAmount" min="1" max="10" step="0.01" data-ng-model="patientInfo.cups">
+        <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" step="any" id="foodAmount" min="1" max="10"  data-ng-model="patientInfo.cups">
         <span class="pull-left">&nbsp;&nbsp;cup(s)</span>
-        <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" min="1" max="10" data-ng-model="patientInfo.perDay">
+        <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" step="1" min="1" max="10" data-ng-model="patientInfo.perDay">
         <span class="pull-left">&nbsp;&nbsp;x day</span>
       </div>
     </div>
@@ -94,7 +110,7 @@
      <div class="form-group">
       <label>1. How easy was it to administer the Trimauxil Treatment Program to your dog?</label>
       <div class="col-md-12 columns">
-        <label class="radio-inline col-md-offset-2"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Very challenging">Very challenging</label>
+        <label class="radio-inline col-md-offset-1"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Very challenging">Very challenging</label>
         <label class="radio-inline"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Somewhat challenging">Somewhat challenging</label>
         <label class="radio-inline"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Somewhat easy">Somewhat easy</label>
         <label class="radio-inline"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Easy">Easy</label>
@@ -117,7 +133,7 @@
     <div class="form-group">
       <label>3. Do you think the Trimauxil Program had/will have a positive impact on your dog&#8217;s life and health?</label>
       <div class="col-md-12 columns">
-        <label class="radio-inline col-md-offset-4"><input type="radio" name="q3" data-ng-model="ownerQuestions.positiveImpact" value="Y">Yes</label>
+        <label class="radio-inline col-md-offset-5"><input type="radio" name="q3" data-ng-model="ownerQuestions.positiveImpact" value="Y">Yes</label>
         <label class="radio-inline"><input type="radio" name="q3" data-ng-model="ownerQuestions.positiveImpact" value="N">No</label>
       </div>
     </div>

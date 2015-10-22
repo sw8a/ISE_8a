@@ -28,7 +28,7 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
         var bodyFat = $scope.patientInfo.BCS * 5; // Assumes each BCS equals 5% body fat
         var idealWeight = currWeight * (100-bodyFat)/100 / .8;
 
-        return idealWeight.toFixed(3); // Ask about how many decimal places they want
+        return idealWeight.toFixed(2); // Ask about how many decimal places they want
     }
 
     $scope.patientInfo.cupsPerFeeding = function () {
@@ -38,7 +38,7 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
         var perDay = $scope.patientInfo.perDay;
         var cupsPerFeeding = cupsPerDay/perDay;
 
-        return cupsPerFeeding.toFixed(3); // Ask about how many decimal places they want
+        return cupsPerFeeding.toFixed(2); // Ask about how many decimal places they want
     }
 
     $scope.vetApproval = {

@@ -11,35 +11,81 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'modules/patients/views/overview.client.view.html'
+        views: {
+            "sidebar": {
+                templateUrl: "/modules/core/views/sidebar.client.view.html"
+            },
+            "content": {
+                templateUrl: "modules/patients/views/overview.client.view.html"
+            }
+        }
       })
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
       })
-      .state('overview', {
-        url: '/overview',
-        templateUrl: 'modules/patients/views/overview.client.view.html'
+	  .state('overview', {
+            url: "/overview",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/patients/views/overview.client.view.html"
+                }
+            }
       })
-      .state('progressForms', {
-        url: '/progressForms',
-        templateUrl: 'modules/forms/views/progressForms.client.view.html'
+	  .state('progressForms', {
+            url: "/progressForms",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/forms/views/progressForms.client.view.html"
+                }
+            }
       })
-      .state('enrollmentForm', {
-        url: '/enrollmentForm',
-        templateUrl: 'modules/forms/views/enrollmentForm.client.view.html'
+	  .state('enrollmentForm', {
+            url: "/enrollmentForm",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/forms/views/enrollmentForm.client.view.html"
+                }
+            }
       })
-      .state('exitForm', {
-        url: '/exitForm',
-        templateUrl: 'modules/forms/views/exitForm.client.view.html'
+	  .state('exitForm', {
+            url: "/exitForm",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/forms/views/exitForm.client.view.html"
+                }
+            }
       })
-      .state('vetHomepage', {
-        url: '/vetHomepage',
-        templateUrl: 'modules/doctors/views/vetHomepage.client.view.html'
+	  .state('vetHomepage', {
+            url: "/vetHomepage",
+            views: {
+                "content": {
+                    templateUrl: "modules/doctors/views/vetHomepage.client.view.html"
+                }
+            }
       })
-      .state('login', {
-        url: '/login',
-        templateUrl: 'modules/forms/views/login.client.view.html'
+	  .state('login', {
+            url: "/login",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/forms/views/login.client.view.html"
+                }
+            }
       })
   }
 ]);

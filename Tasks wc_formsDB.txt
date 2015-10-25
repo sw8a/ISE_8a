@@ -1,0 +1,24 @@
+Branch wc_formsDB_106499438
+
+10/24 - 
+
+
+Todo: 
+
+data version control
+	Add 'changes' object to schema
+	-or-
+	Create separate collection for previous versions and array of ObjectID's in main document
+
+Revisit server controller
+
+Decide on solution for enrollment and exit forms
+	Keep all data in patient document
+	-or- 
+	Have multiple schemas in forms collection
+	-or-
+	Create new modules for exit and enrollment forms
+
+
+
+Delete this file before doing pull request

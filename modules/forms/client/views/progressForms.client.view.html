@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-12 col-sm-4 control-label">Today's Weight</label>
                                     <div class="col-xs-10 col-sm-6">
-                                        <input class="form-control" id="focusedInput" type="text" value="Enter pet's weight">
+                                        <input data-ng-model="weight" class="form-control" id="focusedInput" type="text" value="Enter pet's weight">
                                     </div>
                                     <div class="col-xs-2">kg</div>
                                 </div>
@@ -69,18 +69,17 @@
                                 <div class="col-xs-12 col-sm-4 col-sm-offset-2">
                                     <div class="form-group">
                                         <label class="control-label">Trimauxil Use</label><br/>
-                                        <input type="radio" name="trimauxilUse" value="overUse"> Overuse<br/>
-                                        <input type="radio" name="trimauxilUse" value="justRight"> Just right<br/>
-                                        <input type="radio" name="trimauxilUse" value="underUse"> Underuse<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Overuse"> Overuse<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Just Right"> Just Right<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Underuse"> Underuse<br/>
                                     </div>
                                 </div>
                                 <!-- Weight Loss Appropriate -->
                                 <div class="col-xs-12 col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Weight Loss Appropriate</label><br/>
-                                        <input type="radio" name="trimauxilUse" value="overUse"> Overuse<br/>
-                                        <input type="radio" name="trimauxilUse" value="justRight"> Just right<br/>
-                                        <input type="radio" name="trimauxilUse" value="underUse"> Underuse<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="weightLossAppropriate" value="true"> Yes<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="weightLossAppropriate" value="fale"> No<br/>
                                     </div>
                                 </div>
                                 <!-- Trimauxil Dose -->
@@ -102,8 +101,8 @@
                                 <div class="form-group">
                                     <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
                                     <div class="col-xs-12 col-sm-4">
-                                        <label class="radio-inline"><input type="radio" name="foodChanged" value="yes"> Yes</label>
-                                        <label class="radio-inline"><input type="radio" name="foodChanged" value="no"> No</label>
+                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true"> Yes</label>
+                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false"> No</label>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-sm-offset-4">
                                         <input class="form-control" id="focusedInput" type="text" value="signed: Jane Doe">
@@ -114,23 +113,23 @@
                             <div class="col-sm-4 col-md-5">
                                 <!-- Trimauxil Dose -->
                                 <div class="form-group">
-                                    <label class="col-xs-12" for="comment">Comments</label>
+                                    <label class="col-xs-12" for="comments">Comments</label>
                                     <div class="col-xs-12">
-                                        <textarea class="form-control" rows="10" id="comment"></textarea>
+                                        <textarea data-ng-model="comments" class="form-control" rows="10" id="comment"></textarea>
                                     </div>
                                 </div>
                                 <!-- Tech Initial -->
                                 <div class="form-group">
-                                    <label class="col-xs-12 col-sm-5">Tech Initial</label>
+                                    <label class="col-xs-12 col-sm-5">Tech ID</label>
                                     <div class="col-xs-12 col-sm-7">
-                                        <input class="form-control" id="focusedInput" type="text" value="J.D">
+                                        <input data-ng-model="techID" class="form-control" id="focusedInput" type="text" value="J.D">
                                     </div>
                                 </div>
                                 <!-- Vet Initial -->
                                 <div class="form-group">
-                                    <label class="col-xs-12 col-sm-5">Vet Initial</label>
+                                    <label class="col-xs-12 col-sm-5">Vet ID</label>
                                     <div class="col-xs-12 col-sm-7">
-                                        <input class="form-control" id="focusedInput" type="text" value="J.D">
+                                        <input data-ng-model="vetID" class="form-control" id="focusedInput" type="text" value="J.D">
                                     </div>
                                 </div>
                             </div>

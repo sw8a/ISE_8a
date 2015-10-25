@@ -1,9 +1,33 @@
 'use strict';
 
-angular.module('core').controller('progressFormsController', ['$scope', 'Authentication',
-  function ($scope, Authentication) {
+angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressForms'
+  function ($scope, Authentication, ProgressForms) {
+    
     // This provides Authentication context.
     $scope.authentication = Authentication;
+    
+    // Create new progress form
+    $scope.create = function() {
+        // Create new ProgressForm object
+        var progressForm = new ProgressForm({
+            weight: this.weight,
+            trimauxilUse: this.trimauxilUse,
+            weightLossAppropriate: this.weightLossAppropriate,
+            foodChanged: this.foodChanged,
+            comments: this.comments,
+            techID: this.techID,
+            vetID: this.vetID
+            patient: this.patient
+        });
+
+        progressForm.$save(function (response) {
+            // Function that is executed after save
+        });
+    };
+
+
+
+
     // Multidimensional array to include priority
     $scope.clients = [{
         petName: "Puddle", 
@@ -13,5 +37,9 @@ angular.module('core').controller('progressFormsController', ['$scope', 'Authent
         petInitWeight: "3 lbs",
         petIdealWeight: "2 lbs"
     }];
+
+
+
+
   }
 ]);

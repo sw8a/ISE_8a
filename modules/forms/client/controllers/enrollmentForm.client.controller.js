@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('enrollmentFormController', ['$scope', 'Authentication', 
+angular.module('core').controller('enrollmentFormController', ['$scope', 'Authentication',
   function ($scope, Authentication) {
     // This provides Authentication context.
     $scope.authentication = Authentication;

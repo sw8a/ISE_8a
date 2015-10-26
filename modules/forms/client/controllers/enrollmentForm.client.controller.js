@@ -32,9 +32,8 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
 
     $scope.patientInfo.age = function () {
       var DOB = $scope.patientInfo.DOB;
-      var ageDifMs = Date.now() - DOB.getTime();
-      var ageDate = new Date(ageDifMs); // miliseconds from epoch
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
+      var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth()+1, day: DOB.getDate()})
+      return age;
     };
 
     $scope.patientInfo.idealWeight = function () {
@@ -54,6 +53,25 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
 
         return cupsPerFeeding.toFixed(2); // Ask about how many decimal places they want
     };
+
+    $scope.yearDifference = function (date) {
+        var curDate = new Date(),
+            now     = {
+              year: curDate.getUTCFullYear(),
+              // UTC month value is zero-based
+              month: curDate.getUTCMonth() + 1,
+              day: curDate.getUTCDate()
+            },
+            diff = now.year % date.year;
+
+        // Do not update the date unless it is time
+        if (now.month < date.month ||
+            now.month === date.month && now.day < date.day) {
+          diff -= 1;
+        }
+
+        return diff;
+    }
 
     $scope.vetApproval = {
         vetSignature: "",

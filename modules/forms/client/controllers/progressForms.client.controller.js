@@ -16,7 +16,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', 'Authen
             foodChanged: this.foodChanged,
             comments: this.comments,
             techID: this.techID,
-            vetID: this.vetID
+            vetID: this.vetID,
             patient: this.patient
         });
 

@@ -3,7 +3,7 @@
 
 var path = require('path'),
     mongoose = require('mongoose'),
-    ProgressForm = mongoose.model('ProgressForm')
+    ProgressForm = mongoose.model('ProgressForm');
     
 
 // Create a progress form

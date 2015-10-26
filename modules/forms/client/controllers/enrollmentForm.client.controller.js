@@ -35,7 +35,7 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
       var ageDifMs = Date.now() - DOB.getTime();
       var ageDate = new Date(ageDifMs); // miliseconds from epoch
       return Math.abs(ageDate.getUTCFullYear() - 1970);
-    }
+    };
 
     $scope.patientInfo.idealWeight = function () {
         var currWeight = $scope.patientInfo.todayWeight;
@@ -43,7 +43,7 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
         var idealWeight = currWeight * (100-bodyFat)/100 / .8;
 
         return idealWeight.toFixed(2); // Ask about how many decimal places they want
-    }
+    };
 
     $scope.patientInfo.cupsPerFeeding = function () {
         var dailykCalIdealWeight = 600; // Use Recommended Daily Caloric Intake for Ideal Weight Chart
@@ -53,17 +53,17 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
         var cupsPerFeeding = cupsPerDay/perDay;
 
         return cupsPerFeeding.toFixed(2); // Ask about how many decimal places they want
-    }
+    };
 
     $scope.vetApproval = {
         vetSignature: "",
         continueWithTrimauxil: "Y"
-    }
+    };
 
     $scope.finalApproval = {
         technician: "",
         veterinarian: "",
         reviewer: ""
-    }
+    };
   }
 ]);

@@ -86,6 +86,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                     templateUrl: "modules/forms/views/login.client.view.html"
                 }
             }
-      })
+      });
   }
 ]);

@@ -32,34 +32,34 @@ angular.module('core').controller('exitFormController', ['$scope', 'Authenticati
         var finalWeight = $scope.patientInfo.finalWeightKG;
 
         return (startWeight-finalWeight).toFixed(2);
-    }
+    };
 
     $scope.patientInfo.weightLossTotalLB = function () {
         var startWeight = $scope.patientInfo.startWeightLB;
         var finalWeight = $scope.patientInfo.finalWeightLB;
 
         return (startWeight-finalWeight).toFixed(2);
-    }
+    };
 
     $scope.startToLB = function () {
         var toLB = $scope.patientInfo.startWeightKG * 2.20462;
         $scope.patientInfo.startWeightLB = Number(toLB.toFixed(2));
-    }
+    };
 
     $scope.finalToLB = function () {
         var toLB = $scope.patientInfo.finalWeightKG * 2.20462;
         $scope.patientInfo.finalWeightLB = Number(toLB.toFixed(2));
-    }
+    };
 
     $scope.startToKG = function () {
         var toKG = $scope.patientInfo.startWeightLB * 0.453592;
         $scope.patientInfo.startWeightKG = Number(toKG.toFixed(2));
-    }
+    };
 
     $scope.finalToKG = function () {
         var toKG = $scope.patientInfo.finalWeightLB * 0.453592;
         $scope.patientInfo.finalWeightKG = Number(toKG.toFixed(2));
-    }
+    };
 
     $scope.ownerQuestions = {
         name: "",
@@ -73,6 +73,6 @@ angular.module('core').controller('exitFormController', ['$scope', 'Authenticati
         technician: "",
         veterinarian: "",
         reviewer: ""
-    }
+    };
   }
 ]);

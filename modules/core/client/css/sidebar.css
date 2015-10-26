@@ -116,7 +116,9 @@
 }
 
 #dropToBottom {
-  margin-top: 218px;
+  position: fixed;
+  bottom:0;
+  width: 100%;
   border-top: 1px solid #F4F4F4;
 }
 

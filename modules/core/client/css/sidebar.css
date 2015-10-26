@@ -110,8 +110,10 @@
     background-color: #F4F4F4;
 }
 
-#dropToBottom {
-    margin-top: 218px;
+#logOutButton {
+    position: fixed;
+    bottom: 0;
+    width: 300px;
     border-top: 1px solid #F4F4F4;
 }
 

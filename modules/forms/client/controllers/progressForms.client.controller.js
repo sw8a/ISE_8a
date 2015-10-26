@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressForms'
+angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressForms',
   function ($scope, Authentication, ProgressForms) {
     
     // This provides Authentication context.
@@ -9,6 +9,8 @@ angular.module('forms').controller('progressFormsController', ['$scope', 'Authen
     // Create new progress form
     $scope.create = function() {
         // Create new ProgressForm object
+        console.log("submit calls create");
+
         var progressForm = new ProgressForm({
             weight: this.weight,
             trimauxilUse: this.trimauxilUse,
@@ -25,7 +27,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', 'Authen
         });
     };
 
-
+    
 
 
     // Multidimensional array to include priority

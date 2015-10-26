@@ -115,6 +115,11 @@
   background-color: #F4F4F4;
 }
 
+#dropToBottom {
+  margin-top: 218px;
+  border-top: 1px solid #F4F4F4;
+}
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;

@@ -84,7 +84,15 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 }
             }
       })
-      .state('signup', {
+      .state('authentication.signin', {
+            url: "/signin",
+            views: {
+                "content": {
+                    templateUrl: "modules/users/views/authentication/signin.client.view.html"
+                }
+            }
+      })
+      .state('authentication.signup', {
         url: '/signup',
         views: {
         	"content": {

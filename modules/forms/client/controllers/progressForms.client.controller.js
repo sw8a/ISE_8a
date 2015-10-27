@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressForms',
-  function ($scope, Authentication, ProgressForms) {
+angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressForm',
+  function ($scope, Authentication, ProgressForm) {
     
     // This provides Authentication context.
     $scope.authentication = Authentication;
     
     // Create new progress form
-    $scope.create = function() {
+    $scope.create = function () {
         // Create new ProgressForm object
         console.log("submit calls create");
 

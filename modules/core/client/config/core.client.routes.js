@@ -18,8 +18,32 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content": {
                 templateUrl: "modules/patients/views/overview.client.view.html"
             }
-        }
+        },
+        controller: function($state, Authentication){
+        	if(Authentication.users){
+        		// dont do anything for now
+        		}
+        		else{
+        			$state.go('home.public');
+        		}
+        	}
       })
+      .state('home.signedin', {
+      	url:'',
+      	 views: {
+            "sidebar": {
+                templateUrl: "/modules/core/views/sidebar.client.view.html"
+            },
+            "content": {
+                templateUrl: "modules/patients/views/overview.client.view.html"
+            }
+        }
+    	})
+      .state('home.public', {
+      	url:'',
+      	templateUrl: 'modules/users/views/authentication/signin.client.view.html'
+      	 
+        })
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
@@ -84,23 +108,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 }
             }
       })
-      .state('authentication.signin', {
-            url: "/signin",
-            views: {
-                "content": {
-                    templateUrl: "modules/users/views/authentication/signin.client.view.html"
-                }
-            }
-      })
-      .state('authentication.signup', {
-        url: '/signup',
-        views: {
-        	"content": {
-        	templateUrl: 'modules/users/views/authentication/signup.client.view.html'
-        	}
-    	}
-      })
-      
+
   }
 
 ]);

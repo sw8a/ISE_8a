@@ -1,17 +1,18 @@
 'use strict';
 
-angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressForm',
-  function ($scope, Authentication, ProgressForm) {
+angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
+  function ($scope, Authentication, ProgressFormsService, ActivePatient, PatientsService) {
     
     // This provides Authentication context.
     $scope.authentication = Authentication;
+
+    $scope.activePatient = ActivePatient.getActivePatient();
     
     // Create new progress form
-    $scope.create = function () {
+    $scope.createProgressForm = function () {
         // Create new ProgressForm object
-        console.log("submit calls create");
 
-        var progressForm = new ProgressForm({
+        var progressForm = new ProgressFormsService({
             weight: this.weight,
             trimauxilUse: this.trimauxilUse,
             weightLossAppropriate: this.weightLossAppropriate,
@@ -19,11 +20,14 @@ angular.module('forms').controller('progressFormsController', ['$scope', 'Authen
             comments: this.comments,
             techID: this.techID,
             vetID: this.vetID,
-            patient: this.patient
+            patient: $scope.activePatient._id
         });
+
 
         progressForm.$save(function (response) {
             // Function that is executed after save
+            console.log("progress form ID: " + response._id + "  eh?");
+            console.log(response);
         });
     };
 

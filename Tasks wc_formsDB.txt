@@ -20,5 +20,32 @@ Decide on solution for enrollment and exit forms
 	Create new modules for exit and enrollment forms
 
 
+Add weight to enrollment form, or how do I get initial weight?
+    Fill out progress form and enrollment form on first visit?
+
+
+
+Sex and fixed in patient or move to enrollment form?
+
+
+
 
 Delete this file before doing pull request
+
+
+
+
+multiple collections per module
+
+optimizing data
+
+populating functions or manual? 
+
+data versioning
+
+multiple saved documents on one submit
+    Enrollment form creates form and patient
+
+
+Create service to hold global patient info,
+    inject this service in any controller that needs the global data

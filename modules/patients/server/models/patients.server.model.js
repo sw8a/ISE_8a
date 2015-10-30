@@ -6,72 +6,82 @@ var mongoose = require('mongoose'),
 
 var PatientSchema = new Schema({
     
-    created: {
+    dateCreated: {
         type: Date,
         default: Date.now
     },
     
-    name: {
-        // Weight is stored in kilograms
+    firstName: {
         type: String,
         trim: true
     },
     
-    patientID: {
+    patientId: {
         type: String,
         trim: true
     },
 
-    age: {
+    birthDate: {
         type: Number,
         min: 0
-    }
+    },
     
-    // Male = true, female = false?
-    sex: Boolean,
+    sex: {
+        type: String,
+        enum: ['M', 'F']
+    },
     
     fixed: Boolean,
     
     breed: {
         type: String,
         trim: true
-    }
-
-// ENROLLMENT FORM
-    treats: {
-        type: String, 
-        default: '',
-        trim: true
     },
 
-    currentMedications: {
-        type: String, 
-        default: '',
-        trim: true
+    startWeight: {
+        type: Number,
+        min: 0
     },
 
-    treats: {
-        type: String, 
-        default: '',
-        trim: true
+    bcs: {
+        type: Number,
+        min: 1,
+        max: 9
     },
-    
-    techID: {
-        type: String,
-        trim: true
+
+    enrollmentForm: {
+        type: Schema.ObjectId,
+        ref: 'EnrollmentForm'
     },
-    
-    vetID: {
-        type: String,
-        trim: true
+
+    progressForms: [{
+        type: Schema.ObjectId,
+        ref: 'ProgressForm'
+    }],
+
+    exitForm: {
+        type: Schema.ObjectId,
+        ref: 'ExitForm'
+    },
+
+    practice: {
+        type: Schema.ObjectId,
+        ref: 'Practice'
     },
     
     owner: {
-        type: Schema.ObjectId//,
-        //ref: 'Owners'
-    }
-});
+        type: Schema.ObjectId,
+        ref: 'Owner'
+    },
+
+    changedData: [ {
+        dateChanged: {
+            type: Date,
+            default: Date.now
+        }
+    } ]
+},
+{ collection: 'patients' });
 
 
 mongoose.model('Patient', PatientSchema);
-

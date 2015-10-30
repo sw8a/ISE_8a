@@ -3,13 +3,24 @@
 
 var path = require('path'),
     mongoose = require('mongoose'),
-    ProgressForm = mongoose.model('ProgressForm');
-    
+    ProgressForm = mongoose.model('ProgressForm'),
+    EnrollmentForm = mongoose.model('EnrollmentForm'),
+    ExitForm = mongoose.model('ExitForm'),
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-// Create a progress form
-exports.create = function (req, res) {
+/*
+Progress forms functions:
+
+saveNewProgressForm
+*/
+
+
+
+
+// Saves the progress form
+exports.saveNewProgressForm = function (req, res) {
     var progressForm = new ProgressForm(req.body);
-    progressForm.patent = req.patient;
+    progressForm.patient = req.patient;
 
     progressForm.save(function (err) {
         if (err) {
@@ -98,5 +109,54 @@ exports.progressFormByID = function (req, res, next, id) {
         }
         req.progressForm = progressForm;
         next();
+    });
+
+};
+
+/*
+Enrollment forms functions:
+
+saveNewEnrollmentForm
+*/
+
+exports.saveNewEnrollmentForm = function (req, res) {
+    var enrollmentForm = new EnrollmentForm(req.body);
+    console.log(req);
+    console.log("ENROLLMENT FORM: ");
+    console.log(enrollmentForm);
+    console.log("PID1 " + enrollmentForm.patient);
+    enrollmentForm.patient = mongoose.Types.ObjectId(enrollmentForm.patient);
+    console.log("PID2 " + enrollmentForm.patient);
+    enrollmentForm.save(function (err) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(enrollmentForm);
+        }
+    });
+};
+
+
+
+/*
+Exit forms functions:
+
+saveNewExitForm
+*/
+
+exports.saveNewExitForm = function (req, res) {
+    var exitForm = new ExitForm(req.body);
+    exitForm.patient = req.patient;
+
+    exitForm.save(function (err) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(exitForm);
+        }
     });
 };

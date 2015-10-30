@@ -1,9 +1,61 @@
 'use strict';
 
-angular.module('core').controller('enrollmentFormController', ['$scope', 'Authentication',
-  function ($scope, Authentication) {
+angular.module('core').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'ActivePatient',
+  function ($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+    $scope.activePatient = ActivePatient.getActivePatient();
+
+
+    $scope.createEnrollmentForm = function () {
+
+        var patient = new PatientsService({
+            firstName: this.firstName,
+            patientId: this.patientId,
+            birthDate: this.birthDate,
+            sex: this.sex,
+            fixed: this.fixed,
+            breed: this.breed,
+            startWeight: this.startWeight,
+            bcs: this.bcs
+        });
+
+        var enrollmentForm = new EnrollmentFormsService({
+            treats: this.treats,
+            currentMedications: this.currentMedications,
+            medicalHistory: this.medicalHistory,
+            peFindings: this.peFindings,
+            techId: this.techId,
+            vetId: this.vetId
+        });
+
+        patient.$save(function (patientResponse) {
+            //ActivePatient.setActivePatient(patientResponse);
+            //console.log("AP: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+
+            enrollmentForm.patient = patientResponse._id;
+
+            enrollmentForm.$save(function (enrollmentFormResponse) {
+                // executed after save
+                patientResponse.enrollmentForm = enrollmentFormResponse._id;
+                patientResponse.formSave = true;
+                patientResponse.$update(function (patientAddFormResponse) {
+                    ActivePatient.setActivePatient(patientAddFormResponse);
+                    // Redirect to overview
+                    $location.go('home');
+
+                });
+            });
+        });
+    };
+
+
+
+
+
+
+
+
 
     var today = new Date();
     var month = today.getMonth(); //months from 1-12
@@ -32,7 +84,7 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
 
     $scope.patientInfo.age = function () {
       var DOB = $scope.patientInfo.DOB;
-      var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth()+1, day: DOB.getDate()})
+      var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth()+1, day: DOB.getDate()});
       return age;
     };
 
@@ -71,7 +123,7 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
         }
 
         return diff;
-    }
+    };
 
     $scope.vetApproval = {
         vetSignature: "",

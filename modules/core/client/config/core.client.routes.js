@@ -72,7 +72,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: "/vetHomepage",
             views: {
                 "content": {
-                    templateUrl: "modules/doctors/views/vetHomepage.client.view.html"
+                    templateUrl: "modules/practices/views/vetHomepage.client.view.html"
                 }
             }
       })

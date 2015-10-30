@@ -133,18 +133,28 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         url: '/picture',
         templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html'
       })
-      .state('authentication', {
-        abstract: true,
-        url: '/authentication',
-        templateUrl: 'modules/users/views/authentication/authentication.client.view.html'
-      })
-      .state('authentication.signup', {
+      // .state('authentication', {
+      //   abstract: true,
+      //   url: '/authentication',
+      //   templateUrl: 'modules/users/views/authentication/authentication.client.view.html'
+      // })
+      .state('signup', {
         url: '/signup',
-        templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+        templateUrl: 'modules/users/views/authentication/signup.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/authentication/signup.client.view.html"
+            }
+          }
       })
-      .state('authentication.signin', {
+      .state('signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/views/authentication/signin.client.view.html'
+        templateUrl: 'modules/users/views/authentication/signin.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/authentication/signin.client.view.html"
+            }
+          }
       })
       .state('password', {
         abstract: true,
@@ -171,7 +181,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       .state('password.reset.form', {
         url: '/:token',
         templateUrl: 'modules/users/views/password/reset-password.client.view.html'
-      });
+      })
 
   }
 

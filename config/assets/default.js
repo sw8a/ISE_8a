@@ -14,7 +14,11 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-        'public/lib/angular-file-upload/angular-file-upload.js'
+        'public/lib/angular-file-upload/angular-file-upload.js',
+        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/bootstrap/dist/js/*.js',
+        'public/lib/Chart.js/src/*.js',
+        'public/lib/angular-chart.js/angular-chart.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
@@ -27,13 +31,13 @@ module.exports = {
     sass: [
       'modules/*/client/scss/*.scss'
     ],
+    views: ['modules/*/client/views/**/*.html'],
     js: [
       'modules/core/client/app/config.js',
       'modules/core/client/app/init.js',
       'modules/*/client/*.js',
       'modules/*/client/**/*.js'
-    ],
-    views: ['modules/*/client/views/**/*.html']
+    ]
   },
   server: {
     gruntConfig: 'gruntfile.js',

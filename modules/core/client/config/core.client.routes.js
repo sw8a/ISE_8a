@@ -90,13 +90,20 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 	  .state('login', {
             url: "/login",
             views: {
-                "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
-                },
                 "content": {
-                    templateUrl: "modules/forms/views/login.client.view.html"
+                    templateUrl: "modules/users/views/authentication/signin.client.view.html"
                 }
             }
       })
+      .state('signup', {
+        url: '/signup',
+        views: {
+        	"content": {
+        	templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+        	}
+    	}
+      })
+      
   }
+
 ]);

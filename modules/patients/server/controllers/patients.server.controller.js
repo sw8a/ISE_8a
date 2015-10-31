@@ -24,22 +24,20 @@ exports.saveNewPatient = function (req, res) {
 
 
 exports.updatePatient = function (req, res) {
-    var patient = req.patient;
+    var patient = req.body;
 
-    console.log("Update patient 1");
 
     if(patient.formSave) {
         // Adding new form reference to patient document
-        delete patient.formSave;
+        //delete patient.formSave;
         console.log("Update patient 1");
 
         if(patient.enrollmentForm) {
             // add enrollment form
-            console.log("Update patient 2");
-            patient.findByIdAndUpdate(
+            Patient.findByIdAndUpdate(
                 patient._id,
                 {
-                    $set: { 'enrollmentForm': patient.enrollmentForm } 
+                    $set: { enrollmentForm: patient.enrollmentForm } 
                 },
                 {
                     safe: true,
@@ -51,7 +49,6 @@ exports.updatePatient = function (req, res) {
                             message: errorHandler.getErrorMessage(err)
                         });
                     } else {
-                        console.log("Update patient 3");
                         res.json(patient);
                     }
                 }
@@ -60,7 +57,7 @@ exports.updatePatient = function (req, res) {
         }
         else if(patient.exitForm) {
             // add exit form
-            patient.findByIdAndUpdate(
+            Patient.findByIdAndUpdate(
                 patient._id,
                 {
                     $set: { 'exitForm': patient.exitForm } 
@@ -81,9 +78,10 @@ exports.updatePatient = function (req, res) {
 
             );
         }
-        else if(patient.progressForm) {
+        else if(patient.newProgressForm) {
             // push progress form
-            patient.findByIdAndUpdate(
+            console.log("Update patient 2");
+            Patient.findByIdAndUpdate(
                 patient._id,
                 {
                     $push: { 'progressForms': patient.newProgressForm } 
@@ -99,6 +97,7 @@ exports.updatePatient = function (req, res) {
                         });
                     } else {
                         res.json(patient);
+                        console.log("Update patient 3");
                     }
                 }
 
@@ -108,4 +107,36 @@ exports.updatePatient = function (req, res) {
     else {
         // All other edits would be done here
     }
+};
+
+exports.getPatient = function (req, res) {
+    res.json(req.patient);
+};
+
+
+exports.patientById = function (req, res, next, id) {
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({
+            message: 'Patient Id is invalid'
+        });
+    }
+
+    Patient.findById(id).populate('enrollmentForm progressForms exitForm petOwner').exec( function (err, foundPatient) {
+        if (err) {
+            return next(err);
+        } 
+        else if (!foundPatient) {
+            return res.status(404).send({
+                message: 'No patient found'
+            });
+        }
+        req.patient = foundPatient;
+        next();
+    });
+
+
+
+
+
 };

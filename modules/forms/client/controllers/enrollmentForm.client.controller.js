@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'ActivePatient',
-  function ($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, ActivePatient) {
+angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService','ActivePatient',
+    function ($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
     $scope.activePatient = ActivePatient.getActivePatient();
@@ -17,7 +17,8 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
             fixed: this.fixed,
             breed: this.breed,
             startWeight: this.startWeight,
-            bcs: this.bcs
+            bcs: this.bcs,
+            practice: ActivePatient.getActivePractice()._id
         });
 
         var enrollmentForm = new EnrollmentFormsService({
@@ -30,21 +31,36 @@ angular.module('core').controller('enrollmentFormController', ['$scope', 'Authen
         });
 
         patient.$save(function (patientResponse) {
-            //ActivePatient.setActivePatient(patientResponse);
+            ActivePatient.setActivePatient(patientResponse);
             //console.log("AP: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
             enrollmentForm.patient = patientResponse._id;
 
             enrollmentForm.$save(function (enrollmentFormResponse) {
                 // executed after save
-                patientResponse.enrollmentForm = enrollmentFormResponse._id;
-                patientResponse.formSave = true;
-                patientResponse.$update(function (patientAddFormResponse) {
-                    ActivePatient.setActivePatient(patientAddFormResponse);
-                    // Redirect to overview
-                    $location.go('home');
+                //patientResponse.enrollmentForm = enrollmentFormResponse._id;
+                //patientResponse.formSave = true;
+                patient = new PatientsService({
+                    _id: patientResponse._id,
+                    enrollmentForm: enrollmentFormResponse._id,
+                    formSave: true
+                });
+                console.log("EFR: " + enrollmentFormResponse._id);
+                patient.$update(function (patientAddFormResponse) {
+                    console.log("PAFR: " + JSON.stringify(patientAddFormResponse, null, 4));
+                    //ActivePatient.setActivePatient(patientAddFormResponse);
+                    console.log("AP: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
                 });
+            });
+
+            var practice = new PracticesService({
+                _id: ActivePatient.getActivePractice()._id,
+                newPatient: patientResponse._id
+            });
+
+            practice.$update(function (practiceAddPatientResponse) {
+                ActivePatient.updateActivePractice();
             });
         });
     };

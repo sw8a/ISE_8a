@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('exitFormController', ['$scope', 'Authentication',
+angular.module('forms').controller('exitFormController', ['$scope', 'Authentication',
   function ($scope, Authentication) {
     // This provides Authentication context.
     $scope.authentication = Authentication;

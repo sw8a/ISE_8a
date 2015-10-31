@@ -20,7 +20,7 @@ saveNewProgressForm
 // Saves the progress form
 exports.saveNewProgressForm = function (req, res) {
     var progressForm = new ProgressForm(req.body);
-    progressForm.patient = req.patient;
+    //progressForm.patient = req.patient;
 
     progressForm.save(function (err) {
         if (err) {
@@ -121,12 +121,7 @@ saveNewEnrollmentForm
 
 exports.saveNewEnrollmentForm = function (req, res) {
     var enrollmentForm = new EnrollmentForm(req.body);
-    console.log(req);
-    console.log("ENROLLMENT FORM: ");
-    console.log(enrollmentForm);
-    console.log("PID1 " + enrollmentForm.patient);
-    enrollmentForm.patient = mongoose.Types.ObjectId(enrollmentForm.patient);
-    console.log("PID2 " + enrollmentForm.patient);
+    
     enrollmentForm.save(function (err) {
         if (err) {
             return res.status(400).send({

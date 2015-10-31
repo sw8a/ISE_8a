@@ -2,14 +2,19 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
-var PracticeSchema = new Schema({
+var PetOwnerSchema = new Schema({
     
     dateCreated: {
         type: Date,
         default: Date.now
     },
     
-    name: {
+    firstName: {
+        type: String,
+        trim: true
+    },
+
+    lastName: {
         type: String,
         trim: true
     },
@@ -19,20 +24,20 @@ var PracticeSchema = new Schema({
         trim: true
     },
     
-    practiceId: {
+    petOwnerId: {
         type: String,
         trim: true
     },
 
-    patients: [{
+    pets: [{
         type: Schema.ObjectId,
         ref: 'Patient'
     }],
     
-    petOwners: [{
+    practice: {
         type: Schema.ObjectId,
-        ref: 'petOwner'
-    }],
+        ref: 'Practice'
+    },
 
     changedData: [ {
         dateChanged: {
@@ -41,7 +46,7 @@ var PracticeSchema = new Schema({
         }
     } ]
 },
-{ collection: 'practices' });
+{ collection: 'pet_owners' });
 
 
-mongoose.model('Practice', PracticeSchema);
+mongoose.model('PetOwner', PetOwnerSchema);

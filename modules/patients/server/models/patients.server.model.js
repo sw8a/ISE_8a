@@ -69,9 +69,9 @@ var PatientSchema = new Schema({
         ref: 'Practice'
     },
     
-    owner: {
+    petOwner: {
         type: Schema.ObjectId,
-        ref: 'Owner'
+        ref: 'PetOwner'
     },
 
     changedData: [ {

@@ -1,9 +1,39 @@
 'use strict';
 
-angular.module('forms').controller('exitFormController', ['$scope', 'Authentication',
-  function ($scope, Authentication) {
+angular.module('forms').controller('exitFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'ExitFormsService', 'PatientsService','ActivePatient',
+  function ($scope, Authentication, $location, $stateParams, ExitFormsService, PatientsService,ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+
+
+    $scope.createExitForm = function () {
+
+        var exitForm = new ExitFormsService({
+            patient: ActivePatient.getActivePatient()._id,
+            endingReason: this.endingReason,
+            finalWeight: this.finalWeight,
+            finalBCS: this.finalBCS,
+            techId: this.techId,
+            vetId: this.vetId
+        });
+
+        exitForm.$save(function (exitFormResponse) {
+            
+            var patient = new PatientsService({
+                _id: ActivePatient.getActivePatient()._id,
+                exitForm: exitFormResponse._id,
+                formSave: true
+            });
+
+            patient.$update(function (patientAddFormResponse) {           
+                ActivePatient.setNeedsUpdate();
+                console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            });
+        });
+    };
+
+
+
 
     var today = new Date();
     var month = today.getMonth(); //months from 1-12

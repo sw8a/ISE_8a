@@ -29,8 +29,6 @@ exports.updatePatient = function (req, res) {
 
     if(patient.formSave) {
         // Adding new form reference to patient document
-        //delete patient.formSave;
-        console.log("Update patient 1");
 
         if(patient.enrollmentForm) {
             // add enrollment form
@@ -55,6 +53,7 @@ exports.updatePatient = function (req, res) {
 
             );
         }
+
         else if(patient.exitForm) {
             // add exit form
             Patient.findByIdAndUpdate(
@@ -78,9 +77,9 @@ exports.updatePatient = function (req, res) {
 
             );
         }
+
         else if(patient.newProgressForm) {
             // push progress form
-            console.log("Update patient 2");
             Patient.findByIdAndUpdate(
                 patient._id,
                 {
@@ -97,13 +96,12 @@ exports.updatePatient = function (req, res) {
                         });
                     } else {
                         res.json(patient);
-                        console.log("Update patient 3");
                     }
                 }
-
             );
         }
     }
+
     else {
         // All other edits would be done here
     }
@@ -134,9 +132,4 @@ exports.patientById = function (req, res, next, id) {
         req.patient = foundPatient;
         next();
     });
-
-
-
-
-
 };

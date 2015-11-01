@@ -25,6 +25,8 @@ exports.saveNewPractice = function (req, res) {
 exports.updatePractice = function (req, res) {
     var practice = req.body;
 
+    console.log('IN UPDATE PRACTICE');
+
     if(practice.newPatient) {
 
         Practice.findByIdAndUpdate(
@@ -50,13 +52,17 @@ exports.updatePractice = function (req, res) {
 };
 
 exports.getPractice = function (req, res) {
-    res.json(req.pratice);
+    res.json(req.practice);
 
     console.log('IN GET PRACTICE');
 };
 
 exports.getCalled = function (req, res) {
-    console.log('IN GET CALLED');
+    console.log('IN PRACTICES GET CALLED');
+};
+
+exports.putCalled = function (req, res) {
+    console.log('IN PRACTICES PUT CALLED');
 };
 
 
@@ -70,17 +76,16 @@ exports.practiceById = function (req, res, next, id) {
         });
     }
 
-    // owners needs to be populated as well
     Practice.findById(id).populate('patients').exec( function (err, foundPractice) {
         if (err) {
             return next(err);
         } 
         else if (!foundPractice) {
             return res.status(404).send({
-                message: 'No pratice found'
+                message: 'No practice found'
             });
         }
-        req.pratice = foundPractice;
+        req.practice = foundPractice;
         next();
     });
 };

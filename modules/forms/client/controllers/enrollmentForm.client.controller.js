@@ -45,11 +45,10 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                     enrollmentForm: enrollmentFormResponse._id,
                     formSave: true
                 });
-                console.log("EFR: " + enrollmentFormResponse._id);
+
                 patient.$update(function (patientAddFormResponse) {
-                    console.log("PAFR: " + JSON.stringify(patientAddFormResponse, null, 4));
-                    //ActivePatient.setActivePatient(patientAddFormResponse);
-                    console.log("AP: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+                    ActivePatient.setNeedsUpdate();
+                    console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
                 });
             });
@@ -59,8 +58,9 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 newPatient: patientResponse._id
             });
 
-            practice.$update(function (practiceAddPatientResponse) {
+            practice.$update(function (updatePracticeResponse) {
                 ActivePatient.updateActivePractice();
+                console.log("APc: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
             });
         });
     };
@@ -107,7 +107,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     $scope.patientInfo.idealWeight = function () {
         var currWeight = $scope.patientInfo.todayWeight;
         var bodyFat = $scope.patientInfo.BCS * 5; // Assumes each BCS equals 5% body fat
-        var idealWeight = currWeight * (100-bodyFat)/100 / .8;
+        var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
 
         return idealWeight.toFixed(2); // Ask about how many decimal places they want
     };

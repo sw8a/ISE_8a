@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core', ["chart.js"]).controller('overviewController', ['$scope',
+angular.module('core', ["Chart.js"]).controller('overviewController', ['$scope',
   function ($scope) {
 
     $scope.labelsLine = ["January", "February", "March", "April", "May", "June", "July"];

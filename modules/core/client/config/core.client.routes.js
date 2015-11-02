@@ -113,25 +113,50 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
           abstract: true,
           url: '/settings',
           templateUrl: 'modules/users/views/settings/settings.client.view.html',
+           views: {
+            "content": {
+                templateUrl: "modules/users/views/settings/settings.client.view.html"
+            }
+          },
         data: {
           roles: ['user', 'admin']
         }
       })
       .state('settings.profile', {
         url: '/profile',
-        templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
+        templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/settings/edit-profile.client.view.html"
+            }
+          }
       })
       .state('settings.password', {
         url: '/password',
-        templateUrl: 'modules/users/views/settings/change-password.client.view.html'
+        templateUrl: 'modules/users/views/settings/change-password.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/settings/change-password.client.view.html"
+            }
+          }
       })
       .state('settings.accounts', {
         url: '/accounts',
-        templateUrl: 'modules/users/views/settings/manage-social-accounts.client.view.html'
+        templateUrl: 'modules/users/views/settings/manage-social-accounts.client.view.html',
+      views: {
+            "content": {
+                templateUrl: "modules/users/views/settings/manage-social-accounts.client.view.html"
+            }
+          }
       })
       .state('settings.picture', {
         url: '/picture',
-        templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html'
+        templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/settings/change-profile-picture.client.view.html"
+            }
+          }
       })
       // .state('authentication', {
       //   abstract: true,
@@ -163,7 +188,12 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.forgot', {
         url: '/forgot',
-        templateUrl: 'modules/users/views/password/forgot-password.client.view.html'
+        templateUrl: 'modules/users/views/password/forgot-password.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/password/forgot-password.client.view.html"
+            }
+          }
       })
       .state('password.reset', {
         abstract: true,
@@ -172,15 +202,30 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.invalid', {
         url: '/invalid',
-        templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html'
+        templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/password/reset-password-invalid.client.view.html"
+            }
+          }
       })
       .state('password.reset.success', {
         url: '/success',
-        templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
+        templateUrl: 'modules/users/views/password/reset-password-success.client.view.html',
+         views: {
+            "content": {
+                templateUrl: "modules/users/views/password/reset-password-success.client.view.html"
+            }
+          }
       })
       .state('password.reset.form', {
         url: '/:token',
-        templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+        templateUrl: 'modules/users/views/password/reset-password.client.view.html',
+        views: {
+            "content": {
+                templateUrl: "modules/users/views/password/reset-password.client.view.html"
+            }
+          }
       })
 
   }

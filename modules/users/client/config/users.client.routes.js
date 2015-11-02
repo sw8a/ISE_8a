@@ -1,6 +1,6 @@
 'use strict';
 
-/*// Setting up route
+// Setting up route
 angular.module('users').config(['$stateProvider',
   function ($stateProvider) {
     // Users state routing
@@ -69,4 +69,4 @@ angular.module('users').config(['$stateProvider',
         templateUrl: 'modules/users/views/password/reset-password.client.view.html'
       });
   }
-]);*/
+]);

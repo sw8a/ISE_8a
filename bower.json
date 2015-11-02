@@ -12,7 +12,13 @@
     "angular-ui-utils": "bower",
     "angular-ui-router": "~0.2",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "angular-file-upload": "1.1.5"
+=======
+    "angular-file-upload": "1.1.5",
+    "Chart.js": "~1.0.2",
+    "angular-chart.js": "~0.8.5"
+>>>>>>> parent of c46a5f5... chart.js added
 =======
     "angular-file-upload": "1.1.5",
     "Chart.js": "~1.0.2",

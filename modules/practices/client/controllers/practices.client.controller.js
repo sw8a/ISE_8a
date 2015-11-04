@@ -34,7 +34,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.getPractice = function () {
 
             var practice = new PracticesService({
-                _id: '56342d31eadf1a9d9e4df183'
+                _id: '5639a557d5184a5a36cb257a'
             });
 
             practice.$get(function (practiceResponse) {

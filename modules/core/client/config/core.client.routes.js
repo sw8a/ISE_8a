@@ -13,7 +13,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         url: '/',
         views: {
             "sidebar": {
-                templateUrl: "/modules/core/views/sidebar.client.view.html"
+                templateUrl: "modules/core/views/sidebar.client.view.html"
             },
             "content": {
                 templateUrl: "modules/patients/views/overview.client.view.html"
@@ -28,7 +28,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: "/overview",
             views: {
                 "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                    templateUrl: "modules/core/views/sidebar.client.view.html"
                 },
                 "content": {
                     templateUrl: "modules/patients/views/overview.client.view.html"
@@ -39,7 +39,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: "/progressForms",
             views: {
                 "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                    templateUrl: "modules/core/views/sidebar.client.view.html"
                 },
                 "content": {
                     templateUrl: "modules/forms/views/progressForms.client.view.html"
@@ -50,7 +50,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: "/enrollmentForm",
             views: {
                 "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                    templateUrl: "modules/core/views/sidebar.client.view.html"
                 },
                 "content": {
                     templateUrl: "modules/forms/views/enrollmentForm.client.view.html"
@@ -61,7 +61,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
               url: "/vetFeedback",
               views: {
                   "sidebar": {
-                      templateUrl: "/modules/core/views/sidebar.client.view.html"
+                      templateUrl: "modules/core/views/sidebar.client.view.html"
                   },
                   "content": {
                       templateUrl: "modules/forms/views/feedbackForm.client.view.html"
@@ -72,7 +72,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: "/exitForm",
             views: {
                 "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                    templateUrl: "modules/core/views/sidebar.client.view.html"
                 },
                 "content": {
                     templateUrl: "modules/forms/views/exitForm.client.view.html"
@@ -91,7 +91,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: "/login",
             views: {
                 "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                    templateUrl: "modules/core/views/sidebar.client.view.html"
                 },
                 "content": {
                     templateUrl: "modules/forms/views/login.client.view.html"

@@ -2,9 +2,9 @@
 
 var auxthera = require('../controllers/auxthera.server.controller');
 
-/*
+
 module.exports = function(app) {
-    
+    /*
     app.route('/api/auxthera')
         .post(petOwners.saveNewPetOwner);
 
@@ -14,6 +14,5 @@ module.exports = function(app) {
 
 
      app.param('petOwnerId', petOwners.petOwnerById);   
-
+    */
 };
-*/

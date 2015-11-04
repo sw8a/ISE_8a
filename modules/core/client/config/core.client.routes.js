@@ -9,7 +9,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
     // Home state routing
     $stateProvider
-      .state('home', {
+      /*.state('home', {
         url: '/',
         views: {
             "sidebar": {
@@ -38,12 +38,14 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: "modules/patients/views/overview.client.view.html"
             }
         }
+
     	})
       .state('home.public', {
       	url:'',
       	templateUrl: 'modules/users/views/authentication/signin.client.view.html'
       	 
         })
+
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
@@ -81,6 +83,17 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 }
             }
       })
+      .state('vetFeedback', {
+              url: "/vetFeedback",
+              views: {
+                  "sidebar": {
+                      templateUrl: "/modules/core/views/sidebar.client.view.html"
+                  },
+                  "content": {
+                      templateUrl: "modules/forms/views/feedbackForm.client.view.html"
+                  }
+              }
+        })
 	  .state('exitForm', {
             url: "/exitForm",
             views: {
@@ -93,20 +106,24 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
       })
 	  .state('vetHomepage', {
-            url: "/vetHomepage",
+            url: "/",
             views: {
                 "content": {
-                    templateUrl: "modules/doctors/views/vetHomepage.client.view.html"
+                    templateUrl: "modules/practices/views/vetHomepage.client.view.html"
                 }
             }
       })
 	  .state('login', {
             url: "/login",
             views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/sidebar.client.view.html"
+                },
                 "content": {
-                    templateUrl: "modules/users/views/authentication/signin.client.view.html"
+                    templateUrl: "modules/forms/views/login.client.view.html"
                 }
             }
+<<<<<<< HEAD
       })
       //begin adding new states from users routes folder
       .state('settings', {
@@ -228,6 +245,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
           }
       })
 
+=======
+      });
+>>>>>>> master
   }
-
 ]);

@@ -17,7 +17,7 @@ module.exports = {
         'public/lib/angular-file-upload/angular-file-upload.js',
         'public/lib/jquery/dist/jquery.min.js',
         'public/lib/bootstrap/dist/js/*.js',
-        'public/lib/Chart.js/src/*.js',
+        'public/lib/Chart.js/Chart.js',
         'public/lib/angular-chart.js/angular-chart.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

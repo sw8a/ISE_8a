@@ -3,27 +3,27 @@
     <h1 class="text-center">Initial Health Assessment</h1>
   </div>
 
-  <form class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2" data-ng-controller="enrollmentFormController">
+  <form data-ng-submit="createEnrollmentForm()" class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2" data-ng-controller="enrollmentFormController" >
     <div class="form-group">
       <label for="petName">Pet First Name</label>
-      <input type="text" class="form-control" id="petName" placeholder="Pet Name" data-ng-model="patientInfo.firstName">
+      <input data-ng-model="firstName" type="text" class="form-control" id="petName" placeholder="Pet Name" >
     </div>
 
     <div class="form-group">
       <label for="patientID">Patient ID</label>
-      <input type="text" class="form-control" id="patientID" placeholder="Patient ID">
+      <input data-ng-model="patientId" type="text" class="form-control" id="patientID" placeholder="Patient ID">
     </div>
 
     <div class="form-group">
       <label for="date">Date</label>
-      <input type="date" class="form-control" id="date" ng-model="todayDate">
+      <input data-ng-model="dateCreated" type="date" class="form-control" id="date">
     </div>
 
     <h3 class="text-center">Signalment</h3>
 
     <div class="form-group">
       <label for="dob">DOB</label>
-      <input type="date" class="form-control" id="dob" ng-model="patientInfo.DOB">
+      <input data-ng-model="birthDate" type="date" class="form-control" id="dob">
       <label for="age">Age:</label>
       <span>{{patientInfo.age()}}</span>
     </div>
@@ -31,23 +31,25 @@
     <div class="form-group text-center">
       <div class="col-md-6 columns">
         <label>Sex</label> <br/>
-        <label class="radio-inline"><input type="radio" name="sex" data-ng-model="patientInfo.sex" value="M">Male</label>
-        <label class="radio-inline"><input type="radio" name="sex" data-ng-model="patientInfo.sex" value="F">Female</label>
+        <label data-ng-model="sex" class="radio-inline"><input type="radio" name="sex" value="M">Male</label>
+        <label data-ng-model="sex" class="radio-inline"><input type="radio" name="sex" value="F">Female</label>
       </div>
+      
       <div class="col-md-6 columns">
         <label>Castrated?</label> <br/>
-        <label class="radio-inline"><input type="radio" name="castrated" data-ng-model="patientInfo.castrated" value="Y">Castrated</label>
-        <label class="radio-inline"><input type="radio" name="castrated" data-ng-model="patientInfo.castrated" value="N">Intact</label>
+        <label class="radio-inline"><input data-ng-model="fixed" type="radio" name="castrated" value="true">Castrated</label>
+        <label class="radio-inline"><input data-ng-model="fixed" type="radio" name="castrated" value="false">Intact</label>
       </div>
     </div>
 
     <div class="form-group">
       <label for="breed">Breed</label>
-      <input type="text" class="form-control" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed">
+      <input data-ng-model="breed" type="text" class="form-control" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed">
     </div>
 
     <h3 class="text-center">Current Food</h3>
 
+    <!-- food not linked to anything yet -->
     <div class="form-group">
       <label for="brand">Brand</label>
       <input type="text" class="form-control" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand">
@@ -65,26 +67,27 @@
 
     <div class="form-group">
       <label for="dailyTreats">List treats (with brands if known) and typical table scraps given daily:</label>
-      <textarea class="form-control" id="dailyTreats" rows="2" data-ng-model="patientInfo.treatsAndScraps"></textarea>
+      <textarea data-ng-model="treats" class="form-control" id="dailyTreats" rows="2"></textarea>
     </div>
 
     <h3 class="text-center">Medical Background</h3>
 
     <div class="form-group">
       <label for="currentMedications">Current Medications/Supplements:</label>
-      <textarea class="form-control" id="currentMedications" rows="2" data-ng-model="patientInfo.currentMedications"></textarea>
+      <textarea data-ng-model="currentMedications" class="form-control" id="currentMedications" rows="2"></textarea>
     </div>
 
     <div class="form-group">
       <label for="significantMedicalHistory">Significant Medical History:</label>
-      <textarea class="form-control" id="significantMedicalHistory" rows="2" data-ng-model="patientInfo.significantMedicalHistory"></textarea>
+      <textarea data-ng-model="medicalHistory" class="form-control" id="significantMedicalHistory" rows="2"></textarea>
     </div>
 
     <div class="form-group">
       <label for="significantPEFindings">Today's Significant PE Findings:</label>
-      <textarea class="form-control" id="significantPEFindings" rows="2" data-ng-model="patientInfo.significantPEFindings"></textarea>
+      <textarea data-ng-model="peFindings" class="form-control" id="significantPEFindings" rows="2"></textarea>
     </div>
 
+    <!-- approval not linked to anything yet -->
     <div class="form-group">
       <label for="eligibleDog">Veterinarian, please review inclusion and exclusion criteria. Is this dog eligible to proceed with Trimauxil treatment?</label>
       <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval.continueWithTrimauxil" value="Y">Yes</label>
@@ -100,9 +103,9 @@
 
      <div class="form-group">
         <label class="col-md-4 col-xs-7" for="currentWeight">Today's Weight (kg): </label>
-        <input class="col-md-2 col-xs-5" type="number" step="any" id="currentWeight" min="0" max="300" data-ng-model="patientInfo.todayWeight">
+        <input data-ng-model="startWeight" class="col-md-2 col-xs-5" type="number" step="any" id="currentWeight" min="0" max="300">
         <label class="col-md-4 col-xs-7" for="BCS">BCS (1-9)*: </label>
-        <input class="col-md-2 col-xs-5" type="number" step="1" id="BCS" min="1" max="9" data-ng-model="patientInfo.BCS">
+        <input data-ng-model="bcs" class="col-md-2 col-xs-5" type="number" step="1" id="BCS" min="1" max="9">
     </div>
 
     <div class="form-group">
@@ -112,11 +115,12 @@
         <span class="col-md-2 col-xs-3">{{patientInfo.cupsPerFeeding()}}</span>
     </div>
 
+    <!-- AT approval not linked to anything yet -->
     <div class="form-group">
       <label class="col-md-2" for="technician">Technician: </label>
-      <input class="col-md-2" type="text" id="technician" data-ng-model="finalApproval.technician">
+      <input data-ng-model="techId" class="col-md-2" type="text" id="technician">
       <label class="col-md-2" for="veterinarian">Veterinarian: </label>
-      <input class="col-md-2" type="text" id="veterinarian" data-ng-model="finalApproval.veterinarian">
+      <input data-ng-model="vetId" class="col-md-2" type="text" id="veterinarian">
       <label class="col-md-2" for="reviewedBy">Reviewed By (AT Use Only):</label>
       <input class="col-md-2" type="text" id="reviewedBy" data-ng-model="finalApproval.reviewer">
     </div>

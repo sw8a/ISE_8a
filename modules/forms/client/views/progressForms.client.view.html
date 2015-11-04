@@ -1,7 +1,7 @@
 <div  ng-controller="progressFormsController" class="pForms">
     <!-- Information about selected patient -->
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-7 col-md-offset-1" ng-repeat="c in clients">
+        <div class="col-xs-12 col-sm-8" ng-repeat="c in clients">
             <h1 class="text-info">{{c.petName}}</h1>
             <h5>Patient: {{c.clientName}}</h5>
             <h5>Phone: {{c.phone}}</h5>
@@ -25,10 +25,13 @@
             <div class="panel-heading">
                 <h6 class="panel-title">
                     <div class="row" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        <div class="cols-xs-8 col-sm-3">May 5, 2015</div>
+                        <div class="cols-xs-3 hidden-xs col-sm-1">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </div>
+                        <div class="cols-xs-6 col-sm-3">May 5, 2015</div>
                         <div class="cols-xs-0 hidden-xs col-sm-3 text-center">Weight Loss</div>
-                        <div class="cols-xs-0 hidden-xs col-sm-4 text-center">Dose</div>
-                        <div class="cols-xs-3 col-sm-2">
+                        <div class="cols-xs-0 hidden-xs col-sm-3 text-center">Dose</div>
+                        <div class="cols-xs-3 hidden-xs col-sm-2">
                             <span class="glyphicon glyphicon-chevron-down pull-right"></span>
                         </div>
                     </div>
@@ -39,106 +42,204 @@
                 <div class="panel-body">
                     <!-- Display all forms -->
                     <form data-ng-submit="createProgressForm()" class="form-horizontal">
-                        <div class="row">
-                            <div class="col-sm-8 col-md-7">
-                                <!-- Today's Weight -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-4 control-label">Today's Weight</label>
-                                    <div class="col-xs-10 col-sm-6">
-                                        <input data-ng-model="weight" class="form-control" id="focusedInput" type="text" value="Enter pet's weight">
-                                    </div>
-                                    <div class="col-xs-2">kg</div>
-                                </div>
-                                <!-- Today Weight Loss -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-4 control-label">Today Weight Loss</label>
-                                    <div class="col-xs-10 col-sm-6">
-                                        <input class="form-control" id="focusedInput" type="text" value="Enter % weight loss">
-                                    </div>
-                                    <div class="col-xs-2">%</div>
-                                </div>
-                                <!-- Avg Weight Loss -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-4  control-label">Avg Weight Loss</label>
-                                    <div class="col-xs-10 col-sm-6">
-                                        <input class="form-control" id="focusedInput" type="text" value="Average % weight loss">
-                                    </div>
-                                    <div class="col-xs-2">%</div>
-                                </div>
-                                <!-- Trimauxil Use -->
-                                <div class="col-xs-12 col-sm-4 col-sm-offset-2">
+                        <!-- Display Static Data -->
+                        <fieldset ng-hide="!disableFields">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-7">
+                                    <!-- Today's Weight -->
                                     <div class="form-group">
-                                        <label class="control-label">Trimauxil Use</label><br/>
-                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Overuse"> Overuse<br/>
-                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Just Right"> Just Right<br/>
-                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Underuse"> Underuse<br/>
+                                        <label class="col-xs-12 col-sm-4 control-label">Today's Weight</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <span class="static-data">20</span>
+                                        </div>
+                                        <div class="col-xs-2">kg</div>
                                     </div>
-                                </div>
-                                <!-- Weight Loss Appropriate -->
-                                <div class="col-xs-12 col-sm-6">
+                                    <!-- Today Weight Loss -->
                                     <div class="form-group">
-                                        <label class="control-label">Weight Loss Appropriate</label><br/>
-                                        <input data-ng-model="weightLossAppropriate" type="radio" name="weightLossAppropriate" value="true"> Yes<br/>
-                                        <input data-ng-model="weightLossAppropriate" type="radio" name="weightLossAppropriate" value="false"> No<br/>
+                                        <label class="col-xs-12 col-sm-4 control-label">Today Weight Loss</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <span class="static-data">20</span>
+                                        </div>
+                                        <div class="col-xs-2">%</div>
+                                    </div>
+                                    <!-- Avg Weight Loss -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4  control-label">Avg Weight Loss</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <span class="static-data">10</span>
+                                        </div>
+                                        <div class="col-xs-2">%</div>
+                                    </div>
+                                    <!-- Trimauxil Use && Weight Loss Appropriate-->
+                                    <div class="form-group">
+                                        <!-- Trimauxil Use -->
+                                        <label class="col-xs-12 col-sm-4  control-label">Trimauxil Use</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <span class="static-data">Overuse</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4  control-label">Weight Loss Appropriate</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <span class="static-data">Yes</span>
+                                        </div>
+                                    </div>
+                                    <!-- Trimauxil Dose -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4  control-label">Trimauxil Dose</label>
+                                        <div class="col-xs-4 col-sm-2">
+                                            <span class="static-data">1.5</span>
+                                        </div>
+                                        <div class="col-xs-8 col-sm-6">
+                                            Signed: John Doe
+                                        </div>
+                                    </div>
+                                    <!-- Food Changed -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4  control-label">Food Changed</label>
+                                        <div class="col-xs-4 col-sm-2">
+                                            <span class="static-data">Yes</span> 
+                                        </div>
+                                        <div class="col-xs-8 col-sm-6">
+                                            <em>Signed: Jane Doe</em>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Trimauxil Dose -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-4 control-label">Trimauxil Dose</label>
-                                    <div class="col-xs-4 col-sm-2">
-                                        <select class="form-control">
-                                            <option value="1" selected="selected">1</option>
-                                            <option value="1.5">1.5</option>
-                                            <option value="2">2</option>
-                                        </select>
+                                <!-- Columns containing Comments and approval -->
+                                <div class="col-sm-4 col-md-5">
+                                    <!-- Trimauxil Dose -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12" for="comments">Comments</label>
+                                        <div class="col-xs-12">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
                                     </div>
-                                    <div class="col-xs-8 col-sm-4">
-                                        <input class="form-control" id="focusedInput" type="text" value="signed: Jane Doe">
+                                    <!-- Tech Initial -->
+                                    <div class="form-group">
+                                        <label class="col-xs-4 col-sm-3">Tech ID</label>
+                                        <div class="col-xs-8 col-sm-8">
+                                            <span class="static-data">000234049</span>
+                                        </div>
                                     </div>
-                                    <div class="colxs-0 hidden col-sm-2"></div>
-                                </div>
-                                <!-- Food Changed -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
-                                    <div class="col-xs-12 col-sm-4">
-                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true"> Yes</label>
-                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false"> No</label>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-6 col-sm-offset-4">
-                                        <input class="form-control" id="focusedInput" type="text" value="signed: Jane Doe">
+                                    <!-- Vet Initial -->
+                                    <div class="form-group">
+                                        <label class="col-xs-4 col-sm-3">Vet ID</label>
+                                        <div class="col-xs-8 col-sm-8">
+                                            <span class="static-data">000234049</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Columns containing Comments and approval -->
-                            <div class="col-sm-4 col-md-5">
-                                <!-- Trimauxil Dose -->
-                                <div class="form-group">
-                                    <label class="col-xs-12" for="comments">Comments</label>
-                                    <div class="col-xs-12">
-                                        <textarea data-ng-model="comments" class="form-control" rows="10" id="comment"></textarea>
+                        </fieldset>
+
+                        <!-- Actual form-->
+                        <fieldset ng-hide="disableFields">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-7">
+                                    <!-- Today's Weight -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4 control-label">Today's Weight</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <input data-ng-model="weight" class="form-control" id="focusedInput" type="text" placeholder="Enter pet's weight">
+                                        </div>
+                                        <div class="col-xs-2">kg</div>
+                                    </div>
+                                    <!-- Today Weight Loss -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4 control-label">Today Weight Loss</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <!--To be computed using angularJs-->
+                                            <span class="static-data">20</span>
+                                        </div>
+                                        <div class="col-xs-2">%</div>
+                                    </div>
+                                    <!-- Avg Weight Loss -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4  control-label">Avg Weight Loss</label>
+                                        <div class="col-xs-10 col-sm-6">
+                                            <!--To be computed using angularJs-->
+                                            <span class="static-data">20</span>
+                                        </div>
+                                        <div class="col-xs-2">%</div>
+                                    </div>
+                                    <!-- Trimauxil Use && Weight Loss Appropriate-->
+                                    <div class="form-group">
+                                         <!-- Trimauxil Use -->
+                                        <div class="col-xs-12 col-sm-4 col-sm-offset-2">
+                                            <label class="control-label">Trimauxil Use</label><br/>
+                                            <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Overuse"> Overuse<br/>
+                                            <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Just Right"> Just Right<br/>
+                                            <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Underuse"> Underuse<br/>
+                                        </div>
+                                        <!-- Weight Loss Appropriate -->
+                                        <div class="col-xs-12 col-sm-6">
+                                            <label class="control-label">Weight Loss Appropriate</label><br/>
+                                            <input data-ng-model="weightLossAppropriate" type="radio" name="weightLossAppropriate" value="true"> Yes<br/>
+                                            <input data-ng-model="weightLossAppropriate" type="radio" name="weightLossAppropriate" value="false"> No<br/>
+                                        </div>
+                                    </div>
+                                    <!-- Trimauxil Dose -->
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-12 col-sm-4">Trimauxil Dose</label>
+                                        <div class="col-xs-4 col-sm-2">
+                                            <select class="form-control">
+                                                <option value="1" selected="selected">1</option>
+                                                <option value="1.5">1.5</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-8 col-sm-4">
+                                            <input class="form-control" id="focusedInput" type="text" placeholder="signed: Jane Doe">
+                                        </div>
+                                        <div class="colxs-0 hidden col-sm-2"></div>
+                                    </div>
+                                    <!-- Food Changed -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
+                                        <div class="col-xs-12 col-sm-4">
+                                            <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true"> Yes</label>
+                                            <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false"> No</label>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-sm-offset-4">
+                                            <input class="form-control" id="focusedInput" type="text" placeholder="signed: Jane Doe">
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Tech Initial -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-5">Tech ID</label>
-                                    <div class="col-xs-12 col-sm-7">
-                                        <input data-ng-model="techId" class="form-control" id="focusedInput" type="text" value="J.D">
+                                <!-- Columns containing Comments and approval -->
+                                <div class="col-sm-4 col-md-5">
+                                    <!-- Trimauxil Dose -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12" for="comments">Comments</label>
+                                        <div class="col-xs-12">
+                                            <textarea data-ng-model="comments" class="form-control" rows="10" id="comment"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Vet Initial -->
-                                <div class="form-group">
-                                    <label class="col-xs-12 col-sm-5">Vet ID</label>
-                                    <div class="col-xs-12 col-sm-7">
-                                        <input data-ng-model="vetId" class="form-control" id="focusedInput" type="text" value="J.D">
+                                    <!-- Tech Initial -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-5">Tech ID</label>
+                                        <div class="col-xs-12 col-sm-7">
+                                            <input data-ng-model="techId" class="form-control" id="focusedInput" type="text" value="J.D">
+                                        </div>
+                                    </div>
+                                    <!-- Vet Initial -->
+                                    <div class="form-group">
+                                        <label class="col-xs-12 col-sm-5">Vet ID</label>
+                                        <div class="col-xs-12 col-sm-7">
+                                            <input data-ng-model="vetId" class="form-control" id="focusedInput" type="text" value="J.D">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
+
                         <!-- Row containing Cancel and Save button -->
                         <div class="row">
                             <div class="col-xs-6 col-xs-offset-6">
-                                <button type="submit" class="btn btn-primary pull-right">Save</button>
-                                <button type="button" class="btn btn-default pull-right">Cancel</button>
+                                <button ng-show="dispEdit" ng-click="editForm()" type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+                                <fieldset ng-show="!dispEdit">
+                                    <button type="button" class="btn btn-primary pull-right" ng-class="{true: 'btn-primary', false: 'btn-danger'}" >Save</button>
+                                    <button ng-click="cancelEditing()" type="button" class="btn btn-default pull-right">Cancel</button>
+                                </fieldset>
                             </div>
                         </div>
                     </form>

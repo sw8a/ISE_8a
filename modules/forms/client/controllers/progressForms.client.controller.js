@@ -51,7 +51,21 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         petIdealWeight: "2 lbs"
     }];
 
+    // Variable to enable and disable all fields from users
+    $scope.disableFields = true;
+    $scope.dispEdit = true;
 
+    // Editing form's input
+    $scope.editForm = function() {
+        $scope.disableFields = false;
+        $scope.dispEdit = false;
+    }
+
+    // Cancel editing on forms
+    $scope.cancelEditing = function() {
+        $scope.disableFields = true;
+        $scope.dispEdit = true;
+    }
 
 
   }

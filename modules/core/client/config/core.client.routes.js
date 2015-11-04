@@ -18,7 +18,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content": {
                 templateUrl: "modules/patients/views/overview.client.view.html"
             }
-        }/*,
+        }, /*// comment this area out if there are issues
         controller: function($state, Authentication){
         	if(Authentication.users){
         		// dont do anything for now
@@ -26,8 +26,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         		else{
         			$state.go('home.public');
         		}
-        	}*/
-      })
+        	}
+      }) // end comment here*/
       .state('home.signedin', {
       	url:'',
       	 views: {

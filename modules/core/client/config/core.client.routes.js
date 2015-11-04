@@ -18,7 +18,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content": {
                 templateUrl: "modules/patients/views/overview.client.view.html"
             }
-        }, /*// comment this area out if there are issues
+        }, /* comment this area out if there are issues
         controller: function($state, Authentication){
         	if(Authentication.users){
         		// dont do anything for now
@@ -123,7 +123,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                     templateUrl: "modules/forms/views/login.client.view.html"
                 }
             }
-<<<<<<< HEAD
+
       })
       //begin adding new states from users routes folder
       .state('settings', {
@@ -245,8 +245,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
           }
       })
 
-=======
-      });
->>>>>>> master
+
   }
 ]);

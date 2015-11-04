@@ -57,5 +57,23 @@
 
             </tbody>
         </table>
+    
     </div>
+
+    <div class="pageList">
+        <span ng-class="{ 'pageButton' : currentPage > 1 }">Previous</span>
+        <span ng-repeat="page in getPageNumbers()"> {{$index + 1}}</span>
+        <span ng-class="{ 'pageButton' : currentPage < numberOfPages }">Next</span>
+
+    <div class="selectShowQuantity">
+        Items per page: 
+        <a ng-click="setPageSize(10)"> 10 </a> 
+        |
+        <a ng-click="setPageSize(25)"> 25 </a> 
+        |
+        <a ng-click="setPageSize(50)"> 50 </a> 
+        |
+        <a ng-click="setPageSize(100)"> 100 </a> 
+    <div>
+
 </div>

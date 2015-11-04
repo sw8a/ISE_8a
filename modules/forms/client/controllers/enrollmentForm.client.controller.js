@@ -12,6 +12,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     var year = today.getFullYear();
     today = new Date(year, month, day);
     $scope.todayDate = today;
+    
 
     $scope.createEnrollmentForm = function () {
 

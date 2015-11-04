@@ -47,3 +47,8 @@
 .patientTableRow:hover {
     background-color:#F4F4F4;
 }
+
+.pageList {
+    margin: 0 auto;
+    text-align: center;
+}

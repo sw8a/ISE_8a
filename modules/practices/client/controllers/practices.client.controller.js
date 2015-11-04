@@ -4,6 +4,11 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
     function ($scope, Authentication, PracticesService, PatientsService, $location, $stateParams, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
+        $scope.currentPage = 1;
+        $scope.pageSize = 10;
+        $scope.numberOfPages = function() {
+            return Math.ceil($scope.patients.length/$scope.pageSize);
+        }
 
         
         $scope.newPatientClick = function () {
@@ -28,6 +33,16 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 // Redirect to overview
                 $location.path('/overview');
             });
+        };
+
+        $scope.setPageSize = function (selectedPageSize) {
+            $scope.pageSize = selectedPageSize;
+        };
+
+        $scope.getPageNumbers = function() {
+            var numOfPages = $scope.numberOfPages();
+            console.log(numOfPages);
+            return new Array(+numOfPages);
         };
 
 

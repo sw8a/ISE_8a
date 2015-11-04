@@ -1,4 +1,6 @@
 'use strict';
 
-// Use Applicaion configuration module to register a new module
+
+// Use Applicaion configuration module to register the module
 ApplicationConfiguration.registerModule('patients');
+

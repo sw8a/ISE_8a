@@ -44,6 +44,6 @@
     background-color: #FAFAFA
 }
 
-#patientTableRow:hover {
+.patientTableRow:hover {
     background-color:#F4F4F4;
 }

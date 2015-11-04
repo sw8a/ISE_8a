@@ -1,5 +1,4 @@
 <div id="progressPage" data-ng-controller="patientsController">
-
     <br/>
 
     <div id="boxOne" align="Left">
@@ -7,9 +6,9 @@
             <h2 id="floatLeft">Patient Information</h2>
             <br/><br/><br/><br/>
             <div id="floatLeftPadded" >
-                <p>Patient Name:   Max<br/>
+                <p>Patient Name:   {{activePatient.firstName}}<br/>
                     Client Name:   John Doe<br/>
-                    Previous Appointment:   10/01/15<br/>
+                    Previous Appointment:   {{activePatient.progressForms[activePatient.progressForms.length - 1].dateCreated | date:'MM/dd/yyyy'}}<br/>
                     Current Appointment:   10/15/15<br/>
                     Next Appointment:   10/29/15<br/>
                 </p>
@@ -44,15 +43,12 @@
         </div>
 
         <div id="floatRight">
-            <canvas id="testChartDoughnut" width="200" height="200" style="margin-left:60px;"></canvas>
+          <canvas id="doughnut" class="chart chart-doughnut" chart-data="dataDoughnut" chart-labels="labelsDoughnut" chart-colours="colorsDoughnut">
+</canvas>
         </div>
 
     </div>
 
     <br/>
     <br/>
-
-        <script src="/modules/patients/client/views/Chart.js"></script>
-        <script src="/modules/patients/client/views/chartSetup.js"></script>
-
 </div>

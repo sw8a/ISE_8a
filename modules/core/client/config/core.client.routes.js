@@ -57,6 +57,17 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 }
             }
       })
+      .state('vetFeedback', {
+              url: "/vetFeedback",
+              views: {
+                  "sidebar": {
+                      templateUrl: "/modules/core/views/sidebar.client.view.html"
+                  },
+                  "content": {
+                      templateUrl: "modules/forms/views/feedbackForm.client.view.html"
+                  }
+              }
+        })
 	  .state('exitForm', {
             url: "/exitForm",
             views: {

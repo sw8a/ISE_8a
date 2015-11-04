@@ -5,9 +5,10 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
 
         
         var activePatient = {};
-        var needsUpdate = false;
+        var patientNeedsUpdate = false;
 
         var activePractice = {};
+        var practiceNeedsUpdate = false;
 
         return {
             setActivePatient: function(patientToSet) {
@@ -16,7 +17,7 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
             },
 
             getActivePatient: function() {
-                if(needsUpdate) {
+                if(patientNeedsUpdate) {
                     var patient = new PatientsService({
                         _id: activePatient._id,
                         populateForms: true
@@ -24,15 +25,15 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                     
                     patient.$get(function( updateActivePatientResponse ) {
                         activePatient = updateActivePatientResponse;
-                        needsUpdate = false;
+                        patientNeedsUpdate = false;
                         return activePatient;
                     });
                 }
                 return activePatient;
             },
 
-            setNeedsUpdate: function() {
-                needsUpdate = true;
+            setPatientNeedsUpdate: function() {
+                patientNeedsUpdate = true;
             },
 
             updateActivePatient: function() {
@@ -43,7 +44,7 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                 
                 patient.$get(function( updateActivePatientResponse ) {
                     activePatient = updateActivePatientResponse;
-                    needsUpdate = false;
+                    patientNeedsUpdate = false;
                     return activePatient;
                 });
             },
@@ -53,25 +54,27 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
 
 
             setActivePractice: function(practiceToSet) {
-                console.log("sAP: " + JSON.stringify(activePractice, null, 4));
                 activePractice = practiceToSet;
                 return activePractice;
             },
 
             getActivePractice: function() {
-                console.log("gAP: " + JSON.stringify(activePractice, null, 4));
-                if(needsUpdate) {
+                if(practiceNeedsUpdate) {
                     var practice = new PracticesService({
                         _id: activePractice._id
                     });
                     
                     practice.$get(function( updateActivePracticeResponse ) {
                         activePractice = updateActivePracticeResponse;
-                        needsUpdate = false;
+                        practiceNeedsUpdate = false;
                         return activePractice;
                     });
                 }
                 return activePractice;
+            },
+
+            setPracticeNeedsUpdate: function() {
+                practiceNeedsUpdate = true;
             },
 
             updateActivePractice: function() {
@@ -81,7 +84,7 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                 
                 practice.$get(function( updateActivePracticeResponse ) {
                     activePractice = updateActivePracticeResponse;
-                    needsUpdate = false;
+                    practiceNeedsUpdate = false;
                     return activePractice;
                 });
             }

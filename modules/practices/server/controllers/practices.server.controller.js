@@ -25,8 +25,6 @@ exports.saveNewPractice = function (req, res) {
 exports.updatePractice = function (req, res) {
     var practice = req.body;
 
-    console.log('IN UPDATE PRACTICE');
-
     if(practice.newPatient) {
 
         Practice.findByIdAndUpdate(
@@ -53,22 +51,10 @@ exports.updatePractice = function (req, res) {
 
 exports.getPractice = function (req, res) {
     res.json(req.practice);
-
-    console.log('IN GET PRACTICE');
-};
-
-exports.getCalled = function (req, res) {
-    console.log('IN PRACTICES GET CALLED');
-};
-
-exports.putCalled = function (req, res) {
-    console.log('IN PRACTICES PUT CALLED');
 };
 
 
 exports.practiceById = function (req, res, next, id) {
-
-    console.log("IN PRACTICE BY ID");
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({

@@ -9,7 +9,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
     // Home state routing
     $stateProvider
-      .state('home', {
+      /*.state('home', {
         url: '/',
         views: {
             "sidebar": {
@@ -19,7 +19,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: "modules/patients/views/overview.client.view.html"
             }
         }
-      })
+      })*/
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
@@ -69,7 +69,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
       })
 	  .state('vetHomepage', {
-            url: "/vetHomepage",
+            url: "/",
             views: {
                 "content": {
                     templateUrl: "modules/practices/views/vetHomepage.client.view.html"

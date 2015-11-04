@@ -26,8 +26,8 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
             });
 
             patient.$update(function (patientAddFormResponse) {           
-                ActivePatient.setNeedsUpdate();
-                console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+                ActivePatient.setPatientNeedsUpdate();
+                $location.path('/overview');
             });
         });
     };

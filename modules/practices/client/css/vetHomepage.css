@@ -43,3 +43,7 @@
 .btn-default {
     background-color: #FAFAFA
 }
+
+#patientTableRow:hover {
+    background-color:#F4F4F4;
+}

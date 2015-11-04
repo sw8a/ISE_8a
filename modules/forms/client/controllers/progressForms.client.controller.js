@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('forms').controller('progressFormsController', ['$scope', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
-  function ($scope, Authentication, ProgressFormsService, ActivePatient, PatientsService) {
+angular.module('forms').controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
+  function ($scope, $location, Authentication, ProgressFormsService, ActivePatient, PatientsService) {
     
     // This provides Authentication context.
     $scope.authentication = Authentication;
@@ -30,12 +30,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', 'Authen
                 formSave: true
             });
 
-            patient.$update(function (patientAddFormResponse) {
-                
-                ActivePatient.setNeedsUpdate();
-                console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            patient.$update(function (patientAddFormResponse) {               
+                ActivePatient.setPatientNeedsUpdate();
                 // Redirect to overview
-                $location.go('/');
+                $location.path('/overview');
             });
         });
     };

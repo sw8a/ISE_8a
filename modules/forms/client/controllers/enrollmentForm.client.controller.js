@@ -13,11 +13,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     today = new Date(year, month, day);
     $scope.todayDate = today;
 
-    console.log("APc-1: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
-
     $scope.createEnrollmentForm = function () {
-
-        console.log("APc0: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
         var patient = new PatientsService({
             dateCreated: $scope.todayDate,
@@ -43,12 +39,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         patient.$save(function (patientResponse) {
             ActivePatient.setActivePatient(patientResponse);
-            //console.log("AP: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-
-
-
-
-            console.log("APc1: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
             var practice = new PracticesService({
                 _id: ActivePatient.getActivePractice()._id,
@@ -57,12 +47,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
             practice.$update(function (updatePracticeResponse) {
                 ActivePatient.updateActivePractice();
-                console.log("APc: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
-                $location.go('/');
             });
-
-
-
 
             enrollmentForm.patient = patientResponse._id;
 
@@ -77,9 +62,8 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 });
 
                 patient.$update(function (patientAddFormResponse) {
-                    ActivePatient.setNeedsUpdate();
-                    console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-
+                    ActivePatient.setPatientNeedsUpdate();
+                    $location.path('/overview');
                 });
             });
 

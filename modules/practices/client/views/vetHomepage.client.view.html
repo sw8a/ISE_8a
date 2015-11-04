@@ -8,7 +8,7 @@
         <div class="row heavy-top-buffer">
             <div class="col-md-9 col-sm-8">
                 <div class="AddButton">
-                    <button ng-click="createPractice()" class="btn btn-primary" type="button">Add New
+                    <button ng-click="newPatientClick()" class="btn btn-primary" type="button">Add New
                     Patient</button>
                     <button ng-click="getPractice()" class="btn btn-primary" type="button">GET PRACTICE</button>
                     <button ui-sref="overview" class="btn btn-primary" type="button">Go to Overview</button>
@@ -43,16 +43,16 @@
             </thead>
 
             <tbody>
-                <tr ng-repeat="patient in patients">
-                    <td>
-                        <a href="#"> {{ patient.patientId }} </a>
-                    </td>
+                <tr ng-repeat="patient in patients" ng-click="selectPatient(patient)" id="patientTableRow">
+                    
+                    <td> {{ patient.patientId }} </td>
 
                     <td> {{ patient.firstName }} </td>
 
                     <td> {{ patient.breed }} </td>
 
-                    <td> {{ patient.dateCreated }} </td>
+                    <td> {{ patient.dateCreated | date:'MM/dd/yyyy'}} </td>
+                    
                 </tr>
 
             </tbody>

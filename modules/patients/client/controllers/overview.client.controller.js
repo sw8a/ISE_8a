@@ -2,7 +2,7 @@
 
 angular.module('patients', ['chart.js']).controller('overviewController', ['$scope',
   function ($scope) {
-      console.log("HI");
+    
       $scope.labelsLine = ["January", "February", "March", "April", "May", "June", "July"];
       $scope.colorsLine = ['#6399CC', '#505050'];
       $scope.seriesLine = ['Current Weight', 'Ideal Weight'];

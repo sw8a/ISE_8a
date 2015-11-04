@@ -6,10 +6,21 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     $scope.authentication = Authentication;
     $scope.activePatient = ActivePatient.getActivePatient();
 
+    var today = new Date();
+    var month = today.getMonth(); //months from 1-12
+    var day = today.getDate();
+    var year = today.getFullYear();
+    today = new Date(year, month, day);
+    $scope.todayDate = today;
+
+    console.log("APc-1: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
     $scope.createEnrollmentForm = function () {
 
+        console.log("APc0: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
+
         var patient = new PatientsService({
+            dateCreated: $scope.todayDate,
             firstName: this.firstName,
             patientId: this.patientId,
             birthDate: this.birthDate,
@@ -34,6 +45,25 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             ActivePatient.setActivePatient(patientResponse);
             //console.log("AP: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
+
+
+
+            console.log("APc1: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
+
+            var practice = new PracticesService({
+                _id: ActivePatient.getActivePractice()._id,
+                newPatient: patientResponse._id
+            });
+
+            practice.$update(function (updatePracticeResponse) {
+                ActivePatient.updateActivePractice();
+                console.log("APc: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
+                $location.go('/');
+            });
+
+
+
+
             enrollmentForm.patient = patientResponse._id;
 
             enrollmentForm.$save(function (enrollmentFormResponse) {
@@ -53,15 +83,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 });
             });
 
-            var practice = new PracticesService({
-                _id: ActivePatient.getActivePractice()._id,
-                newPatient: patientResponse._id
-            });
 
-            practice.$update(function (updatePracticeResponse) {
-                ActivePatient.updateActivePractice();
-                console.log("APc: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
-            });
         });
     };
 
@@ -73,12 +95,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
 
 
-    var today = new Date();
-    var month = today.getMonth(); //months from 1-12
-    var day = today.getDate();
-    var year = today.getFullYear();
-    today = new Date(year, month, day);
-    $scope.todayDate = today;
+    
 
     // Do they want some prepopulated values?
     $scope.patientInfo = {

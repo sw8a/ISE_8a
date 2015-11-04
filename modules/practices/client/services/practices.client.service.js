@@ -8,9 +8,6 @@ angular.module('practices').factory('PracticesService', ['$resource',
         }, {
             update: {
                 method: 'PUT'
-            },
-            get: {
-                method: 'GET'
             }
         });
     }

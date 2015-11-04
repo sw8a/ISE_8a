@@ -35,7 +35,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', 'Authen
                 ActivePatient.setNeedsUpdate();
                 console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
                 // Redirect to overview
-                //$location.go('/home');
+                $location.go('/');
             });
         });
     };

@@ -12,6 +12,6 @@ module.exports = function(app) {
         .post(petOwners.saveNewPetOwner);
 
 
-     app.param('practiceId', petOwners.petOwnerById);   
+     app.param('petOwnerId', petOwners.petOwnerById);   
 
 };

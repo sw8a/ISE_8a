@@ -53,11 +53,13 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
 
 
             setActivePractice: function(practiceToSet) {
+                console.log("sAP: " + JSON.stringify(activePractice, null, 4));
                 activePractice = practiceToSet;
                 return activePractice;
             },
 
             getActivePractice: function() {
+                console.log("gAP: " + JSON.stringify(activePractice, null, 4));
                 if(needsUpdate) {
                     var practice = new PracticesService({
                         _id: activePractice._id

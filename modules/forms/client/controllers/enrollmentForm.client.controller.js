@@ -6,21 +6,17 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     $scope.authentication = Authentication;
     $scope.activePatient = ActivePatient.getActivePatient();
 
-    var today = new Date();
-    var month = today.getMonth(); //months from 1-12
-    var day = today.getDate();
-    var year = today.getFullYear();
-    today = new Date(year, month, day);
-    $scope.todayDate = today;
+    $scope.dateCreated = new Date();
+    $scope.birthDate = new Date();
     
 
     $scope.createEnrollmentForm = function () {
 
         var patient = new PatientsService({
-            dateCreated: $scope.todayDate,
+            dateCreated: $scope.dateCreated,
             firstName: this.firstName,
             patientId: this.patientId,
-            birthDate: this.birthDate,
+            birthDate: $scope.birthDate,
             sex: this.sex,
             fixed: this.fixed,
             breed: this.breed,
@@ -30,6 +26,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         });
 
         var enrollmentForm = new EnrollmentFormsService({
+            dateCreated: $scope.dateCreated,
             treats: this.treats,
             currentMedications: this.currentMedications,
             medicalHistory: this.medicalHistory,
@@ -101,7 +98,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     };
 
     $scope.patientInfo.age = function () {
-      var DOB = $scope.patientInfo.DOB;
+      var DOB = $scope.birthDate;
       var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth()+1, day: DOB.getDate()});
       return age;
     };

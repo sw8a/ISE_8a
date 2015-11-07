@@ -1,9 +1,21 @@
 <div class="eForms" data-ng-controller="exitFormController" >
-    <div class="page-header" data-ng-app="app">
+    <div class="page-header">
         <h1 class="text-center">Exit Health Assessment</h1>
     </div>
 
-    <form class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2" data-ng-submit="createExitForm()">
+    <div class="col-md-12 kglb">
+        <div class="col-md-2">
+          Preferred Unit:
+        </div>
+        <label class="radio-inline col-md-1">
+            <input type="radio" name="kgOrlb" data-ng-model="practiceInfo.preferredUnit" value="kg">kg
+        </label>
+        <label class="radio-inline col-md-1">
+            <input type="radio" name="kgOrlb" data-ng-model="practiceInfo.preferredUnit" value="lb">lb
+        </label>
+    </div>
+
+    <form data-ng-submit="createExitForm()" name="myForm" class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
         <div class="form-group">
             <label for="date">Ending Date</label>
             <input type="date" class="form-control" id="date" ng-model="endingDate">
@@ -34,28 +46,16 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12 columns">
-                    <label class="col-md-3" for="startWeightKG">Start Weight (kg): </label>
+                    <label class="col-md-3">Start Weight ({{practiceInfo.preferredUnit}}): </label>
                     <div class="col-md-3">
-                        <input class="form-control" type="number" step="any" id="startWeightKG" min="0" max="300" data-ng-change="startToLB()" data-ng-model="patientInfo.startWeightKG">
+                        <span>{{patientInfo.startWeight()}}</span>
                     </div>
 
-                    <label class="col-md-3" for="startWeightLB">Start Weight (lb): </label>
+                    <label class="col-md-3" for="finalWeight">Final Weight ({{practiceInfo.preferredUnit}}): </label>
                     <div class="col-md-3">
-                        <input class="form-control" type="number" step="any" id="startWeightLB" min="0" max="300" data-ng-change="startToKG()" data-ng-model="patientInfo.startWeightLB">
+                        <input class="form-control" type="number" step="any" name="finalWeight" id="finalWeight" min="0" max="300" data-ng-model="finalWeight" required>
                     </div>
-
-                    <br>
-                    <br>
-
-                    <label class="col-md-3" for="finalWeightKG">Final Weight (kg): </label>
-                    <div class="col-md-3">
-                        <input class="form-control" type="number" step="any" id="finalWeightKG" min="0" max="300" data-ng-change="finalToLB()" data-ng-model="finalWeight">
-                    </div>
-
-                    <label class="col-md-3" for="finalWeightLB">Final Weight (lb): </label>
-                    <div class="col-md-3">
-                        <input class="form-control" type="number" step="any" id="finalWeightLB" min="0" max="300" data-ng-change="finalToKG()" data-ng-model="patientInfo.finalWeightLB">
-                    </div>
+                    <span class="alert alert-danger alertMessageExit" ng-show="myForm.finalWeight.$error.required  && myForm.finalWeight.$dirty">Final weight is required!</span>
                 </div>
             </div>
         </div>
@@ -63,10 +63,8 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12 columns">
-                    <label class="col-md-4">Weight Loss Total (kg): </label>
-                    <span class="col-md-2">{{patientInfo.weightLossTotalKG()}}</span>
-                    <label class="col-md-4">Weight Loss Total (lb): </label>
-                    <span class="col-md-2">{{patientInfo.weightLossTotalLB()}}</span>
+                    <label class="col-md-4">Weight Loss Total ({{practiceInfo.preferredUnit}}): </label>
+                    <span class="col-md-2">{{patientInfo.weightLossTotal()}}</span>
                 </div>
             </div>
         </div>
@@ -76,12 +74,13 @@
                 <div class="col-md-12 columns">
                     <label class="col-md-3" for="startBCS">Start BCS: </label>
                     <div class="col-md-3">
-                        <input class="form-control" type="number" step="1" id="startBCS" min="1" max="9" data-ng-model="patientInfo.startBCS">
+                        <span>{{patientInfo.startBCS}}</span>
                     </div>
                     <label class="col-md-3" for="finalBCS">Final BCS: </label>
                     <div class="col-md-3">
-                        <input class="form-control" type="number" step="1"  id="finalBCS" min="1" max="9" data-ng-model="finalBCS">
+                        <input class="form-control" type="number" step="1" name="finalBCS" id="finalBCS" min="1" max="9" data-ng-model="finalBCS" required>
                     </div>
+                    <span class="alert alert-danger alertMessageExit" ng-show="myForm.finalBCS.$error.required  && myForm.finalBCS.$dirty">Final BCS is required!</span>
                 </div>
             </div>
         </div>
@@ -90,17 +89,20 @@
 
         <div class="form-group">
             <label for="brand">Brand</label>
-            <input type="text" class="form-control" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand">
+            <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" required>
+            <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required  && myForm.brand.$dirty">Brand is required!</span>
         </div>
 
         <div class="form-group">
             <div class="row">
                 <label class="col-md-2 col-xs-10" for="foodAmount">Amount: </label>
-                <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" step="any" id="foodAmount" min="1" max="10"  data-ng-model="patientInfo.cups">
+                <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" step="any" name="foodAmount" id="foodAmount" min="1" max="10"  data-ng-model="patientInfo.cups" required>
                 <span class="pull-left">&nbsp;&nbsp;cup(s)</span>
-                <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" step="1" min="1" max="10" data-ng-model="patientInfo.perDay">
+                <input class="col-md-3 col-xs-8 col-md-offset-1 col-xs-offset-1" type="number" name="perDay" step="1" min="1" max="10" data-ng-model="patientInfo.perDay" required>
                 <span class="pull-left">&nbsp;&nbsp;x day</span>
             </div>
+            <span class="alert alert-danger alertMessage" ng-show="myForm.foodAmount.$error.required  && myForm.foodAmount.$dirty">Food amount is required!</span>
+            <span class="alert alert-danger alertMessageExit" ng-show="myForm.perDay.$error.required  && myForm.perDay.$dirty">Per day is required!</span>
         </div>
 
         <h3 class="text-center">Questions for Pet Owner</h3>

@@ -7,12 +7,37 @@
 .pForms {
   padding-left: 310px;
 }
+.editButton {
+	margin: 0 45%;
+}
+.kglb {
+	margin-left: 25%;
+}
+.alertMessage {
+	position: relative;
+	padding: 5px;
+	top: 10px;
+}
+.alertMessageExit {
+	position: relative;
+	padding: 5px;
+	top: 10px;
+	left: 75%;
+}
 input {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 textarea {
 	resize: vertical;
   word-wrap: break-word;
+}
+input {
+	background-color: #FAFAFA;
+}
+input[disabled]{
+	background-color: #eee;
+  opacity: 1;
+	cursor: not-allowed;
 }

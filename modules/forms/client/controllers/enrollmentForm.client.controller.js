@@ -5,6 +5,15 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     // This provides Authentication context.
     $scope.authentication = Authentication;
     $scope.activePatient = ActivePatient.getActivePatient();
+    $scope.disableInput = true;
+
+    $scope.practiceInfo = {
+        preferredUnit: "kg"
+    };
+
+    $scope.editForm = function() {
+      $scope.disableInput = false;
+    }
 
     var today = new Date();
     var month = today.getMonth(); //months from 1-12
@@ -66,51 +75,31 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                     $location.path('/overview');
                 });
             });
-
-
         });
     };
 
-
-
-
-
-
-
-
-
-    
-
     // Do they want some prepopulated values?
     $scope.patientInfo = {
-        firstName: "",
-        DOB: new Date(2013, 9, 22),
-        sex:"M",
-        castrated: "N",
-        breed: "",
-        foodBrand: "",
-        cups: 2,
-        perDay: 3,
-        treatsAndScraps: "",
-        currentMedications: "",
-        significantMedicalHistory: "",
-        significantPEFindings: "",
-        todayWeight: 50,
-        BCS: 5
+        DOB: new Date(2013, 9, 22)
     };
 
     $scope.patientInfo.age = function () {
-      var DOB = $scope.patientInfo.DOB;
+      var DOB = $scope.patientInfo.DOB; //$scope.activePatient.birthDate
       var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth()+1, day: DOB.getDate()});
       return age;
     };
 
     $scope.patientInfo.idealWeight = function () {
-        var currWeight = $scope.patientInfo.todayWeight;
-        var bodyFat = $scope.patientInfo.BCS * 5; // Assumes each BCS equals 5% body fat
+        var currWeight = $scope.activePatient.startWeight;
+        var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
         var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
 
-        return idealWeight.toFixed(2); // Ask about how many decimal places they want
+        if($scope.practiceInfo.preferredUnit === "kg") {
+          return idealWeight.toFixed(2);
+        }
+        else {
+          return (idealWeight*2.20462).toFixed(2);
+        }
     };
 
     $scope.patientInfo.cupsPerFeeding = function () {
@@ -120,7 +109,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         var perDay = $scope.patientInfo.perDay;
         var cupsPerFeeding = cupsPerDay/perDay;
 
-        return cupsPerFeeding.toFixed(2); // Ask about how many decimal places they want
+        return cupsPerFeeding.toFixed(2);
     };
 
     $scope.yearDifference = function (date) {
@@ -142,15 +131,5 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         return diff;
     };
 
-    $scope.vetApproval = {
-        vetSignature: "",
-        continueWithTrimauxil: "Y"
-    };
-
-    $scope.finalApproval = {
-        technician: "",
-        veterinarian: "",
-        reviewer: ""
-    };
   }
 ]);

@@ -11,6 +11,15 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         preferredUnit: "kg"
     };
 
+    $scope.firstName = $scope.activePatient.firstName;
+    $scope.patientId = $scope.activePatient.patientId;
+    $scope.birthDate = $scope.activePatient.birthDate;
+    $scope.startWeight = $scope.activePatient.startWeight;
+    $scope.sex = $scope.activePatient.sex;
+    $scope.fixed = $scope.activePatient.fixed;
+    $scope.breed = $scope.activePatient.breed;
+    $scope.bcs = $scope.activePatient.bcs;
+
     $scope.editForm = function() {
       $scope.disableInput = false;
     }

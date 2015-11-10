@@ -6,28 +6,28 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
     // Redirect to 404 when route not found
     $urlRouterProvider.otherwise('not-found');
-
+    console.log("hello")
     // Home state routing
     $stateProvider
-      /*.state('home', {
+      .state('home', {
         url: '/',
         views: {
-            "sidebar": {
-                templateUrl: "/modules/core/views/sidebar.client.view.html"
-            },
-            "content": {
-                templateUrl: "modules/patients/views/overview.client.view.html"
+            "content":{
+              template: '<div ui-view></div>',
+              controller: function($state, Authentication){
+          console.log(Authentication)
+          if(Authentication.user){
+            $state.go('vetHomepage');
             }
-        }, /* comment this area out if there are issues
-        controller: function($state, Authentication){
-        	if(Authentication.users){
-        		// dont do anything for now
-        		}
-        		else{
-        			$state.go('home.public');
-        		}
-        	}
-      }) // end comment here*/
+            else{
+              console.log("we are in the else ")
+              $state.go('signin');
+            }
+          }
+            }
+
+        } //, //comment this area out if there are issues
+      }) // end comment here
       .state('home.signedin', {
       	url:'',
       	 views: {
@@ -42,8 +42,12 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
     	})
       .state('home.public', {
       	url:'',
-      	templateUrl: 'modules/users/views/authentication/signin.client.view.html'
-      	 
+      	templateUrl: 'modules/users/views/authentication/signin.client.view.html',
+        views: {
+            "content": {
+                templateUrl: 'modules/users/views/authentication/signin.client.view.html'
+            }
+      	 }
         })
 
       .state('not-found', {
@@ -106,7 +110,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
       })
 	  .state('vetHomepage', {
-            url: "/",
+            url: "/vetHome",
             views: {
                 "content": {
                     templateUrl: "modules/practices/views/vetHomepage.client.view.html"
@@ -205,7 +209,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.forgot', {
         url: '/forgot',
-        templateUrl: 'modules/users/views/password/forgot-password.client.view.html',
+       // templateUrl: 'modules/users/views/password/forgot-password.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/password/forgot-password.client.view.html"

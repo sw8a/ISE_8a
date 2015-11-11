@@ -6,7 +6,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
     // Redirect to 404 when route not found
     $urlRouterProvider.otherwise('not-found');
-    console.log("hello")
+    //console.log("hello")
     // Home state routing
     $stateProvider
       .state('home', {
@@ -15,41 +15,19 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content":{
               template: '<div ui-view></div>',
               controller: function($state, Authentication){
-          console.log(Authentication)
+          //console.log(Authentication)
           if(Authentication.user){
             $state.go('vetHomepage');
             }
             else{
-              console.log("we are in the else ")
+             // console.log("we are in the else ")
               $state.go('signin');
             }
           }
             }
 
-        } //, //comment this area out if there are issues
+        } 
       }) // end comment here
-      .state('home.signedin', {
-      	url:'',
-      	 views: {
-            "sidebar": {
-                templateUrl: "/modules/core/views/sidebar.client.view.html"
-            },
-            "content": {
-                templateUrl: "modules/patients/views/overview.client.view.html"
-            }
-        }
-
-    	})
-      .state('home.public', {
-      	url:'',
-      	templateUrl: 'modules/users/views/authentication/signin.client.view.html',
-        views: {
-            "content": {
-                templateUrl: 'modules/users/views/authentication/signin.client.view.html'
-            }
-      	 }
-        })
-
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
@@ -116,18 +94,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                     templateUrl: "modules/practices/views/vetHomepage.client.view.html"
                 }
             }
-      })
-	  .state('login', {
-            url: "/login",
-            views: {
-                "sidebar": {
-                    templateUrl: "/modules/core/views/sidebar.client.view.html"
-                },
-                "content": {
-                    templateUrl: "modules/forms/views/login.client.view.html"
-                }
-            }
-
       })
       //begin adding new states from users routes folder
       .state('settings', {

@@ -5,7 +5,11 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     
     // This provides Authentication context.
     $scope.authentication = Authentication;
-
+    console.log($scope.authentication)
+        if (!$scope.authentication.user) {
+        $location.path('/');
+        console.log($scope.authentication)
+            }
     // Create new progress form
     $scope.createProgressForm = function () {
         // Create new ProgressForm object

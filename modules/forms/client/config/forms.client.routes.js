@@ -1,5 +1,5 @@
-'use strict';
-/*
+/*'use strict';
+
 // Setting up route
 angular.module('forms').config(['$stateProvider',
   function ($stateProvider) {

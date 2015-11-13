@@ -4,11 +4,11 @@
 angular.module('users').config(['$stateProvider',
   function ($stateProvider) {
     // Users state routing
-      $stateProvider
-        .state('settings', {
-          abstract: true,
-          url: '/settings',
-          templateUrl: 'modules/users/views/settings/settings.client.view.html',
+    $stateProvider
+      .state('settings', {
+        abstract: true,
+        url: '/settings',
+        templateUrl: 'modules/users/views/settings/settings.client.view.html',
         data: {
           roles: ['user', 'admin']
         }

@@ -6,9 +6,9 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
     $scope.authentication = Authentication;
         console.log($scope.authentication)
         if (!$scope.authentication.user) {
-        $location.path('/');
-        console.log($scope.authentication)
-            }
+            $location.path('/');
+            console.log($scope.authentication);
+        }
 
     $scope.createExitForm = function () {
 

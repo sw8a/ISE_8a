@@ -2,7 +2,11 @@
 
 angular.module('patients', ["chart.js"]).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient',
     function ($scope, Authentication, $location, $stateParams, PatientsService, ActivePatient) {
-
+        $scope.authentication = Authentication;
+        if (!$scope.authentication.user) {
+            $location.path('/');
+        };
+        
         ActivePatient.setPatientNeedsUpdate();
         console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 

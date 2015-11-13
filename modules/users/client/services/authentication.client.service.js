@@ -7,6 +7,11 @@ angular.module('users').factory('Authentication', ['$window',
       user: $window.user
     };
 
+   /* if auth.user.roles[0] == 'user' {
+    	auth.isUser = true
+
+    }*/
+
     return auth;
   }
 ]);

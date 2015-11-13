@@ -4,6 +4,11 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     function ($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+        console.log($scope.authentication)
+        if (!$scope.authentication.user) {
+            $location.path('/');
+            console.log($scope.authentication);
+        }
     $scope.activePatient = ActivePatient.getActivePatient();
 
     var today = new Date();

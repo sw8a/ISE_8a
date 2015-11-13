@@ -5,6 +5,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     
     // This provides Authentication context.
     $scope.authentication = Authentication;
+    $scope.currPatient = ActivePatient.getActivePatient();
+    $scope.status = {
+        isItemOpen: new array(currPatient.progressForms.length);
+    }
 
     // Create new progress form
     $scope.createProgressForm = function () {
@@ -54,6 +58,23 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     // Variable to enable and disable all fields from users
     $scope.disableFields = true;
     $scope.dispEdit = true;
+
+    // Compute the weight loss for that day
+    $scope.getTodayWeightLoss = function(tWeight) {
+        if(currPatient.progressForms.length == 0) {
+            return 0;
+        }
+        else {
+            return (tWeight < currPatient.progressForms[currPatient.progressForms.length - 1].weight);
+        }
+    }
+    
+
+    // Compute the average weight loss
+    $scope.getAvgWeightLoss = function(tWeight) {
+        // (Today's weight - Initial weight) / Initial weight 
+
+    }
 
     // Editing form's input
     $scope.editForm = function() {

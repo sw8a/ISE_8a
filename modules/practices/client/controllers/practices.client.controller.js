@@ -5,10 +5,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
         $scope.patients = ActivePatient.getActivePractice().patients;
         $scope.authentication = Authentication;
-        console.log($scope.authentication)
         if (!$scope.authentication.user) {
-        $location.path('/');
-        console.log($scope.authentication)
+         $location.path('/');
             }
         
         $scope.newPatientClick = function () {

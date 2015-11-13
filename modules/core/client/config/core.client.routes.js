@@ -6,7 +6,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
     // Redirect to 404 when route not found
     $urlRouterProvider.otherwise('not-found');
-    //console.log("hello")
     // Home state routing
     $stateProvider
       .state('home', {
@@ -15,15 +14,13 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content":{
               template: '<div ui-view></div>',
               controller: function($state, Authentication){
-          //console.log(Authentication)
-          if(Authentication.user){
-            $state.go('vetHomepage');
-            }
-            else{
-             // console.log("we are in the else ")
-              $state.go('signin');
-            }
-          }
+                  if(Authentication.user){
+                    $state.go('vetHomepage');
+                    }
+                    else{
+                      $state.go('signin');
+                    }
+                }
             }
 
         } 
@@ -145,11 +142,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
           }
       })
-      // .state('authentication', {
-      //   abstract: true,
-      //   url: '/authentication',
-      //   templateUrl: 'modules/users/views/authentication/authentication.client.view.html'
-      // })
       .state('signup', {
         url: '/signup',
         templateUrl: 'modules/users/views/authentication/signup.client.view.html',
@@ -175,7 +167,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.forgot', {
         url: '/forgot',
-       // templateUrl: 'modules/users/views/password/forgot-password.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/password/forgot-password.client.view.html"

@@ -5,8 +5,6 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', 'Authenti
     	$scope.authentication = Authentication;
         if (!$scope.authentication.user) {
         	$location.path('/');
-            }
-
-
+        }
     }
 ]);

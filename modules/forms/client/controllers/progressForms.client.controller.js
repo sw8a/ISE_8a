@@ -10,6 +10,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     $scope.newFormPossible = true;
     $scope.todayWeight;
 
+    if (!$scope.authentication.user) {
+        $location.path('/');
+    }
+
     // Create new progress form
     $scope.createProgressForm = function () {
         // Create new ProgressForm object

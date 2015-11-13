@@ -18,6 +18,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         $scope.authentication.user = response;
 
         // And redirect to the previous or home page
+        //currently it can't resolve the state 'home' 
+        //it is always going to 'state.previous.state.name'
+        // need to fix this so we can route to the homepage upon sign in
         $state.go($state.previous.state.name || 'home', $state.previous.params);
       }).error(function (response) {
         $scope.error = response.message;
@@ -30,7 +33,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         $scope.authentication.user = response;
 
         // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
+        $state.go('vetHomepage');
       }).error(function (response) {
         $scope.error = response.message;
       });

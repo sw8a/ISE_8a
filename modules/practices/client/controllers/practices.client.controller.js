@@ -6,9 +6,10 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.patients = ActivePatient.getActivePractice().patients;
         $scope.currentPage = 1;
         $scope.pageSize = 10;
+        
         $scope.numberOfPages = function() {
             return Math.ceil($scope.patients.length/$scope.pageSize);
-        }
+        };
 
         
         $scope.newPatientClick = function () {

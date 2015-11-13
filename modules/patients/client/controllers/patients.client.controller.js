@@ -5,7 +5,7 @@ angular.module('patients', ["chart.js"]).controller('patientsController', ['$sco
 
         ActivePatient.setPatientNeedsUpdate();
         console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-        console.log('FE :' + ActivePatient.updateActivePatient().firstName);
+        //console.log('FE :' + ActivePatient.updateActivePatient().firstName);
 
         ActivePatient.setPracticeNeedsUpdate();
         console.log("APc: " + JSON.stringify(ActivePatient.getActivePractice(), null, 4));

@@ -16,7 +16,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             dateCreated: $scope.dateCreated,
             firstName: this.firstName,
             patientId: this.patientId,
-            birthDate: $scope.birthDate,
+            //birthDate: $scope.birthDate,
             sex: this.sex,
             fixed: this.fixed,
             breed: this.breed,
@@ -37,6 +37,8 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         patient.$save(function (patientResponse) {
             ActivePatient.setActivePatient(patientResponse);
+
+            console.log("in front end save patient");
 
             var practice = new PracticesService({
                 _id: ActivePatient.getActivePractice()._id,

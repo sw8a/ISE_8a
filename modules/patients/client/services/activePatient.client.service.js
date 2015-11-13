@@ -24,8 +24,9 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                         populateForms: true
                     });
                     
-                    return patient.$get(function( updateActivePatientResponse ) {
+                    patient.$get(function( updateActivePatientResponse ) {
                         activePatient = updateActivePatientResponse;
+                        return activePatient;
                     });
                 }
                 return activePatient;

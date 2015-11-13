@@ -45,7 +45,7 @@
                                 <label class="col-xs-12 col-sm-4 control-label">Today Weight Loss</label>
                                 <div class="col-xs-10 col-sm-6">
                                     <!--To be computed using angularJs-->
-                                    <span class="static-data">{{getTodayWeightLoss(form.weight)}}</span>
+                                    <span class="static-data">static</span>
                                 </div>
                                 <div class="col-xs-2">%</div>
                             </div>
@@ -54,7 +54,7 @@
                                 <label class="col-xs-12 col-sm-4 control-label">Avg Weight Loss</label>
                                 <div class="col-xs-10 col-sm-6">
                                     <!--To be computed using angularJs-->
-                                    <span class="static-data">{{getAvgWeightLoss(form.weight)}}</span>
+                                    <span class="static-data">static</span>
                                 </div>
                                 <div class="col-xs-2">%</div>
                             </div>
@@ -137,6 +137,7 @@
                 </form>
             </accordion-body>
         </accordion-group>
+        <br/>
 <!--==============================================================================================-->
         <!--PAST FORMS-->
         <accordion-group is-open="form.isOpen" ng-repeat="form in currPatient.progressForms | orderBy:'dateCreated'">
@@ -258,8 +259,8 @@
                     <!-- Row containing Cancel and Save button -->
                     <div class="row">
                         <div class="col-xs-6 col-xs-offset-6">
-                            <button ng-show="dispEdit" ng-click="editForm()" type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
-                            <fieldset ng-show="!dispEdit">
+                            <button ng-show="disableField" ng-click="editForm()" type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+                            <fieldset ng-show="!disableField">
                                 <button type="button" class="btn btn-primary pull-right" ng-class="{true: 'btn-primary', false: 'btn-danger'}" >Save</button>
                                 <button ng-click="cancelEditing()" type="button" class="btn btn-default pull-right">Cancel</button>
                             </fieldset>

@@ -6,9 +6,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     // This provides Authentication context.
     $scope.authentication = Authentication;
     $scope.currPatient = ActivePatient.getActivePatient();
-    $scope.oneAtTime = true;
-    $scope.newFormPossible = true;
-    $scope.todayWeight;
+    $scope.oneAtTime = true;            // To allow one form to open at a time
+    $scope.disableField = true;         // Disable field if not in "Editing" State            
+    $scope.todayWeight;                 // To be used for 2-way data binding when adding new form
 
     if (!$scope.authentication.user) {
         $location.path('/');
@@ -49,7 +49,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     
 
 
-    // Multidimensional array to include priority
+    // Static Data to display until Database is fully populated. 
     $scope.clients = [{
         petName: "Puddle", 
         clientName: "John Doe",
@@ -58,23 +58,6 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         petInitWeight: "3 lbs",
         petIdealWeight: "2 lbs"
     }];
-
-    // Variable to enable and disable all fields from users
-    $scope.disableField = true;
-    $scope.dispEdit = true;
-
-    $scope.isNewFormPossible = function() {
-        var pat = ActivePatient.getActivePatient();
-        var now = new Date();
-        if (pat.progressForms[pat.progressForms.length-1].getDay() == now.getDay() ) {
-            return false
-        }
-        else if (isNewFormPossible) {
-            isNewFormPossible = !isNewFormPossible;
-            return true;
-        }
-        return false;
-    }
 
     // Compute the weight loss for that day
     $scope.getTodayWeightLoss = function(todayWeight) {
@@ -100,13 +83,11 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     // Editing form's input
     $scope.editForm = function() {
         $scope.disableField = false;
-        $scope.dispEdit = false;
     }
 
     // Cancel editing on forms
     $scope.cancelEditing = function() {
         $scope.disableField = true;
-        $scope.dispEdit = true;
     }
 
 

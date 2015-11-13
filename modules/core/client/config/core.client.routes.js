@@ -14,15 +14,14 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content":{
               template: '<div ui-view></div>',
               controller: function($state, Authentication){
-                  if(Authentication.user){
+                if(Authentication.user){
                     $state.go('vetHomepage');
-                    }
-                    else{
-                      $state.go('signin');
-                    }
                 }
+                else{
+                    $state.go('signin');
+                }
+              }
             }
-
         } 
       }) // end comment here
       .state('not-found', {

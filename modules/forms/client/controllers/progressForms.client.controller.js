@@ -6,9 +6,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     // This provides Authentication context.
     $scope.authentication = Authentication;
     $scope.currPatient = ActivePatient.getActivePatient();
-    $scope.status = {
-        isItemOpen: new array(currPatient.progressForms.length);
-    }
+    $scope.oneAtTime = true;
+    $scope.newFormPossible = true;
+    $scope.todayWeight;
 
     // Create new progress form
     $scope.createProgressForm = function () {
@@ -56,35 +56,52 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
     }];
 
     // Variable to enable and disable all fields from users
-    $scope.disableFields = true;
+    $scope.disableField = true;
     $scope.dispEdit = true;
 
+    $scope.isNewFormPossible = function() {
+        var pat = ActivePatient.getActivePatient();
+        var now = new Date();
+        if (pat.progressForms[pat.progressForms.length-1].getDay() == now.getDay() ) {
+            return false
+        }
+        else if (isNewFormPossible) {
+            isNewFormPossible = !isNewFormPossible;
+            return true;
+        }
+        return false;
+    }
+
     // Compute the weight loss for that day
-    $scope.getTodayWeightLoss = function(tWeight) {
-        if(currPatient.progressForms.length == 0) {
-            return 0;
+    $scope.getTodayWeightLoss = function(todayWeight) {
+        var pat = ActivePatient.getActivePatient();
+        if (pat.progressForms.length == 0) { 
+            return pat.startWeight - todayWeight;
         }
         else {
-            return (tWeight < currPatient.progressForms[currPatient.progressForms.length - 1].weight);
+            return (pat.startWeight - pat.progressForms[pat.progressForms.length - 1].weight) / pat.startWeight;
         }
     }
-    
 
     // Compute the average weight loss
     $scope.getAvgWeightLoss = function(tWeight) {
-        // (Today's weight - Initial weight) / Initial weight 
-
+        var pat = ActivePatient.getActivePatient();
+        if( pat.progressForms.length == 0) { return 0; }
+        else {
+            // (Today's weight - init weight) / init
+            return (pat.startWeight - pat.progressForms[pat.progressForms.length - 1].weight) / pat.progressForms.length;
+        }
     }
 
     // Editing form's input
     $scope.editForm = function() {
-        $scope.disableFields = false;
+        $scope.disableField = false;
         $scope.dispEdit = false;
     }
 
     // Cancel editing on forms
     $scope.cancelEditing = function() {
-        $scope.disableFields = true;
+        $scope.disableField = true;
         $scope.dispEdit = true;
     }
 

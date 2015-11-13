@@ -110,6 +110,12 @@
     background-color: #F4F4F4;
 }
 
+.sidebarLogoImg {
+    width: 230px;
+    margin: 6px 18px;
+    padding: 0;
+}
+
 #logOutButton {
     position: fixed;
     bottom: 0;

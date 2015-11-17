@@ -71,7 +71,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                   "content": {
                       templateUrl: "modules/forms/views/feedbackForm.client.view.html"
                   }
-              }
+              }//,
+              // data: {
+              //   roles: ['admin']
+              //   }
         })
 	  .state('exitForm', {
             url: "/exitForm",
@@ -96,7 +99,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       .state('settings', {
           abstract: true,
           url: '/settings',
-          templateUrl: 'modules/users/views/settings/settings.client.view.html',
            views: {
             "content": {
                 templateUrl: "modules/users/views/settings/settings.client.view.html"

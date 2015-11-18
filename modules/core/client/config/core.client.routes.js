@@ -14,9 +14,15 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content":{
               template: '<div ui-view></div>',
               controller: function($state, Authentication){
-                  if(Authentication.user){
+                // if user is an admin route to their home page
+                  if(Authentication.user.roles == 'admin'){
                     $state.go('vetHomepage');
                     }
+                    // otherwise if they are a user, route to that homepage
+                    else if (Authentication.user.roles == 'user'){
+                      $state.go('overview')
+                    }
+                    //otherwise just go to the signin page, no one is signed in
                     else{
                       $state.go('signin');
                     }
@@ -27,7 +33,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       }) // end comment here
       .state('not-found', {
         url: '/not-found',
-        templateUrl: 'modules/core/views/404.client.view.html'
+        views:{
+            "content": {
+                templateUrl: 'modules/core/views/404.client.view.html'
+              }
+        }
       })
 	  .state('overview', {
             url: '/overview',
@@ -110,7 +120,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.profile', {
         url: '/profile',
-        templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/settings/edit-profile.client.view.html"
@@ -119,7 +128,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.password', {
         url: '/password',
-        templateUrl: 'modules/users/views/settings/change-password.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/settings/change-password.client.view.html"
@@ -128,7 +136,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.accounts', {
         url: '/accounts',
-        templateUrl: 'modules/users/views/settings/manage-social-accounts.client.view.html',
       views: {
             "content": {
                 templateUrl: "modules/users/views/settings/manage-social-accounts.client.view.html"
@@ -137,7 +144,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.picture', {
         url: '/picture',
-        templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/settings/change-profile-picture.client.view.html"
@@ -146,7 +152,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('signup', {
         url: '/signup',
-        templateUrl: 'modules/users/views/authentication/signup.client.view.html',
+       
         views: {
             "content": {
                 templateUrl: "modules/users/views/authentication/signup.client.view.html"
@@ -155,7 +161,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/views/authentication/signin.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/authentication/signin.client.view.html"
@@ -182,7 +187,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.invalid', {
         url: '/invalid',
-        templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/password/reset-password-invalid.client.view.html"
@@ -191,7 +195,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.success', {
         url: '/success',
-        templateUrl: 'modules/users/views/password/reset-password-success.client.view.html',
          views: {
             "content": {
                 templateUrl: "modules/users/views/password/reset-password-success.client.view.html"
@@ -200,7 +203,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.form', {
         url: '/:token',
-        templateUrl: 'modules/users/views/password/reset-password.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/password/reset-password.client.view.html"

@@ -17,13 +17,10 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
       $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
         console.log(response);
         // If successful we assign the response to the global user model
-        $scope.authentication.user = response;
+        //$scope.authentication.user = response;
 
-        // And redirect to the previous or home page
-        //currently it can't resolve the state 'home' 
-        //it is always going to 'state.previous.state.name'
-        // need to fix this so we can route to the homepage upon sign in
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
+        // refresh the page, the admin may want to create another user
+        $state.reload();
       }).error(function (response) {
         $scope.error = response.message;
       });

@@ -16,7 +16,9 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             dateCreated: $scope.dateCreated,
             firstName: this.firstName,
             patientId: this.patientId,
-            //birthDate: $scope.birthDate,
+            birthDate: new Date($scope.birthDate.getFullYear(), 
+                                $scope.birthDate.getMonth(), 
+                                $scope.birthDate.getDate()),
             sex: this.sex,
             fixed: this.fixed,
             breed: this.breed,
@@ -38,7 +40,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         patient.$save(function (patientResponse) {
             ActivePatient.setActivePatient(patientResponse);
 
-            console.log("in front end save patient");
+            console.log('in front end save patient');
 
             var practice = new PracticesService({
                 _id: ActivePatient.getActivePractice()._id,
@@ -83,18 +85,18 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
     // Do they want some prepopulated values?
     $scope.patientInfo = {
-        firstName: "",
+        firstName: '',
         DOB: new Date(2013, 9, 22),
-        sex:"M",
-        castrated: "N",
-        breed: "",
-        foodBrand: "",
+        sex:'M',
+        castrated: 'N',
+        breed: '',
+        foodBrand: '',
         cups: 2,
         perDay: 3,
-        treatsAndScraps: "",
-        currentMedications: "",
-        significantMedicalHistory: "",
-        significantPEFindings: "",
+        treatsAndScraps: '',
+        currentMedications: '',
+        significantMedicalHistory: '',
+        significantPEFindings: '',
         todayWeight: 50,
         BCS: 5
     };
@@ -143,14 +145,14 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     };
 
     $scope.vetApproval = {
-        vetSignature: "",
-        continueWithTrimauxil: "Y"
+        vetSignature: '',
+        continueWithTrimauxil: 'Y'
     };
 
     $scope.finalApproval = {
-        technician: "",
-        veterinarian: "",
-        reviewer: ""
+        technician: '',
+        veterinarian: '',
+        reviewer: ''
     };
   }
 ]);

@@ -8,7 +8,10 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         if (!$scope.authentication.user) {
          $location.path('/');
             }
-        
+
+        $scope.done;
+
+
         $scope.newPatientClick = function () {
             // Clear active patient
             ActivePatient.setActivePatient({});
@@ -40,7 +43,10 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 _id: '5639a8f129e356c349ff1934'
             });
 
-            practice.$get(function (practiceResponse) {
+            console.log('done 1');
+            console.log($scope.done);
+
+            $scope.done = practice.$get(function (practiceResponse) {
                 
                 ActivePatient.setActivePractice(practiceResponse);
 
@@ -50,7 +56,15 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
                 ActivePatient.setPatientNeedsUpdate();
                 console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+
+                console.log('done 2');
+                console.log($scope.done);
+
+                return;
             });
+
+            console.log('done 3');
+            console.log($scope.done);
 
             /*
             // Create new practice

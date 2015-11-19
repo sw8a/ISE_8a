@@ -1,0 +1,41 @@
+.paginationButton {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    background-image: none;
+  
+    white-space: nowrap;
+    outline: none;
+}
+
+.paginationButton:hover {
+    background-color: #6399CC;
+    outline: none;
+}
+
+.paginationButton:active {
+    outline: none;
+    background-color: red;
+}
+
+.paginationButton:focus {
+    outline: none;
+    background-color: transparent;
+}
+
+.paginationButtonActive {
+    background-color: #E0E0E0;
+}
+
+.paginationPageSizeInput {
+    width: 70px;
+}
+
+.paginationPageNavigationControl {
+
+}
+
+.paginationPageSizeControl {
+    
+}

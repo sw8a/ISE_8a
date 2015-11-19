@@ -1,42 +1,50 @@
- <div data-ng-controller="practicesController">
+<link rel="stylesheet" href="/modules/core/css/paginationStyles.css">    
+
+<div data-ng-controller="practicesController" data-ng-init="getPractice()">
     <div class="row">
      
-  <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="vetHomeLogoImg">
+    <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="vetHomeLogoImg">
              <a href="/api/auth/signout" target ="_self">
                 <button class="btn btn-primary pull-right" type="button">
                     Logout
                 </button>    
             </a>   
     </div>
+
     <div class="row">
         <h1 class="text-center">Patient List</h1>
     </div>
 
-    <div class="TableComponents">
+    <div class="TableComponents" data-ng-controller="paginationController as pagn">
         <div class="row heavy-top-buffer">
             <div class="col-md-9 col-sm-8">
                 <div class="AddButton">
                     <button ng-click="newPatientClick()" class="btn btn-primary" type="button">Add New
                     Patient</button>
-                    <button ng-click="getPractice()" class="btn btn-primary" type="button">GET PRACTICE</button>
-                    <button ui-sref="overview" class="btn btn-primary" type="button">Go to Overview</button>
                 </div>
             </div>
 
             <div class="col-md-3 col-sm-4 pull-right">
                 <div class="input-group">
-                    <input class="form-control" id="srch-term" name="srch-term"
-                    placeholder="Search" type="text">
+                    <!-- Search input -->
+                    <input type="text" data-ng-model="pagn.search" ng-change="pagn.searchChange()" default="''">
 
-                    <div class="input-group-btn">
-                        <button class= "btn btn-default glyphicon glyphicon-search" style="font-style: italic" type="submit"></button>
-                    </div>
+                    <!-- Clear search input -->
+                    <button ng-click="pagn.search=''; pagn.searchChange()">X</button>
                 </div>
             </div>
         </div>
 
         <br>
 
+        <!-- {{patients}} -->
+        <!-- Set data to repeat -->
+        <!-- {{pagn.totalPages()}} -->
+        {{pagn.paginationItemList=patients;""}}
+        {{pagn.keysToSearch=['patientId', 'firstName'];""}}
+        {{pagn.initFilteredData(done);""}}
+
+        <div class="patientListTable">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -49,21 +57,43 @@
                     <th>Date Started</th>
                 </tr>
             </thead>
+                <tbody>
 
-            <tbody>
-                <tr ng-repeat="patient in patients" ng-click="selectPatient(patient)" class="patientTableRow">
-                    
-                    <td> {{ patient.patientId }} </td>
+                    <tr ng-repeat="patient in pagn.filteredData | startFrom:(pagn.currentPage-1)*pagn.itemsPerPage | limitTo:pagn.itemsPerPage" ng-click="" class="">
+                        
+                        <td> {{ patient.patientId }} </td>
 
-                    <td> {{ patient.firstName }} </td>
+                        <td> {{ patient.firstName }} </td>
 
-                    <td> {{ patient.breed }} </td>
+                        <td> {{ patient.breed }} </td>
 
-                    <td> {{ patient.dateCreated | date:'MM/dd/yyyy'}} </td>
-                    
-                </tr>
+                        <td> {{ patient.dateCreated | date:'MM/dd/yyyy'}} </td>
+                        
+                    </tr>
 
-            </tbody>
+                </tbody>
         </table>
+        </div>
+        <!-- Page navigation buttons -->
+        <div class="btn-group paginationPageNavigationControl" role="toolbar" ng-hide="pagn.totalPages()==1">
+            <!-- First page button -->
+            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(1)" ng-disabled="pagn.currentPage==1" role="group">&laquo</button>
+            <!-- Previous page button -->
+            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.currentPage-1)" ng-disabled="pagn.currentPage==1" role="group">‹</button>
+
+            <button type="button" ng-repeat="page in pagn.getPageNumbers() track by $index" ng-click="pagn.setPage(page)" class="btn btn-default paginationButton" ng-class="{ paginationButtonActive: pagn.currentPage==page }" role="group" ng-disabled="page=='...'">{{page}}</button>
+
+            <!-- Next page button -->
+            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.currentPage+1)" ng-disabled="pagn.currentPage==pagn.totalPages()" role="group">›</button>
+            <!-- Last page button -->
+            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.totalPages())" ng-disabled="pagn.currentPage==pagn.totalPages()" role="group">&raquo</button>
+        </div>
+
+        <!-- Page size input -->
+        <div class="paginationPageSizeControl">
+            Items per page: 
+            <input type="number" min="1" max="100" class="form-control paginationPageSizeInput" data-ng-model="pagn.pageSizeInput" ng-change="pagn.setPageSize(pagn.pageSizeInput)">
+        </div>
+
     </div>
 </div>

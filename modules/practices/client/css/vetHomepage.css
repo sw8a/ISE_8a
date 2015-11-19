@@ -53,3 +53,8 @@
     /*margin-top: -15px;
     margin-left: 17px;*/
 }
+
+.patientListTable {
+    height: 300px;
+    overflow: auto;
+}

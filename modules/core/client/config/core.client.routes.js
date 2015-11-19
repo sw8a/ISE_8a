@@ -23,8 +23,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
               }
             }
         } 
-      }) // end comment here
-      .state('not-found', {
+      })
+
+    .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/views/404.client.view.html'
       })

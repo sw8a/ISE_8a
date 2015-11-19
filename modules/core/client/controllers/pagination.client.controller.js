@@ -173,4 +173,37 @@ HTML to add to view:
 </div>
 
 
+// ACTUAL USE CODE:
+
+ <!-- Set data to repeat -->
+{{pagn.paginationItemList=patients;""}}
+{{pagn.keysToSearch=['patientId', 'firstName'];""}}
+{{pagn.initFilteredData(done);""}}
+
+
+<tr ng-repeat="patient in pagn.filteredData | startFrom:(pagn.currentPage-1)*pagn.itemsPerPage | limitTo:pagn.itemsPerPage" ng-click="" class="">
+
+
+<!-- Page navigation buttons -->
+<div class="btn-group paginationPageNavigationControl" role="toolbar" ng-hide="pagn.totalPages()==1">
+    <!-- First page button -->
+    <button class="btn btn-default paginationButton" ng-click="pagn.setPage(1)" ng-disabled="pagn.currentPage==1" role="group">&laquo</button>
+    <!-- Previous page button -->
+    <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.currentPage-1)" ng-disabled="pagn.currentPage==1" role="group">‹</button>
+
+    <button type="button" ng-repeat="page in pagn.getPageNumbers() track by $index" ng-click="pagn.setPage(page)" class="btn btn-default paginationButton" ng-class="{ paginationButtonActive: pagn.currentPage==page }" role="group" ng-disabled="page=='...'">{{page}}</button>
+
+    <!-- Next page button -->
+    <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.currentPage+1)" ng-disabled="pagn.currentPage==pagn.totalPages()" role="group">›</button>
+    <!-- Last page button -->
+    <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.totalPages())" ng-disabled="pagn.currentPage==pagn.totalPages()" role="group">&raquo</button>
+</div>
+
+<!-- Page size input -->
+<div class="paginationPageSizeControl">
+    Items per page: 
+    <input type="number" min="1" max="100" class="form-control paginationPageSizeInput" data-ng-model="pagn.pageSizeInput" ng-change="pagn.setPageSize(pagn.pageSizeInput)">
+</div>
+
+
 */

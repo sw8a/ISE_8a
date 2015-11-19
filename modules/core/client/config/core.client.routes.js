@@ -204,6 +204,53 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
           }
       })
+      //begin adding routes for AuxThera view
+      .state('auxOverview', {
+            url: "/auxOverview",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/auxSidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/auxthera/views/auxOverview.client.view.html"
+                }
+            }
+      })
+      .state('auxFeedback', {
+            url: "/auxFeedback",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/auxSidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/auxthera/views/auxFeedback.client.view.html"
+                }
+            }
+      })
+      .state('auxCallList', {
+            url: "/auxCallList",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/auxSidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/auxthera/views/auxCallList.client.view.html"
+                }
+            }
+      })
+      .state('auxUpdates', {
+            url: "/auxUpdates",
+            views: {
+                "sidebar": {
+                    templateUrl: "/modules/core/views/auxSidebar.client.view.html"
+                },
+                "content": {
+                    templateUrl: "modules/auxthera/views/auxUpdates.client.view.html"
+                }
+            }
+      })
+
+
 
 
   }

@@ -32,7 +32,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
         $scope.authentication.user = response;
 
         // And redirect to the previous or home page
-        $state.go('vetHomepage');
+        $state.go('home');
       }).error(function (response) {
         $scope.error = response.message;
       });

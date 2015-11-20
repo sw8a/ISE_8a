@@ -42,6 +42,15 @@
               </a>
           </li>
           
+          <!-- Ricky here, adding the 'sign a user up' to the sidebar-->
+          <li>
+              <a ui-sref="signup">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-user dashGlyph" aria-hidden="true"></span> 
+                      Sign up a new user
+                  </button>
+              </a>
+          </li>
 
           <!--
           <li>
@@ -54,7 +63,7 @@
           -->
 
           <li id="dropToBottom">
-              <a ui-sref="login">
+              <a href="/api/auth/signout" target ="_self">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-log-out dashGlyph" aria-hidden="true"></span> Log Out
                   </button>

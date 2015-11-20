@@ -17,11 +17,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
                 // if user is an admin route to their home page
                   if(Authentication.user.roles == 'admin'){
-                    $state.go('vetHomepage');
+                    $state.go('auxOverview');
                     }
                     // otherwise if they are a user, route to that homepage
                     else if (Authentication.user.roles == 'user'){
-                      $state.go('overview')
+                      $state.go('vetHomepage');
                     }
                     //otherwise just go to the signin page, no one is signed in
                     else{
@@ -48,7 +48,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/patients/views/overview.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
 	  .state('progressForms', {
             url: '/progressForms',
@@ -59,7 +62,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/forms/views/progressForms.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
 	  .state('enrollmentForm', {
             url: "/enrollmentForm",
@@ -70,7 +76,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/forms/views/enrollmentForm.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
       .state('vetFeedback', {
               url: "/vetFeedback",
@@ -81,10 +90,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                   "content": {
                       templateUrl: "modules/forms/views/feedbackForm.client.view.html"
                   }
-              }//,
-              // data: {
-              //   roles: ['admin']
-              //   }
+              },
+              data: {
+                roles: ['user']
+                }
         })
 	  .state('exitForm', {
             url: "/exitForm",
@@ -95,7 +104,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/forms/views/exitForm.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
 	  .state('vetHomepage', {
             url: "/vetHome",
@@ -103,7 +115,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/practices/views/vetHomepage.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
       //begin adding new states from users routes folder
       .state('settings', {
@@ -154,10 +169,16 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         url: '/signup',
        
         views: {
+          "sidebar": {
+                    templateUrl: "/modules/core/views/auxSidebar.client.view.html"
+                },
             "content": {
                 templateUrl: "modules/users/views/authentication/signup.client.view.html"
             }
-          }
+          },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('signin', {
         url: '/signin?err',
@@ -213,6 +234,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
           }
       })
+
       //begin adding routes for AuxThera view
       .state('auxOverview', {
             url: "/auxOverview",
@@ -223,7 +245,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxOverview.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('auxFeedback', {
             url: "/auxFeedback",
@@ -234,7 +259,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxFeedback.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('auxCallList', {
             url: "/auxCallList",
@@ -245,7 +273,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxCallList.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('auxUpdates', {
             url: "/auxUpdates",
@@ -256,7 +287,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxUpdates.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
 
 

@@ -167,12 +167,16 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             }
           }
       })
-      .state('password', {
-        abstract: true,
-        url: '/password',
-        template: '<ui-view/>'
-      })
-      .state('password.forgot', {
+      // getting rid of this abstract state makes life easier
+      // now we can access the forgot password page, state is defined right below these comments
+      // .state('password', {
+      //   abstract: true,
+      //   url: '/password',
+      //   template: '<ui-view/>'
+      // })
+      // this is for the forgot password state, got rid of password. abstract state
+      // should go ahead and modify the rest of the abstract state stuff as well!
+      .state('forgot', {
         url: '/forgot',
         views: {
             "content": {

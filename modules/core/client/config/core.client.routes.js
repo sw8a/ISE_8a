@@ -14,19 +14,30 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             "content":{
               template: '<div ui-view></div>',
               controller: function($state, Authentication){
-                if(Authentication.user){
-                    $state.go('vetHomepage');
-                }
-                else{
-                    $state.go('signin');
+
+                // if user is an admin route to their home page
+                  if(Authentication.user.roles == 'admin'){
+                    $state.go('auxOverview');
+                    }
+                    // otherwise if they are a user, route to that homepage
+                    else if (Authentication.user.roles == 'user'){
+                      $state.go('vetHomepage');
+                    }
+                    //otherwise just go to the signin page, no one is signed in
+                    else{
+                      $state.go('signin');
+                    }
                 }
               }
-            }
-        } 
+            } 
       }) // end comment here
       .state('not-found', {
         url: '/not-found',
-        templateUrl: 'modules/core/views/404.client.view.html'
+        views:{
+            "content": {
+                templateUrl: 'modules/core/views/404.client.view.html'
+              }
+        }
       })
 	  .state('overview', {
             url: '/overview',
@@ -37,7 +48,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/patients/views/overview.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
 	  .state('progressForms', {
             url: '/progressForms',
@@ -48,7 +62,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/forms/views/progressForms.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
 	  .state('enrollmentForm', {
             url: "/enrollmentForm",
@@ -59,7 +76,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/forms/views/enrollmentForm.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
       .state('vetFeedback', {
               url: "/vetFeedback",
@@ -70,7 +90,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                   "content": {
                       templateUrl: "modules/forms/views/feedbackForm.client.view.html"
                   }
-              }
+              },
+              data: {
+                roles: ['user']
+                }
         })
 	  .state('exitForm', {
             url: "/exitForm",
@@ -81,7 +104,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/forms/views/exitForm.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
 	  .state('vetHomepage', {
             url: "/vetHome",
@@ -89,13 +115,15 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/practices/views/vetHomepage.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['user']
+                }
       })
       //begin adding new states from users routes folder
       .state('settings', {
           abstract: true,
           url: '/settings',
-          templateUrl: 'modules/users/views/settings/settings.client.view.html',
            views: {
             "content": {
                 templateUrl: "modules/users/views/settings/settings.client.view.html"
@@ -107,7 +135,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.profile', {
         url: '/profile',
-        templateUrl: 'modules/users/views/settings/edit-profile.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/settings/edit-profile.client.view.html"
@@ -116,7 +143,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.password', {
         url: '/password',
-        templateUrl: 'modules/users/views/settings/change-password.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/settings/change-password.client.view.html"
@@ -125,7 +151,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.accounts', {
         url: '/accounts',
-        templateUrl: 'modules/users/views/settings/manage-social-accounts.client.view.html',
       views: {
             "content": {
                 templateUrl: "modules/users/views/settings/manage-social-accounts.client.view.html"
@@ -134,7 +159,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('settings.picture', {
         url: '/picture',
-        templateUrl: 'modules/users/views/settings/change-profile-picture.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/settings/change-profile-picture.client.view.html"
@@ -143,28 +167,37 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('signup', {
         url: '/signup',
-        templateUrl: 'modules/users/views/authentication/signup.client.view.html',
+       
         views: {
+          "sidebar": {
+                    templateUrl: "/modules/core/views/auxSidebar.client.view.html"
+                },
             "content": {
                 templateUrl: "modules/users/views/authentication/signup.client.view.html"
             }
-          }
+          },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('signin', {
         url: '/signin?err',
-        templateUrl: 'modules/users/views/authentication/signin.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/authentication/signin.client.view.html"
             }
           }
       })
-      .state('password', {
-        abstract: true,
-        url: '/password',
-        template: '<ui-view/>'
-      })
-      .state('password.forgot', {
+      // getting rid of this abstract state makes life easier
+      // now we can access the forgot password page, state is defined right below these comments
+      // .state('password', {
+      //   abstract: true,
+      //   url: '/password',
+      //   template: '<ui-view/>'
+      // })
+      // this is for the forgot password state, got rid of password. abstract state
+      // should go ahead and modify the rest of the abstract state stuff as well!
+      .state('forgot', {
         url: '/forgot',
         views: {
             "content": {
@@ -179,7 +212,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.invalid', {
         url: '/invalid',
-        templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/password/reset-password-invalid.client.view.html"
@@ -188,7 +220,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.success', {
         url: '/success',
-        templateUrl: 'modules/users/views/password/reset-password-success.client.view.html',
          views: {
             "content": {
                 templateUrl: "modules/users/views/password/reset-password-success.client.view.html"
@@ -197,13 +228,13 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       })
       .state('password.reset.form', {
         url: '/:token',
-        templateUrl: 'modules/users/views/password/reset-password.client.view.html',
         views: {
             "content": {
                 templateUrl: "modules/users/views/password/reset-password.client.view.html"
             }
           }
       })
+
       //begin adding routes for AuxThera view
       .state('auxOverview', {
             url: "/auxOverview",
@@ -214,7 +245,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxOverview.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('auxFeedback', {
             url: "/auxFeedback",
@@ -225,7 +259,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxFeedback.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('auxCallList', {
             url: "/auxCallList",
@@ -236,7 +273,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxCallList.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
       .state('auxUpdates', {
             url: "/auxUpdates",
@@ -247,7 +287,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 "content": {
                     templateUrl: "modules/auxthera/views/auxUpdates.client.view.html"
                 }
-            }
+            },
+              data: {
+                roles: ['admin']
+                }
       })
 
 

@@ -6,9 +6,9 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     $scope.authentication = Authentication;
         console.log($scope.authentication)
         if (!$scope.authentication.user) {
-        $location.path('/');
-        console.log($scope.authentication)
-            }
+            $location.path('/');
+            console.log($scope.authentication);
+        }
     $scope.activePatient = ActivePatient.getActivePatient();
 
     var today = new Date();

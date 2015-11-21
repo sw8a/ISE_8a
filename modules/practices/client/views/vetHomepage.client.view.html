@@ -49,28 +49,28 @@
         </table>
 
         <div class="tableContainer tableContainerBottomBorder mCustomScrollbar" data-mcs-theme="dark-3">
-        <table class="table table-bordered patientListTable">
-            <tbody>
+            <table class="table table-bordered patientListTable">
+                <tbody>
 
-                <tr ng-repeat="patient in activePatientsFiltered" ng-click="selectPatient(patient)" class="patientTableRow">
-                    
-                    <td class="col-xs-1"> {{ patient.patientId }} </td>
+                    <tr ng-repeat="patient in activePatientsFiltered" ng-click="selectPatient(patient)" class="patientTableRow">
+                        
+                        <td class="col-xs-1"> {{ patient.patientId }} </td>
 
-                    <td class="col-xs-2"> {{ patient.firstName }} </td>
+                        <td class="col-xs-2"> {{ patient.firstName }} </td>
 
-                    <td class="col-xs-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+                        <td class="col-xs-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
 
-                    <td class="col-xs-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
-                    
-                    <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="col-xs-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        
+                        <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
 
-                    <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
 
-                    <td class="col-xs-2"> Visit <!-- {{ patient.X }} --> </td>
-                </tr>
+                        <td class="col-xs-2"> Visit <!-- {{ patient.X }} --> </td>
+                    </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
 
         <div class="row newPatientButton">

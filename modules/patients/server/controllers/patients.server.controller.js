@@ -101,10 +101,11 @@ exports.updatePatient = function (req, res) {
             );
         }
     }
-
+    
+    /*
     else {
         // All other edits would be done here
-    }
+    }*/
 };
 
 exports.getPatient = function (req, res) {

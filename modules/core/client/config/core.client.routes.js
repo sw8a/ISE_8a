@@ -294,6 +294,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 data: {
                     roles: ['admin']
                 }
-            })
+            });
     }
 ]);

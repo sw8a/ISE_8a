@@ -1,18 +1,13 @@
 'use strict';
 
 angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', '$location', '$stateParams', 'ActivePatient',
-    function ($scope, Authentication, PracticesService, PatientsService, $location, $stateParams, ActivePatient) {
+    function($scope, Authentication, PracticesService, PatientsService, $location, $stateParams, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
         $scope.authentication = Authentication;
 
         //console.log($scope.authentication.user );
         // if a user is not logged in, route us back to the root
-        if (!$scope.authentication.user) 
-        {
-            $location.path('/');
-        }
-        
         if (!$scope.authentication.user) {
             $location.path('/');
         }
@@ -24,7 +19,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.search = '';
 
 
-        $scope.newPatientClick = function () {
+        $scope.newPatientClick = function() {
             // Clear active patient
             ActivePatient.setActivePatient({});
 
@@ -33,14 +28,14 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
         };
 
-        $scope.selectPatient = function (selectedPatient) {
+        $scope.selectPatient = function(selectedPatient) {
             // Get active patient to populate forms
             var patient = new PatientsService({
                 _id: selectedPatient._id,
                 populateForms: true
             });
-            
-            patient.$get(function( selectActivePatientResponse ) {
+
+            patient.$get(function(selectActivePatientResponse) {
                 ActivePatient.setActivePatient(selectActivePatientResponse);
 
                 // Redirect to overview
@@ -49,14 +44,14 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
 
-        $scope.getPractice = function () {
+        $scope.getPractice = function() {
 
             var practice = new PracticesService({
                 _id: '5639a8f129e356c349ff1934'
             });
 
-            $scope.getPracticePromise = practice.$get(function (practiceResponse) {
-                
+            $scope.getPracticePromise = practice.$get(function(practiceResponse) {
+
                 ActivePatient.setActivePractice(practiceResponse);
 
                 $scope.patients = practiceResponse.patients;
@@ -66,16 +61,17 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 ActivePatient.setPatientNeedsUpdate();
                 console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
-                for(var i = 0; i < practiceResponse.patients.length; i++) {
-                    if(practiceResponse.patients[i].exitForm === undefined) {
+                for (var i = 0; i < practiceResponse.patients.length; i++) {
+                    if (practiceResponse.patients[i].exitForm === undefined) {
                         $scope.activePatientsList.push(practiceResponse.patients[i]);
                     }
                 }
 
                 $scope.activePatientsFiltered = $scope.activePatientsList;
 
-                $('.tableContainer').mCustomScrollbar({scrollbarPosition: 'outside',
-                    callbacks:{
+                $('.tableContainer').mCustomScrollbar({
+                    scrollbarPosition: 'outside',
+                    callbacks: {
                         //alwaysTriggerOffsets: true,
                         /*onTotalScroll:function(){
                             $('.tableContainer').removeClass('tableContainerBottomBorder');
@@ -85,11 +81,10 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                             $('.tableContainer').addClass('tableContainerBottomBorder');
                             console.log('movin');
                         },*/
-                        whileScrolling:function(){
-                            if(this.mcs.topPct === 100) {
+                        whileScrolling: function() {
+                            if (this.mcs.topPct === 100) {
                                 $('.tableContainer').removeClass('tableContainerBottomBorder');
-                            }
-                            else {
+                            } else {
                                 $('.tableContainer').addClass('tableContainerBottomBorder');
                             }
                         }
@@ -129,7 +124,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         function searchFilter(item) {
             for (var i = 0; i < $scope.keysToSearch.length; i++) {
                 if (item.hasOwnProperty($scope.keysToSearch[i])) {
-                    if(item[$scope.keysToSearch[i]].toLowerCase().indexOf($scope.search.toLowerCase()) > -1) {
+                    if (item[$scope.keysToSearch[i]].toLowerCase().indexOf($scope.search.toLowerCase()) > -1) {
                         return true;
                     }
                 }
@@ -143,7 +138,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 angular.module('practices').filter('dateFormat', function($filter) {
 
     return function(input) {
-        if(input === null) {
+        if (input === null) {
             return '';
         }
 

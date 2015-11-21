@@ -15,6 +15,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                         template: '<div ui-view></div>',
                         controller: function($state, Authentication) {
 
+                            // Warnings for == must remain, === will not work
+
                             // if user is an admin route to their home page
                             if (Authentication.user.roles == 'admin') {
                                 $state.go('auxOverview');

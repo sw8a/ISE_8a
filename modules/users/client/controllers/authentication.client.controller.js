@@ -33,8 +33,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
                 // And redirect to the previous or home page
                 $state.go('home');
-                $location.path('/overview');
-                console.log('login success');
             }).error(function(response) {
                 $scope.error = response.message;
             });

@@ -16,11 +16,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                         controller: function($state, Authentication) {
 
                             // if user is an admin route to their home page
-                            if (Authentication.user.roles === 'admin') {
+                            if (Authentication.user.roles == 'admin') {
                                 $state.go('auxOverview');
                             }
                             // otherwise if they are a user, route to that homepage
-                            else if (Authentication.user.roles === 'user') {
+                            else if (Authentication.user.roles == 'user') {
                                 $state.go('vetHomepage');
                             }
                             //otherwise just go to the signin page, no one is signed in

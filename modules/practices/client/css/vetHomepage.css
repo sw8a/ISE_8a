@@ -55,6 +55,27 @@
 }
 
 .patientListTable {
-    height: 300px;
+    /*height: 100px;
+    overflow-y: auto;*/
+    /*width: 100%;
+    overflow: visible;
+    box-sizing: border-box;*/
+    margin: 0;
+    padding: 0;
+}
+
+.tableContainer {
     overflow: auto;
+    height: 300px;
+    margin: 0;
+    padding: 0;
+    margin-top: -21px;
+}
+
+.tableContainerBottomBorder {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.newPatientButton {
+    margin-top: 15px;
 }

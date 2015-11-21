@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="/modules/core/css/paginationStyles.css">    
-
 <div data-ng-controller="practicesController" data-ng-init="getPractice()">
     <div class="row">
      
@@ -12,86 +10,78 @@
     </div>
 
     <div class="row">
-        <h1 class="text-center">Patient List</h1>
+        <h1 class="text-center">[PRACTICE]'s Active Patient List</h1>
     </div>
 
-    <div class="TableComponents" data-ng-controller="paginationController as pagn">
+    <div class="TableComponents">
         <div class="row heavy-top-buffer">
-            <div class="col-md-9 col-sm-8">
-                <div class="AddButton">
-                    <button ng-click="newPatientClick()" class="btn btn-primary" type="button">Add New
-                    Patient</button>
-                </div>
-            </div>
-
             <div class="col-md-3 col-sm-4 pull-right">
                 <div class="input-group">
                     <!-- Search input -->
-                    <input type="text" data-ng-model="pagn.search" ng-change="pagn.searchChange()" default="''">
+                    <input type="text" data-ng-model="search" ng-change="searchChange()" default="''">
 
                     <!-- Clear search input -->
-                    <button ng-click="pagn.search=''; pagn.searchChange()">X</button>
+                    <button ng-click="search=''; searchChange()">X</button>
                 </div>
             </div>
         </div>
 
         <br>
 
-        <!-- Set data to repeat -->
-        {{pagn.paginationItemList=patients;""}}
-        {{pagn.keysToSearch=['patientId', 'firstName'];""}}
-        {{pagn.initFilteredData(done);""}}
-
-        <div class="patientListTable">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Patient Number</th>
+                    <th class="col-xs-1">Patient ID</th>
 
-                    <th>Patient Name</th>
+                    <th class="col-xs-2">Patient Name</th>
 
-                    <th>Dog Breed</th>
+                    <th class="col-xs-2">Client Name</th>
 
-                    <th>Date Started</th>
+                    <th class="col-xs-2">Client Phone Number</th>
+
+                    <th class="col-xs-2">Date Started</th>
+
+                    <th class="col-xs-2">Next Appointment</th>
+
+                    <th class="col-xs-2">Call or Visit</th>
                 </tr>
             </thead>
-                <tbody>
+        </table>
 
-                    <tr ng-repeat="patient in pagn.filteredData | startFrom:(pagn.currentPage-1)*pagn.itemsPerPage | limitTo:pagn.itemsPerPage" ng-click="" class="">
-                        
-                        <td> {{ patient.patientId }} </td>
+        <div class="tableContainer tableContainerBottomBorder mCustomScrollbar" data-mcs-theme="dark-3">
+        <table class="table table-bordered patientListTable">
+            <tbody>
 
-                        <td> {{ patient.firstName }} </td>
+                <tr ng-repeat="patient in activePatientsFiltered" ng-click="selectPatient(patient)" class="patientTableRow">
+                    
+                    <td class="col-xs-1"> {{ patient.patientId }} </td>
 
-                        <td> {{ patient.breed }} </td>
+                    <td class="col-xs-2"> {{ patient.firstName }} </td>
 
-                        <td> {{ patient.dateCreated | date:'MM/dd/yyyy'}} </td>
-                        
-                    </tr>
+                    <td class="col-xs-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
 
-                </tbody>
+                    <td class="col-xs-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                    
+                    <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
+
+                    <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
+
+                    <td class="col-xs-2"> Visit <!-- {{ patient.X }} --> </td>
+                </tr>
+
+            </tbody>
         </table>
         </div>
-        <!-- Page navigation buttons -->
-        <div class="btn-group paginationPageNavigationControl" role="toolbar" ng-hide="pagn.totalPages()==1">
-            <!-- First page button -->
-            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(1)" ng-disabled="pagn.currentPage==1" role="group">&laquo</button>
-            <!-- Previous page button -->
-            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.currentPage-1)" ng-disabled="pagn.currentPage==1" role="group">‹</button>
 
-            <button type="button" ng-repeat="page in pagn.getPageNumbers() track by $index" ng-click="pagn.setPage(page)" class="btn btn-default paginationButton" ng-class="{ paginationButtonActive: pagn.currentPage==page }" role="group" ng-disabled="page=='...'">{{page}}</button>
-
-            <!-- Next page button -->
-            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.currentPage+1)" ng-disabled="pagn.currentPage==pagn.totalPages()" role="group">›</button>
-            <!-- Last page button -->
-            <button class="btn btn-default paginationButton" ng-click="pagn.setPage(pagn.totalPages())" ng-disabled="pagn.currentPage==pagn.totalPages()" role="group">&raquo</button>
-        </div>
-
-        <!-- Page size input -->
-        <div class="paginationPageSizeControl">
-            Items per page: 
-            <input type="number" min="1" max="100" class="form-control paginationPageSizeInput" data-ng-model="pagn.pageSizeInput" ng-change="pagn.setPageSize(pagn.pageSizeInput)">
+        <div class="row newPatientButton">
+            <div class="col-md-9 col-sm-8">
+                <div class="AddButton">
+                    <button ng-click="newPatientClick()" class="btn btn-primary" type="button">Add New
+                    Patient</button>
+                </div>
+            </div>
         </div>
 
     </div>
+
 </div>

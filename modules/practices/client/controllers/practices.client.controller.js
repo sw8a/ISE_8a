@@ -5,11 +5,16 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
         $scope.patients = ActivePatient.getActivePractice().patients;
         $scope.authentication = Authentication;
+        
         if (!$scope.authentication.user) {
-         $location.path('/');
-            }
+            $location.path('/');
+        }
 
-        $scope.done;
+        $scope.activePatientsList = [];
+        $scope.activePatientsFiltered = [];
+        $scope.keysToSearch = ['patientId', 'firstName'];
+
+        $scope.search = '';
 
 
         $scope.newPatientClick = function () {
@@ -43,10 +48,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 _id: '5639a8f129e356c349ff1934'
             });
 
-            console.log('done 1');
-            console.log($scope.done);
-
-            $scope.done = practice.$get(function (practiceResponse) {
+            $scope.getPracticePromise = practice.$get(function (practiceResponse) {
                 
                 ActivePatient.setActivePractice(practiceResponse);
 
@@ -55,16 +57,41 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 console.log('APc: ' + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
                 ActivePatient.setPatientNeedsUpdate();
-                console.log("APt: " + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+                console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
-                console.log('done 2');
-                console.log($scope.done);
+                for(var i = 0; i < practiceResponse.patients.length; i++) {
+                    if(practiceResponse.patients[i].exitForm === undefined) {
+                        $scope.activePatientsList.push(practiceResponse.patients[i]);
+                    }
+                }
+
+                $scope.activePatientsFiltered = $scope.activePatientsList;
+
+                $('.tableContainer').mCustomScrollbar({scrollbarPosition: 'outside',
+                    callbacks:{
+                        //alwaysTriggerOffsets: true,
+                        /*onTotalScroll:function(){
+                            $('.tableContainer').removeClass('tableContainerBottomBorder');
+                            console.log('at end');
+                        },
+                        onScrollStart:function(){
+                            $('.tableContainer').addClass('tableContainerBottomBorder');
+                            console.log('movin');
+                        },*/
+                        whileScrolling:function(){
+                            if(this.mcs.topPct === 100) {
+                                $('.tableContainer').removeClass('tableContainerBottomBorder');
+                            }
+                            else {
+                                $('.tableContainer').addClass('tableContainerBottomBorder');
+                            }
+                        }
+                    }
+
+                });
 
                 return;
             });
-
-            console.log('done 3');
-            console.log($scope.done);
 
             /*
             // Create new practice
@@ -86,5 +113,34 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             });
             */
         };
+
+        $scope.searchChange = function() {
+            $scope.activePatientsFiltered = $scope.activePatientsList;
+            $scope.activePatientsFiltered = $scope.activePatientsFiltered.filter(searchFilter);
+        };
+
+        function searchFilter(item) {
+            for (var i = 0; i < $scope.keysToSearch.length; i++) {
+                if (item.hasOwnProperty($scope.keysToSearch[i])) {
+                    if(item[$scope.keysToSearch[i]].toLowerCase().indexOf($scope.search.toLowerCase()) > -1) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 ]);
+
+angular.module('practices').filter('dateFormat', function($filter) {
+
+    return function(input) {
+        if(input == null) {
+            return '';
+        }
+
+        return $filter('date')(new Date(input), 'dd MMM yyyy');
+    };
+
+});

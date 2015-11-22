@@ -7,7 +7,7 @@
               <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="sidebarLogoImg">
           </li>
           <li>
-              <a ui-sref="overview">
+              <a ui-sref="auxOverview">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-home dashGlyph" aria-hidden="true"></span> Overview
                   </button>
@@ -15,31 +15,44 @@
           </li>
 
           <li>
-              <a ui-sref="progressForms">
+              <a ui-sref="auxCallList">
                   <button class="dashButton">
-                      <span class="glyphicon glyphicon-check dashGlyph" aria-hidden="true"></span> Progress Form
+                      <span class="glyphicon glyphicon-earphone dashGlyph"></span> Patient Call List
+                      <span class="badge">12</span></button>
                   </button>
               </a>
           </li>
 
           <li>
-              <a ui-sref="enrollmentForm">
+              <a ui-sref="auxFeedback">
                   <button class="dashButton">
-                      <span class="glyphicon glyphicon-list-alt dashGlyph" aria-hidden="true"></span> Enrollment Form
+                      <span class="glyphicon glyphicon-th-list dashGlyph"></span>Feedback Viewer
+                      <span class="badge">7</span></button>
+                  </button>
+              </a>
+          </li>
+
+          
+          <li>
+              <a ui-sref="auxUpdates">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-book dashGlyph" aria-hidden="true"></span> New Updates
+                      <span class="badge">2</span></button>
+                  </button>
+              </a>
+          </li>
+          
+
+          <li>
+              <a ui-sref="signup">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-user dashGlyph" aria-hidden="true"></span> 
+                      Sign up a new user
                   </button>
               </a>
           </li>
 
           <!--
-          <li>
-              <a ui-sref="">
-                  <button class="dashButton">
-                      <span class="glyphicon glyphicon-book dashGlyph" aria-hidden="true"></span> Patient Diary
-                  </button>
-              </a>
-          </li>
-          -->
-          
           <li>
             <a ui-sref="vetFeedback">
                 <button class="dashButton">
@@ -47,23 +60,7 @@
                 </button>
             </a>
           </li>
-
-
-          <li>
-              <a ui-sref="exitForm">
-                  <button class="dashButton">
-                      <span class="glyphicon glyphicon-send dashGlyph" aria-hidden="true"></span> Exit Form
-                  </button>
-              </a>
-          </li>
-
-          <li>
-              <a ui-sref="vetHomepage">
-                  <button class="dashButton">
-                      <span class="glyphicon glyphicon-list dashGlyph" aria-hidden="true"></span> Return to Patient List
-                  </button>
-              </a>
-          </li>
+          -->
 
           <li class="logOutButton">
               <a href="/api/auth/signout" target ="_self">

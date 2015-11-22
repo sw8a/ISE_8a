@@ -5,7 +5,9 @@ module.exports = {
     lib: {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+        'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.css'
+        
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -18,7 +20,9 @@ module.exports = {
         'public/lib/jquery/dist/jquery.min.js',
         'public/lib/bootstrap/dist/js/*.js',
         'public/lib/Chart.js/Chart.js',
-        'public/lib/angular-chart.js/angular-chart.js'
+        'public/lib/angular-chart.js/angular-chart.js',
+        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js'
+        
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

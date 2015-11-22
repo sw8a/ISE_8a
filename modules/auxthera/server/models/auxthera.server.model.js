@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
-var feedbackSchema = new Schema({
+var FeedbackSchema = new Schema({
     
     dateCreated: {
         type: Date,
@@ -14,17 +14,22 @@ var feedbackSchema = new Schema({
         default: false
     },
 
-    viewed: {
-        type: Boolean,
-        default: false
-    },
+    //dateViewed: Date,
 
-    dateViewed: Date,
-
-    content: {
-        type: String,
-        trim: true
-    },
+    messages: [{
+        message: {
+            type: String,
+            trim: true
+        },
+        dateCreated: {
+            type: Date,
+            default: Date.now
+        },
+        read: {
+            type: Boolean,
+            default: false
+        }
+    }],
 
     patient: {
         type: Schema.ObjectId,
@@ -35,8 +40,13 @@ var feedbackSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Practice'
     },
+
+    company: {
+        type: Schema.ObjectId,
+        ref: 'Auxthera'
+    }
 },
 { collection: 'feedback' });
 
 
-mongoose.model('Feedback', feedbackSchema);
+mongoose.model('Feedback', FeedbackSchema);

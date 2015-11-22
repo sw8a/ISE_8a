@@ -1,14 +1,15 @@
 <div data-ng-controller="practicesController" data-ng-init="getPractice()">
 
-    <div class="row">
+    <div class="row paddedRow">
      
-    <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="vetHomeLogoImg">
+        <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="vetHomeLogoImg">
 
-             <a href="/api/auth/signout" target ="_self">
-                <button class="btn btn-primary pull-right" type="button">
-                    Logout
-                </button>    
-            </a>   
+        <a href="/api/auth/signout" target ="_self">
+            <button class="btn btn-primary pull-right" type="button">
+                Logout
+            </button>    
+        </a>   
+
     </div>
 
     <div class="row">
@@ -19,13 +20,19 @@
         <div class="row heavy-top-buffer">
 
             <div class="col-md-3 col-sm-4 pull-right">
+                
                 <div class="input-group">
                     <!-- Search input -->
-                    <input type="text" data-ng-model="search" ng-change="searchChange()" default="''">
+                    <input type="text" data-ng-model="search" ng-change="searchChange()" default="''" class="form-control" placeholder="Search">
 
                     <!-- Clear search input -->
-                    <button ng-click="search=''; searchChange()">X</button>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="search=''; searchChange()">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </span>
                 </div>
+
             </div>
         </div>
 

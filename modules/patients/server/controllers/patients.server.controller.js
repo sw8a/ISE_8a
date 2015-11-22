@@ -10,7 +10,6 @@ var path = require('path'),
 // Saves the progress form
 exports.saveNewPatient = function (req, res) {
     var patient = new Patient(req.body);
-    console.log("in save new patient serer controller");
     console.log(patient);
 
     patient.save(function (err) {

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', '$location', '$stateParams', 'ActivePatient',
-    function($scope, Authentication, PracticesService, PatientsService, $location, $stateParams, ActivePatient) {
+angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', 'FeedbackService', '$location', '$stateParams', 'ActivePatient',
+    function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
 
@@ -43,17 +43,6 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 $location.path('/overview');
             });
         };
-
-        $scope.setPageSize = function (selectedPageSize) {
-            $scope.pageSize = selectedPageSize;
-        };
-
-        $scope.getPageNumbers = function() {
-            var numOfPages = $scope.numberOfPages();
-            console.log(numOfPages);
-            return new Array(+numOfPages);
-        };
-
 
         $scope.getPractice = function() {
 
@@ -143,6 +132,22 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
             return false;
         }
+
+
+        $scope.newFeedback = function() {
+
+            var feedback = new FeedbackService({
+                messages: [{ message: this.message }],
+                patient: ActivePatient.getActivePatient()._id,
+                practice: ActivePatient.getActivePractice()._id,
+                company: '5650077a8038b1a6d2e24bac' // user: Admin
+            });
+
+            feedback.$save(function(feedbackResponse) {
+                
+            });
+        };
+
     }
 ]);
 

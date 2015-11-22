@@ -3,8 +3,10 @@
 
 var path = require('path'),
     mongoose = require('mongoose'),
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+
     Feedback = mongoose.model('Feedback'),
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    DogBreeds = mongoose.model('DogBreeds');
     
 
 exports.saveNewFeedback = function (req, res) {

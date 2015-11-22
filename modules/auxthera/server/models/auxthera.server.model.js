@@ -2,6 +2,22 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
+var AuxtheraSchema = new Schema({
+    
+    dateCreated: {
+        type: Date,
+        default: Date.now
+    },
+    
+    feedback: [{
+        type: Schema.ObjectId,
+        ref: 'Feedback'
+    }]
+
+},
+{ collection: 'auxthera' });
+
+
 var FeedbackSchema = new Schema({
     
     dateCreated: {
@@ -49,4 +65,30 @@ var FeedbackSchema = new Schema({
 { collection: 'feedback' });
 
 
+
+
+
+/*
+Static Data databases:
+
+Dog breeds
+Dog food brands
+
+*/
+
+var DogBreedsSchema = new Schema({
+
+    breeds: [{
+        type: String,
+        trim: true
+    }]
+},
+{ collection: 'dogBreeds' });
+
+
+
+
+
+mongoose.model('DogBreeds', DogBreedsSchema);
 mongoose.model('Feedback', FeedbackSchema);
+mongoose.model('Auxthera', AuxtheraSchema);

@@ -1,56 +1,54 @@
 'use strict';
 
 
-// This code will be utilized for the feedback collection
-/*
 var path = require('path'),
     mongoose = require('mongoose'),
-    PetOwner = mongoose.model('PetOwner'),
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+
+    Feedback = mongoose.model('Feedback'),
+    DogBreeds = mongoose.model('DogBreeds');
     
 
-exports.saveNewPetOwner = function (req, res) {
-    var petOwner = new PetOwner(req.body);
+exports.saveNewFeedback = function (req, res) {
+    var feedback = new Feedback(req.body);
 
-    petOwner.save(function (err) {
+    feedback.save(function (err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(petOwner);
+            res.json(feedback);
         }
     });
 };
 
-exports.getPetOwner = function (req, res) {
-    res.json(req.petOwner);
+exports.getFeedback = function (req, res) {
+    res.json(req.feedback);
 };
 
 
-exports.petOwnerById = function (req, res, next, id) {
+exports.feedbackById = function (req, res, next, id) {
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
-            message: 'petOwner Id is invalid'
+            message: 'feedback Id is invalid'
         });
     }
 
-    PetOwner.findById(id, function (err, foundPetOwner) {
+    Feedback.findById(id, function (err, foundFeedback) {
         if (err) {
             return next(err);
         } 
-        else if (!foundPetOwner) {
+        else if (!foundFeedback) {
             return res.status(404).send({
-                message: 'No petOwner found'
+                message: 'No feedback found'
             });
         }
-        req.petOwner = foundPetOwner;
+        req.feedback = foundFeedback;
         next();
     });
 
 
 
 };
-
-*/

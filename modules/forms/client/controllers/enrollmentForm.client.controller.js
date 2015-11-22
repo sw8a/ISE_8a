@@ -71,8 +71,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                         $location.path('/overview');
                     });
                 });
-
-
             });
         };
 

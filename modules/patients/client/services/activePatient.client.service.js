@@ -18,6 +18,7 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
 
             getActivePatient: function() {
                 if(patientNeedsUpdate) {
+                    patientNeedsUpdate = false;
                     var patient = new PatientsService({
                         _id: activePatient._id,
                         populateForms: true
@@ -25,7 +26,6 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                     
                     patient.$get(function( updateActivePatientResponse ) {
                         activePatient = updateActivePatientResponse;
-                        patientNeedsUpdate = false;
                         return activePatient;
                     });
                 }
@@ -45,6 +45,7 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                 patient.$get(function( updateActivePatientResponse ) {
                     activePatient = updateActivePatientResponse;
                     patientNeedsUpdate = false;
+                    console.log('update done: ' + activePatient.firstName);
                     return activePatient;
                 });
             },

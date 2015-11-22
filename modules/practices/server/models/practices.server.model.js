@@ -31,7 +31,12 @@ var PracticeSchema = new Schema({
     
     petOwners: [{
         type: Schema.ObjectId,
-        ref: 'petOwner'
+        ref: 'PetOwner'
+    }],
+
+    feedback: [{
+        type: Schema.ObjectId,
+        ref: 'Feedback'
     }],
 
     changedData: [ {

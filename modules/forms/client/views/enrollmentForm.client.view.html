@@ -1,9 +1,9 @@
-<div class="eForms">
+<div class="eForms" data-ng-controller="enrollmentFormController" data-ng-init="initPatient()">
   <div class="page-header">
     <h1 class="text-center">Initial Health Assessment</h1>
   </div>
 
-  <form data-ng-submit="createEnrollmentForm()" class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2" data-ng-controller="enrollmentFormController" >
+  <form data-ng-submit="createEnrollmentForm()" class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
     <div class="form-group">
       <label for="petName">Pet First Name</label>
       <input data-ng-model="firstName" type="text" class="form-control" id="petName" placeholder="Pet Name" >

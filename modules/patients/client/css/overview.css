@@ -1,6 +1,6 @@
 /* Presented in order of appearance on overview.html */
 
-#progressPage {
+.progressPage {
 	font-family: Open Sans, Gadget, sans-serif; 
 	width:100%; 
 	padding-left: 330px; 
@@ -9,14 +9,16 @@
 	overflow: hidden; 
 }
 
-#headerH1 {
+/*
+.headerH1 {
 	background-color:#F4F4F4; 
 	color:#1A4B68; 
 	padding:0px; 
 	width:100%;
 }
+*/
 
-#boxOne {
+.boxOne {
 	background-color:#F4F4F4; 
 	color:#1A4B68; 
 	padding-left:2%; 
@@ -28,21 +30,21 @@
 	overflow-y: auto;
 }
 
-#floatLeft {
+.floatLeft {
 	float: left;
 }
 
-#floatLeftPadded {
+.floatLeftPadded {
 	float: left; 
 	padding-right:calc(50% - 200px);
 }
 
-#floatLeftNoPad {
+.floatLeftNoPad {
 	float: left; 
-	padding-left:0%;
+	padding-left: 0;
 }
 
-#boxTwo {
+.boxTwo {
 	background-color:#F4F4F4; 
 	color:#1A4B68; 
 	padding:2%; 
@@ -50,6 +52,6 @@
 	height:200px;
 }
 
-#floatRight {
+.floatRight {
 	float: right;
 }

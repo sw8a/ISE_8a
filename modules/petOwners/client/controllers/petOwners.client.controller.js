@@ -5,6 +5,6 @@ angular.module('petOwners').controller('petOwnersController', ['$scope', 'Authen
     	$scope.authentication = Authentication;
         if (!$scope.authentication.user) {
         	$location.path('/');
-        };
+        }
     }
 ]);

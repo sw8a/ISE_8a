@@ -1,0 +1,77 @@
+<div class="wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebarLogoImage">
+              <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="sidebarLogoImg">
+          </li>
+          <li>
+              <a ui-sref="auxOverview">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-home dashGlyph" aria-hidden="true"></span> Overview
+                  </button>
+              </a>
+          </li>
+
+          <li>
+              <a ui-sref="auxCallList">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-earphone dashGlyph"></span> Patient Call List
+                      <span class="badge">12</span></button>
+                  </button>
+              </a>
+          </li>
+
+          <li>
+              <a ui-sref="auxFeedback">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-th-list dashGlyph"></span>Feedback Viewer
+                      <span class="badge">7</span></button>
+                  </button>
+              </a>
+          </li>
+
+          
+          <li>
+              <a ui-sref="auxUpdates">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-book dashGlyph" aria-hidden="true"></span> New Updates
+                      <span class="badge">2</span></button>
+                  </button>
+              </a>
+          </li>
+          
+
+          <li>
+              <a ui-sref="signup">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-user dashGlyph" aria-hidden="true"></span> 
+                      Sign up a new user
+                  </button>
+              </a>
+          </li>
+
+          <!--
+          <li>
+            <a ui-sref="vetFeedback">
+                <button class="dashButton">
+                    <span class="glyphicon glyphicon-envelope dashGlyph" aria-hidden="true"></span> Feedback
+                </button>
+            </a>
+          </li>
+          -->
+
+          <li class="logOutButton">
+              <a href="/api/auth/signout" target ="_self">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-log-out dashGlyph" aria-hidden="true"></span> Log Out
+                  </button>
+              </a>
+          </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+</div>
+<!-- /#wrapper -->

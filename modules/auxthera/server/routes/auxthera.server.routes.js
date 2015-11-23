@@ -4,15 +4,14 @@ var auxthera = require('../controllers/auxthera.server.controller');
 
 
 module.exports = function(app) {
-    /*
-    app.route('/api/auxthera')
-        .post(petOwners.saveNewPetOwner);
 
-    app.route('/api/auxthera/:auxtheraId')
-        .get(petOwners.getPetOwner)
-        .post(petOwners.saveNewPetOwner);
+    app.route('/api/auxthera/feedback')
+        .post(auxthera.saveNewFeedback);
+
+    app.route('/api/auxthera/feedback/:feedbackId')
+        .get(auxthera.getFeedback)
+        .post(auxthera.saveNewFeedback);
 
 
-     app.param('petOwnerId', petOwners.petOwnerById);   
-    */
+     app.param('feedbackId', auxthera.feedbackById);   
 };

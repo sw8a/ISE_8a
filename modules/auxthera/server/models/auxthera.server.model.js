@@ -1,54 +1,94 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-// Schema template will be utilized later
-/*
-var PetOwnerSchema = new Schema({
+
+var AuxtheraSchema = new Schema({
     
     dateCreated: {
         type: Date,
         default: Date.now
     },
     
-    firstName: {
-        type: String,
-        trim: true
-    },
+    feedback: [{
+        type: Schema.ObjectId,
+        ref: 'Feedback'
+    }]
 
-    lastName: {
-        type: String,
-        trim: true
-    },
+},
+{ collection: 'auxthera' });
 
-    address: {
-        type: String,
-        trim: true
+
+var FeedbackSchema = new Schema({
+    
+    dateCreated: {
+        type: Date,
+        default: Date.now
     },
     
-    petOwnerId: {
-        type: String,
-        trim: true
+    important: {
+        type: Boolean,
+        default: false
     },
 
-    pets: [{
+    //dateViewed: Date,
+
+    messages: [{
+        message: {
+            type: String,
+            trim: true
+        },
+        dateCreated: {
+            type: Date,
+            default: Date.now
+        },
+        read: {
+            type: Boolean,
+            default: false
+        }
+    }],
+
+    patient: {
         type: Schema.ObjectId,
         ref: 'Patient'
-    }],
+    },
     
     practice: {
         type: Schema.ObjectId,
         ref: 'Practice'
     },
 
-    changedData: [ {
-        dateChanged: {
-            type: Date,
-            default: Date.now
-        }
-    } ]
+    company: {
+        type: Schema.ObjectId,
+        ref: 'Auxthera'
+    }
 },
-{ collection: 'pet_owners' });
+{ collection: 'feedback' });
 
 
-mongoose.model('PetOwner', PetOwnerSchema);
+
+
+
+/*
+Static Data databases:
+
+Dog breeds
+Dog food brands
+
 */
+
+var DogBreedsSchema = new Schema({
+
+    breeds: [{
+        type: String,
+        trim: true
+    }]
+},
+{ collection: 'dogBreeds' });
+
+
+
+
+
+mongoose.model('DogBreeds', DogBreedsSchema);
+mongoose.model('Feedback', FeedbackSchema);
+mongoose.model('Auxthera', AuxtheraSchema);

@@ -28,7 +28,9 @@
                 </div>
             </accordion-heading>
             <accordion-body>
+
                 <form data-ng-submit="createProgressForm()" class="form-horizontal">
+
                     <!-- Actual form-->
                     <div class="row">
                         <div class="col-sm-8 col-md-7">
@@ -130,11 +132,16 @@
                     <!-- Row containing Cancel and Save button -->
                     <div class="row">
                         <div class="col-xs-6 col-xs-offset-6">
-                            <button type="button" class="btn btn-primary pull-right" ng-class="{true: 'btn-primary', false: 'btn-danger'}" >Save</button>
+
+                            <button type="submit" class="btn btn-primary pull-right">Save</button>
+
                             <button ng-click="cancelEditing()" type="button" class="btn btn-default pull-right">Cancel</button>
+
                         </div>
                     </div>
+
                 </form>
+
             </accordion-body>
         </accordion-group>
         <br/>
@@ -157,7 +164,10 @@
                 </div>
             </accordion-heading>
             <acordion-body>
+
                 <form data-ng-submit="createProgressForm()" class="form-horizontal">
+                <!-- submit should be changed to 'editProgressForm()' for past forms -->
+
                     <!-- Actual form-->
                     <div class="row">
                         <div class="col-sm-8 col-md-7">
@@ -261,12 +271,17 @@
                         <div class="col-xs-6 col-xs-offset-6">
                             <button ng-show="disableField" ng-click="editForm()" type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
                             <fieldset ng-show="!disableField">
-                                <button type="button" class="btn btn-primary pull-right" ng-class="{true: 'btn-primary', false: 'btn-danger'}" >Save</button>
+
+                                <button type="submit" class="btn btn-primary pull-right">Save</button>
+
                                 <button ng-click="cancelEditing()" type="button" class="btn btn-default pull-right">Cancel</button>
+
                             </fieldset>
                         </div>
                     </div>
+
                 </form>
+
             </acordion-body>
         </accordion-group>
     </accordion>

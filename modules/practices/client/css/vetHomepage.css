@@ -23,7 +23,7 @@
 }
 
 .TableComponents {
-    width: 70%;
+    width: 80%;
     margin: 0 auto
 }
 
@@ -83,4 +83,13 @@
 
 .paddedRow {
     padding: 10px;
+}
+
+.notSelectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

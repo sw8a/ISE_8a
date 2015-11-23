@@ -22,6 +22,8 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.createProgressForm = function() {
             // Create new ProgressForm object
 
+            console.log('create p form');
+
             var progressForm = new ProgressFormsService({
                 weight: this.weight,
                 trimauxilUse: this.trimauxilUse,
@@ -35,6 +37,8 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
             progressForm.$save(function(progressFormResponse) {
                 // Function that is executed after save
+
+                console.log('saved p form');
 
                 var patient = new PatientsService({
                     _id: ActivePatient.getActivePatient()._id,

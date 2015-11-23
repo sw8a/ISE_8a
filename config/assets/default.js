@@ -6,7 +6,8 @@ module.exports = {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.css'
+        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.css',
+        'public/lib/font-awesome/css/font-awesome.min.css'
         
       ],
       js: [

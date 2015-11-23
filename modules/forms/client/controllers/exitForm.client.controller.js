@@ -10,6 +10,10 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
             console.log($scope.authentication);
         }
 
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+        };
+
         $scope.createExitForm = function() {
 
             var exitForm = new ExitFormsService({

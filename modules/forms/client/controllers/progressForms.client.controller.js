@@ -14,6 +14,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             $location.path('/');
         }
 
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+        };
+
         // Create new progress form
         $scope.createProgressForm = function() {
             // Create new ProgressForm object

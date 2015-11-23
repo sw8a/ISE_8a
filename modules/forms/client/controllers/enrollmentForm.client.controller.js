@@ -9,7 +9,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             $location.path('/');
             console.log($scope.authentication);
         }
-        $scope.activePatient = ActivePatient.getActivePatient();
 
         var today = new Date();
         var month = today.getMonth(); //months from 1-12
@@ -17,6 +16,10 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         var year = today.getFullYear();
         today = new Date(year, month, day);
         $scope.todayDate = today;
+
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+        };
 
         $scope.createEnrollmentForm = function() {
 

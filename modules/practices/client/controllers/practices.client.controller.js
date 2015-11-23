@@ -16,8 +16,21 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.activePatientsList = [];
         $scope.activePatientsFiltered = [];
         $scope.keysToSearch = ['patientId', 'firstName'];
+        $scope.sortBy = '';
 
         $scope.search = '';
+
+        $scope.changeSort = function(sortRequest) {
+            if($scope.sortBy === sortRequest) {
+                $scope.sortBy = '-' + sortRequest;
+            }
+            else if($scope.sortBy === ('-' + sortRequest)) {
+                $scope.sortBy = '';
+            }
+            else {
+                $scope.sortBy = sortRequest;
+            }
+        };
 
 
         $scope.newPatientClick = function() {
@@ -44,7 +57,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             });
         };
 
-        $scope.getPractice = function() {
+        $scope.initPractice = function() {
 
             var practice = new PracticesService({
                 _id: '5639a8f129e356c349ff1934'
@@ -69,6 +82,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
                 $scope.activePatientsFiltered = $scope.activePatientsList;
 
+                // Initialize scroll bar
                 $('.tableContainer').mCustomScrollbar({
                     scrollbarPosition: 'outside',
                     callbacks: {

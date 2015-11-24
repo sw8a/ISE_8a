@@ -24,6 +24,19 @@
 	top: 10px;
 	left: 75%;
 }
+.clientInfo {
+	display: inline-block;
+  max-width: 100%;
+  margin-top: 28px;
+	margin-left: -15px;
+  font-weight: bold;
+}
+.negativeLeftMargin {
+	margin-left: -20px;
+}
+p {
+	text-align: left;
+}
 input {
   border: 1px solid #ccc;
   border-radius: 3px;

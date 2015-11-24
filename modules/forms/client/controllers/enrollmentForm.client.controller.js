@@ -4,8 +4,12 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     function ($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+        console.log($scope.authentication)
+        if (!$scope.authentication.user) {
+            $location.path('/');
+            console.log($scope.authentication);
+        }
     $scope.activePatient = ActivePatient.getActivePatient();
-    $scope.disableInput = true;
 
     $scope.practiceInfo = {
         preferredUnit: "kg"
@@ -20,8 +24,18 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     $scope.breed = $scope.activePatient.breed;
     $scope.bcs = $scope.activePatient.bcs;
 
+    if($scope.firstName) {
+      $scope.disableInput = true;
+    }
+    else {
+      $scope.disableInput = false;
+    }
+
     $scope.editForm = function() {
       $scope.disableInput = false;
+    }
+    $scope.cancelEdit = function() {
+      $scope.disableInput = true;
     }
 
     var today = new Date();
@@ -99,6 +113,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     };
 
     $scope.patientInfo.idealWeight = function () {
+      if($scope.disableInput) {
         var currWeight = $scope.activePatient.startWeight;
         var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
         var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
@@ -109,6 +124,19 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         else {
           return (idealWeight*2.20462).toFixed(2);
         }
+      }
+      else {
+        var currWeight = $scope.startWeight;
+        var bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
+        var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
+
+        if($scope.practiceInfo.preferredUnit === "kg") {
+          return idealWeight.toFixed(2);
+        }
+        else {
+          return (idealWeight*2.20462).toFixed(2);
+        }
+      }
     };
 
     $scope.patientInfo.cupsPerFeeding = function () {
@@ -132,8 +160,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             diff = now.year % date.year;
 
         // Do not update the date unless it is time
-        if (now.month < date.month ||
-            now.month === date.month && now.day < date.day) {
+        if (now.month < date.month || now.month === date.month && now.day < date.day) {
           diff -= 1;
         }
 

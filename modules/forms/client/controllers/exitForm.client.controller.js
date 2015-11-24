@@ -4,11 +4,18 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
   function ($scope, Authentication, $location, $stateParams, ExitFormsService, PatientsService,ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+
     $scope.activePatient = ActivePatient.getActivePatient();
 
     $scope.practiceInfo = {
         preferredUnit: "kg"
     };
+
+    console.log($scope.authentication)
+    if (!$scope.authentication.user) {
+        $location.path('/');
+        console.log($scope.authentication);
+    }
 
     $scope.createExitForm = function () {
 

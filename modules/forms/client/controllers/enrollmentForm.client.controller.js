@@ -1,14 +1,15 @@
 'use strict';
 
-angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService','ActivePatient',
-    function ($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
-    // This provides Authentication context.
-    $scope.authentication = Authentication;
-        console.log($scope.authentication)
+angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'ActivePatient',
+    function($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
+        // This provides Authentication context.
+        $scope.authentication = Authentication;
+        console.log($scope.authentication);
         if (!$scope.authentication.user) {
             $location.path('/');
             console.log($scope.authentication);
         }
+
     $scope.activePatient = ActivePatient.getActivePatient();
 
     $scope.practiceInfo = {
@@ -45,60 +46,47 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     today = new Date(year, month, day);
     $scope.todayDate = today;
 
-    $scope.createEnrollmentForm = function () {
+    $scope.initPatient = function() {
+        $scope.activePatient = ActivePatient.getActivePatient();
+    };
+
+    $scope.createEnrollmentForm = function() {
 
         var patient = new PatientsService({
-            dateCreated: $scope.todayDate,
-            firstName: this.firstName,
-            patientId: this.patientId,
-            birthDate: this.birthDate,
-            sex: this.sex,
-            fixed: this.fixed,
-            breed: this.breed,
-            startWeight: this.startWeight,
-            bcs: this.bcs,
-            practice: ActivePatient.getActivePractice()._id
+          dateCreated: $scope.todayDate,
+          firstName: this.firstName,
+          patientId: this.patientId,
+          birthDate: this.birthDate,
+          sex: this.sex,
+          fixed: this.fixed,
+          breed: this.breed,
+          startWeight: this.startWeight,
+          bcs: this.bcs,
+          practice: ActivePatient.getActivePractice()._id
         });
 
         var enrollmentForm = new EnrollmentFormsService({
-            treats: this.treats,
-            currentMedications: this.currentMedications,
-            medicalHistory: this.medicalHistory,
-            peFindings: this.peFindings,
-            techId: this.techId,
-            vetId: this.vetId
+          treats: this.treats,
+          currentMedications: this.currentMedications,
+          medicalHistory: this.medicalHistory,
+          peFindings: this.peFindings,
+          techId: this.techId,
+          vetId: this.vetId
         });
 
-        patient.$save(function (patientResponse) {
-            ActivePatient.setActivePatient(patientResponse);
+        patient.$save(function(patientResponse) {
+          ActivePatient.setActivePatient(patientResponse);
 
-            var practice = new PracticesService({
-                _id: ActivePatient.getActivePractice()._id,
-                newPatient: patientResponse._id
-            });
+          var practice = new PracticesService({
+              _id: ActivePatient.getActivePractice()._id,
+              newPatient: patientResponse._id
+          });
 
-            practice.$update(function (updatePracticeResponse) {
-                ActivePatient.updateActivePractice();
-            });
-
-            enrollmentForm.patient = patientResponse._id;
-
-            enrollmentForm.$save(function (enrollmentFormResponse) {
-                // executed after save
-                //patientResponse.enrollmentForm = enrollmentFormResponse._id;
-                //patientResponse.formSave = true;
-                patient = new PatientsService({
-                    _id: patientResponse._id,
-                    enrollmentForm: enrollmentFormResponse._id,
-                    formSave: true
-                });
-
-                patient.$update(function (patientAddFormResponse) {
-                    ActivePatient.setPatientNeedsUpdate();
-                    $location.path('/overview');
-                });
-            });
+          practice.$update(function(updatePracticeResponse) {
+              ActivePatient.updateActivePractice();
+          });
         });
+      });
     };
 
     // Do they want some prepopulated values?
@@ -166,6 +154,5 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         return diff;
     };
-
   }
 ]);

@@ -62,7 +62,7 @@ exports.practiceById = function (req, res, next, id) {
         });
     }
 
-    Practice.findById(id).populate('patients').exec( function (err, foundPractice) {
+    Practice.findById(id).populate('patients feedback').exec( function (err, foundPractice) {
         if (err) {
             return next(err);
         } 

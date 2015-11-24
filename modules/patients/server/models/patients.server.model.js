@@ -21,10 +21,7 @@ var PatientSchema = new Schema({
         trim: true
     },
 
-    birthDate: {
-        type: Number,
-        min: 0
-    },
+    birthDate: Date,
     
     sex: {
         type: String,

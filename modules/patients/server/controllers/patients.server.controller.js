@@ -10,6 +10,7 @@ var path = require('path'),
 // Saves the progress form
 exports.saveNewPatient = function (req, res) {
     var patient = new Patient(req.body);
+    console.log(patient);
 
     patient.save(function (err) {
         if (err) {
@@ -101,10 +102,11 @@ exports.updatePatient = function (req, res) {
             );
         }
     }
-
+    
+    /*
     else {
         // All other edits would be done here
-    }
+    }*/
 };
 
 exports.getPatient = function (req, res) {

@@ -1,37 +1,38 @@
- <div data-ng-controller="practicesController">
-    <div class="row">
+<div data-ng-controller="practicesController" data-ng-init="initPractice()">
+
+    <div class="row paddedRow">
      
-  <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="vetHomeLogoImg">
-             <a href="/api/auth/signout" target ="_self">
-                <button class="btn btn-primary pull-right" type="button">
-                    Logout
-                </button>    
-            </a>   
+        <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="vetHomeLogoImg">
+
+        <a href="/api/auth/signout" target ="_self">
+            <button class="btn btn-primary pull-right" type="button">
+                Logout
+            </button>    
+        </a>   
+
     </div>
+
     <div class="row">
-        <h1 class="text-center">Patient List</h1>
+        <h1 class="text-center">[PRACTICE]'s Active Patient List</h1>
     </div>
 
     <div class="TableComponents">
         <div class="row heavy-top-buffer">
-            <div class="col-md-9 col-sm-8">
-                <div class="AddButton">
-                    <button ng-click="newPatientClick()" class="btn btn-primary" type="button">Add New
-                    Patient</button>
-                    <button ng-click="getPractice()" class="btn btn-primary" type="button">GET PRACTICE</button>
-                    <button ui-sref="overview" class="btn btn-primary" type="button">Go to Overview</button>
-                </div>
-            </div>
 
             <div class="col-md-3 col-sm-4 pull-right">
+                
                 <div class="input-group">
-                    <input class="form-control" id="srch-term" name="srch-term"
-                    placeholder="Search" type="text">
+                    <!-- Search input -->
+                    <input type="text" data-ng-model="search" ng-change="searchChange()" default="''" class="form-control" placeholder="Search">
 
-                    <div class="input-group-btn">
-                        <button class= "btn btn-default glyphicon glyphicon-search" style="font-style: italic" type="submit"></button>
-                    </div>
+                    <!-- Clear search input -->
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="search=''; searchChange()">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </span>
                 </div>
+
             </div>
         </div>
 
@@ -40,30 +41,78 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Patient Number</th>
+                    <th class="col-xs-1 notSelectable" ng-click="changeSort('patientId')">Patient ID 
+                        <span ng-show="sortBy == 'patientId'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-patientId'" class="fa fa-caret-up"></span>
+                    </th>
 
-                    <th>Patient Name</th>
+                    <th class="col-xs-2 notSelectable" ng-click="changeSort('firstName')">Patient Name 
+                        <span ng-show="sortBy == 'firstName'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-firstName'" class="fa fa-caret-up"></span>
+                    </th>
 
-                    <th>Dog Breed</th>
+                    <th class="col-xs-2 notSelectable" ng-click="changeSort('petOwner.lastName')">Client Name 
+                        <span ng-show="sortBy == 'petOwner.lastName'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-petOwner.lastName'" class="fa fa-caret-up"></span>
+                    </th>
 
-                    <th>Date Started</th>
+                    <th class="col-xs-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Client Phone Number 
+                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
+                    </th>
+
+                    <th class="col-xs-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Date Started 
+                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
+                    </th>
+
+                    <th class="col-xs-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Next Appointment 
+                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
+                    </th>
+
+                    <th class="col-xs-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Call or Visit 
+                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
+                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
+                    </th>
                 </tr>
             </thead>
-
-            <tbody>
-                <tr ng-repeat="patient in patients" ng-click="selectPatient(patient)" class="patientTableRow">
-                    
-                    <td> {{ patient.patientId }} </td>
-
-                    <td> {{ patient.firstName }} </td>
-
-                    <td> {{ patient.breed }} </td>
-
-                    <td> {{ patient.dateCreated | date:'MM/dd/yyyy'}} </td>
-                    
-                </tr>
-
-            </tbody>
         </table>
+
+        <div class="tableContainer tableContainerBottomBorder mCustomScrollbar" data-mcs-theme="dark-3">
+            <table class="table table-bordered patientListTable">
+                <tbody>
+
+                    <tr ng-repeat="patient in activePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
+                        
+                        <td class="col-xs-1"> {{ patient.patientId }} </td>
+
+                        <td class="col-xs-2"> {{ patient.firstName }} </td>
+
+                        <td class="col-xs-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+
+                        <td class="col-xs-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        
+                        <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
+
+                        <td class="col-xs-2"> {{ patient.dateCreated | dateFormat }} </td>
+
+                        <td class="col-xs-2"> Visit <!-- {{ patient.X }} --> </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row newPatientButton">
+            <div class="col-md-9 col-sm-8">
+                <div class="AddButton">
+                    <button ng-click="newPatientClick()" class="btn btn-primary" type="button">Add New
+                    Patient</button>
+                </div>
+            </div>
+        </div>
+
     </div>
+
 </div>

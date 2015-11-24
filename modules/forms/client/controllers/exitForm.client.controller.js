@@ -1,5 +1,6 @@
 'use strict';
 
+<<<<<<< HEAD
 angular.module('forms').controller('exitFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'ExitFormsService', 'PatientsService','ActivePatient',
   function ($scope, Authentication, $location, $stateParams, ExitFormsService, PatientsService,ActivePatient) {
     // This provides Authentication context.

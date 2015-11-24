@@ -13,7 +13,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.activePatient = ActivePatient.getActivePatient();
 
         $scope.practiceInfo = {
-            preferredUnit: "kg"
+            preferredUnit: 'kg'
         };
 
         $scope.firstName = $scope.activePatient.firstName;
@@ -26,18 +26,18 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.bcs = $scope.activePatient.bcs;
 
         if($scope.firstName) {
-          $scope.disableInput = true;
+            $scope.disableInput = true;
         }
         else {
-          $scope.disableInput = false;
+            $scope.disableInput = false;
         }
 
         $scope.editForm = function() {
-          $scope.disableInput = false;
-        }
+            $scope.disableInput = false;
+        };
         $scope.cancelEdit = function() {
-          $scope.disableInput = true;
-        }
+            $scope.disableInput = true;
+        };
 
         var today = new Date();
         var month = today.getMonth(); //months from 1-12
@@ -118,12 +118,15 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     };
 
     $scope.patientInfo.idealWeight = function () {
+        var currWeight;
+        var bodyFat;
+        var idealWeight;
       if($scope.disableInput) {
-        var currWeight = $scope.activePatient.startWeight;
-        var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
-        var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
+        currWeight = $scope.activePatient.startWeight;
+        bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
+        idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
 
-        if($scope.practiceInfo.preferredUnit === "kg") {
+        if($scope.practiceInfo.preferredUnit === 'kg') {
           return idealWeight.toFixed(2);
         }
         else {
@@ -131,11 +134,11 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         }
       }
       else {
-        var currWeight = $scope.startWeight;
-        var bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
-        var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
+        currWeight = $scope.startWeight;
+        bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
+        idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
 
-        if($scope.practiceInfo.preferredUnit === "kg") {
+        if($scope.practiceInfo.preferredUnit === 'kg') {
           return idealWeight.toFixed(2);
         }
         else {

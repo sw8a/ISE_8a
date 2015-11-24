@@ -10,84 +10,101 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             console.log($scope.authentication);
         }
 
-    $scope.activePatient = ActivePatient.getActivePatient();
-
-    $scope.practiceInfo = {
-        preferredUnit: "kg"
-    };
-
-    $scope.firstName = $scope.activePatient.firstName;
-    $scope.patientId = $scope.activePatient.patientId;
-    $scope.birthDate = $scope.activePatient.birthDate;
-    $scope.startWeight = $scope.activePatient.startWeight;
-    $scope.sex = $scope.activePatient.sex;
-    $scope.fixed = $scope.activePatient.fixed;
-    $scope.breed = $scope.activePatient.breed;
-    $scope.bcs = $scope.activePatient.bcs;
-
-    if($scope.firstName) {
-      $scope.disableInput = true;
-    }
-    else {
-      $scope.disableInput = false;
-    }
-
-    $scope.editForm = function() {
-      $scope.disableInput = false;
-    }
-    $scope.cancelEdit = function() {
-      $scope.disableInput = true;
-    }
-
-    var today = new Date();
-    var month = today.getMonth(); //months from 1-12
-    var day = today.getDate();
-    var year = today.getFullYear();
-    today = new Date(year, month, day);
-    $scope.todayDate = today;
-
-    $scope.initPatient = function() {
         $scope.activePatient = ActivePatient.getActivePatient();
-    };
 
-    $scope.createEnrollmentForm = function() {
+        $scope.practiceInfo = {
+            preferredUnit: "kg"
+        };
 
-        var patient = new PatientsService({
-          dateCreated: $scope.todayDate,
-          firstName: this.firstName,
-          patientId: this.patientId,
-          birthDate: this.birthDate,
-          sex: this.sex,
-          fixed: this.fixed,
-          breed: this.breed,
-          startWeight: this.startWeight,
-          bcs: this.bcs,
-          practice: ActivePatient.getActivePractice()._id
-        });
+        $scope.firstName = $scope.activePatient.firstName;
+        $scope.patientId = $scope.activePatient.patientId;
+        $scope.birthDate = $scope.activePatient.birthDate;
+        $scope.startWeight = $scope.activePatient.startWeight;
+        $scope.sex = $scope.activePatient.sex;
+        $scope.fixed = $scope.activePatient.fixed;
+        $scope.breed = $scope.activePatient.breed;
+        $scope.bcs = $scope.activePatient.bcs;
 
-        var enrollmentForm = new EnrollmentFormsService({
-          treats: this.treats,
-          currentMedications: this.currentMedications,
-          medicalHistory: this.medicalHistory,
-          peFindings: this.peFindings,
-          techId: this.techId,
-          vetId: this.vetId
-        });
+        if($scope.firstName) {
+          $scope.disableInput = true;
+        }
+        else {
+          $scope.disableInput = false;
+        }
 
-        patient.$save(function(patientResponse) {
-          ActivePatient.setActivePatient(patientResponse);
+        $scope.editForm = function() {
+          $scope.disableInput = false;
+        }
+        $scope.cancelEdit = function() {
+          $scope.disableInput = true;
+        }
 
-          var practice = new PracticesService({
-              _id: ActivePatient.getActivePractice()._id,
-              newPatient: patientResponse._id
-          });
+        var today = new Date();
+        var month = today.getMonth(); //months from 1-12
+        var day = today.getDate();
+        var year = today.getFullYear();
+        today = new Date(year, month, day);
+        $scope.todayDate = today;
 
-          practice.$update(function(updatePracticeResponse) {
-              ActivePatient.updateActivePractice();
-          });
-        });
-      });
-    };
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+        };
+
+        $scope.createEnrollmentForm = function() {
+
+            var patient = new PatientsService({
+                dateCreated: $scope.todayDate,
+                firstName: this.firstName,
+                patientId: this.patientId,
+                birthDate: this.birthDate,
+                sex: this.sex,
+                fixed: this.fixed,
+                breed: this.breed,
+                startWeight: this.startWeight,
+                bcs: this.bcs,
+                practice: ActivePatient.getActivePractice()._id
+            });
+
+            var enrollmentForm = new EnrollmentFormsService({
+                treats: this.treats,
+                currentMedications: this.currentMedications,
+                medicalHistory: this.medicalHistory,
+                peFindings: this.peFindings,
+                techId: this.techId,
+                vetId: this.vetId
+            });
+
+            patient.$save(function(patientResponse) {
+                ActivePatient.setActivePatient(patientResponse);
+
+                var practice = new PracticesService({
+                    _id: ActivePatient.getActivePractice()._id,
+                    newPatient: patientResponse._id
+                });
+
+                practice.$update(function(updatePracticeResponse) {
+                    ActivePatient.updateActivePractice();
+                });
+
+                enrollmentForm.patient = patientResponse._id;
+
+                enrollmentForm.$save(function(enrollmentFormResponse) {
+                    // executed after save
+                    //patientResponse.enrollmentForm = enrollmentFormResponse._id;
+                    //patientResponse.formSave = true;
+                    patient = new PatientsService({
+                        _id: patientResponse._id,
+                        enrollmentForm: enrollmentFormResponse._id,
+                        formSave: true
+                    });
+
+                    patient.$update(function(patientAddFormResponse) {
+                        ActivePatient.setPatientNeedsUpdate();
+                        $location.path('/overview');
+                    });
+                });
+            });
+        };
 
     // Do they want some prepopulated values?
     $scope.patientInfo = {

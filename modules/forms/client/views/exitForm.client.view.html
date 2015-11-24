@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<div class="eForms" data-ng-controller="exitFormController">
+<div class="eForms" data-ng-controller="exitFormController" data-ng-init="initPatient()">
   <div class="page-header">
     <h1 class="text-center">Exit Form</h1>
   </div>
@@ -20,11 +19,6 @@
     <div class="form-group">
       <label for="date">Ending Date</label>
       <input type="date" class="form-control" id="date" ng-model="endingDate" required>
-=======
-<div class="eForms" data-ng-controller="exitFormController" data-ng-init="initPatient()">
-    <div class="page-header" data-ng-app="app">
-        <h1 class="text-center">Exit Health Assessment</h1>
->>>>>>> 28658383c807310416ac5bffba561da44b97f93a
     </div>
 
     <div class="form-group">
@@ -160,15 +154,16 @@
       <textarea class="form-control" id="ownerComments" rows="2" data-ng-model="ownerQuestions.ownerComments"></textarea>
     </div>
 
+    <!-- AT approval not linked to anything yet -->
     <div class="form-group">
-      <label class="col-md-2" for="technician">Tech Id: </label>
-      <input class="col-md-2" type="text" id="technician" data-ng-model="techId">
-      <label class="col-md-2" for="veterinarian">Vet Id: </label>
-      <input class="col-md-2" type="text" id="veterinarian" data-ng-model="vetId">
+      <label class="col-md-3" for="technician">Technician: </label>
+      <input data-ng-model="techId" class="col-md-3" type="text" id="technician" ng-disabled="disableInput">
+      <label class="col-md-3" for="veterinarian">Veterinarian: </label>
+      <input data-ng-model="vetId" class="col-md-3" type="text" id="veterinarian" ng-disabled="disableInput">
     </div>
 
     <div class="form-group text-center">
-      <button type="submit" class="btn btn-default">Save</button>
+      <button type="submit" class="btn btn-primary">Save</button>
     </div>
 
   </form>

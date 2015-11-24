@@ -1,20 +1,21 @@
 <div class="wrapper">
 
     <!-- Sidebar -->
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper" ng-controller="HeaderController">
         <ul class="sidebar-nav">
           <li class="sidebarLogoImage">
               <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="sidebarLogoImg">
           </li>
-          <li>
+
+          <li ng-class="{active: isActive('/overview')}">
               <a ui-sref="overview">
                   <button class="dashButton">
-                      <span class="glyphicon glyphicon-home dashGlyph" aria-hidden="true"></span> Overview
+                      <span class="glyphicon glyphicon-home dashGlyph" aria-hidden="true"></span>Home
                   </button>
               </a>
           </li>
 
-          <li>
+          <li ng-class="{active: isActive('/progressForms')}">
               <a ui-sref="progressForms">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-check dashGlyph" aria-hidden="true"></span> Progress Form
@@ -22,7 +23,7 @@
               </a>
           </li>
 
-          <li>
+          <li ng-class="{active: isActive('/enrollmentForm')}">
               <a ui-sref="enrollmentForm">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-list-alt dashGlyph" aria-hidden="true"></span> Enrollment Form
@@ -30,17 +31,7 @@
               </a>
           </li>
 
-          <!--
-          <li>
-              <a ui-sref="">
-                  <button class="dashButton">
-                      <span class="glyphicon glyphicon-book dashGlyph" aria-hidden="true"></span> Patient Diary
-                  </button>
-              </a>
-          </li>
-          -->
-          
-          <li>
+          <li ng-class="{active: isActive('/vetFeedback')}">
             <a ui-sref="vetFeedback">
                 <button class="dashButton">
                     <span class="glyphicon glyphicon-envelope dashGlyph" aria-hidden="true"></span> Contact Us
@@ -48,8 +39,7 @@
             </a>
           </li>
 
-
-          <li>
+          <li ng-class="{active: isActive('/exitForm')}">
               <a ui-sref="exitForm">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-send dashGlyph" aria-hidden="true"></span> Exit Form

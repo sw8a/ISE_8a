@@ -10,6 +10,35 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             console.log($scope.authentication);
         }
 
+        $scope.activePatient = ActivePatient.getActivePatient();
+
+        $scope.practiceInfo = {
+            preferredUnit: "kg"
+        };
+
+        $scope.firstName = $scope.activePatient.firstName;
+        $scope.patientId = $scope.activePatient.patientId;
+        $scope.birthDate = $scope.activePatient.birthDate;
+        $scope.startWeight = $scope.activePatient.startWeight;
+        $scope.sex = $scope.activePatient.sex;
+        $scope.fixed = $scope.activePatient.fixed;
+        $scope.breed = $scope.activePatient.breed;
+        $scope.bcs = $scope.activePatient.bcs;
+
+        if($scope.firstName) {
+          $scope.disableInput = true;
+        }
+        else {
+          $scope.disableInput = false;
+        }
+
+        $scope.editForm = function() {
+          $scope.disableInput = false;
+        }
+        $scope.cancelEdit = function() {
+          $scope.disableInput = true;
+        }
+
         var today = new Date();
         var month = today.getMonth(); //months from 1-12
         var day = today.getDate();
@@ -77,83 +106,70 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             });
         };
 
+    // Do they want some prepopulated values?
+    $scope.patientInfo = {
+        DOB: new Date(2013, 9, 22)
+    };
 
+    $scope.patientInfo.age = function () {
+      var DOB = $scope.patientInfo.DOB; //$scope.activePatient.birthDate
+      var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth()+1, day: DOB.getDate()});
+      return age;
+    };
 
+    $scope.patientInfo.idealWeight = function () {
+      if($scope.disableInput) {
+        var currWeight = $scope.activePatient.startWeight;
+        var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
+        var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
 
-        // Do they want some prepopulated values?
-        $scope.patientInfo = {
-            firstName: '',
-            DOB: new Date(2013, 9, 22),
-            sex: 'M',
-            castrated: 'N',
-            breed: '',
-            foodBrand: '',
-            cups: 2,
-            perDay: 3,
-            treatsAndScraps: '',
-            currentMedications: '',
-            significantMedicalHistory: '',
-            significantPEFindings: '',
-            todayWeight: 50,
-            BCS: 5
-        };
+        if($scope.practiceInfo.preferredUnit === "kg") {
+          return idealWeight.toFixed(2);
+        }
+        else {
+          return (idealWeight*2.20462).toFixed(2);
+        }
+      }
+      else {
+        var currWeight = $scope.startWeight;
+        var bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
+        var idealWeight = currWeight * (100-bodyFat)/100 / 0.8;
 
-        $scope.patientInfo.age = function() {
-            var DOB = $scope.patientInfo.DOB;
-            var age = $scope.yearDifference({
-                year: DOB.getFullYear(),
-                month: DOB.getMonth() + 1,
-                day: DOB.getDate()
-            });
-            return age;
-        };
+        if($scope.practiceInfo.preferredUnit === "kg") {
+          return idealWeight.toFixed(2);
+        }
+        else {
+          return (idealWeight*2.20462).toFixed(2);
+        }
+      }
+    };
 
-        $scope.patientInfo.idealWeight = function() {
-            var currWeight = $scope.patientInfo.todayWeight;
-            var bodyFat = $scope.patientInfo.BCS * 5; // Assumes each BCS equals 5% body fat
-            var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
+    $scope.patientInfo.cupsPerFeeding = function () {
+        var dailykCalIdealWeight = 600; // Use Recommended Daily Caloric Intake for Ideal Weight Chart
+        var kCalPerCup = 150; // Eventually need to find on food database
+        var cupsPerDay = dailykCalIdealWeight/kCalPerCup;
+        var perDay = $scope.patientInfo.perDay;
+        var cupsPerFeeding = cupsPerDay/perDay;
 
-            return idealWeight.toFixed(2); // Ask about how many decimal places they want
-        };
+        return cupsPerFeeding.toFixed(2);
+    };
 
-        $scope.patientInfo.cupsPerFeeding = function() {
-            var dailykCalIdealWeight = 600; // Use Recommended Daily Caloric Intake for Ideal Weight Chart
-            var kCalPerCup = 150; // Eventually need to find on food database
-            var cupsPerDay = dailykCalIdealWeight / kCalPerCup;
-            var perDay = $scope.patientInfo.perDay;
-            var cupsPerFeeding = cupsPerDay / perDay;
+    $scope.yearDifference = function (date) {
+        var curDate = new Date(),
+            now     = {
+              year: curDate.getUTCFullYear(),
+              // UTC month value is zero-based
+              month: curDate.getUTCMonth() + 1,
+              day: curDate.getUTCDate()
+            },
+            diff = now.year % date.year;
 
-            return cupsPerFeeding.toFixed(2); // Ask about how many decimal places they want
-        };
+        // Do not update the date unless it is time
+        if (now.month < date.month || now.month === date.month && now.day < date.day) {
+          diff -= 1;
+        }
 
-        $scope.yearDifference = function(date) {
-            var curDate = new Date(),
-                now = {
-                    year: curDate.getUTCFullYear(),
-                    // UTC month value is zero-based
-                    month: curDate.getUTCMonth() + 1,
-                    day: curDate.getUTCDate()
-                },
-                diff = now.year % date.year;
-
-            // Do not update the date unless it is time
-            if (now.month < date.month ||
-                now.month === date.month && now.day < date.day) {
-                diff -= 1;
-            }
-
-            return diff;
-        };
-
-        $scope.vetApproval = {
-            vetSignature: '',
-            continueWithTrimauxil: 'Y'
-        };
-
-        $scope.finalApproval = {
-            technician: '',
-            veterinarian: '',
-            reviewer: ''
-        };
-    }
+        return diff;
+    };
+  }
 ]);

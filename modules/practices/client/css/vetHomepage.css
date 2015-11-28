@@ -93,3 +93,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.centerText {
+    text-align: center;
+}

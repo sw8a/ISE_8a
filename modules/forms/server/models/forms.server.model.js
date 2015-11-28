@@ -30,6 +30,13 @@ var ProgressFormSchema = new Schema({
 	weightLossAppropriate: Boolean,
 	
 	foodChanged: Boolean,
+
+    overrideCupsPerFeeding: Number,
+
+    vetIdOverrideCPF: {
+        type: String,
+        trim: true
+    },
 	
 	comments: {
 		type: String, 

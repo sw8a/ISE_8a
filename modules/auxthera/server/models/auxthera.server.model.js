@@ -83,12 +83,26 @@ var DogBreedsSchema = new Schema({
         trim: true
     }]
 },
-{ collection: 'dogBreeds' });
+{ collection: 'dog_breeds' });
+
+var DogFoodsSchema = new Schema({
+
+    name: {
+        type: String,
+        trim: true
+    },
+
+    caloriesPerCup: {
+        type: Number,
+        min: 0
+    }
+},
+{ collection: 'dog_foods' });
 
 
 
 
-
-mongoose.model('DogBreeds', DogBreedsSchema);
-mongoose.model('Feedback', FeedbackSchema);
 mongoose.model('Auxthera', AuxtheraSchema);
+mongoose.model('Feedback', FeedbackSchema);
+mongoose.model('DogBreeds', DogBreedsSchema);
+mongoose.model('DogFood', DogBreedsSchema);

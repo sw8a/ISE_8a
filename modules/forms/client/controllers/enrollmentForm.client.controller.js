@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
+angular.module('forms').controller('enrollmentFormController', ['$scope', '$state', '$http', '$window', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'ActivePatient',
+    function($scope, $state, $http, $window, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
         console.log($scope.authentication);
@@ -24,6 +24,8 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.fixed = $scope.activePatient.fixed;
         $scope.breed = $scope.activePatient.breed;
         $scope.bcs = $scope.activePatient.bcs;
+
+        $scope.credentials = {};
 
         if($scope.firstName) {
           $scope.disableInput = true;
@@ -74,13 +76,29 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 vetId: this.vetId
             });
 
+            $scope.credentials.username = this.patientUsername;
+            $scope.credentials.password = this.patientPW;
+            $scope.credentials.roles = 'patient';
+
+            
             patient.$save(function(patientResponse) {
+                $scope.credentials.docId = patientResponse._id;
+                console.log($scope.credentials);
                 ActivePatient.setActivePatient(patientResponse);
 
                 var practice = new PracticesService({
                     _id: ActivePatient.getActivePractice()._id,
                     newPatient: patientResponse._id
                 });
+                // var credentials = {
+                //                 username: this.patientUsername,
+                //                 password: this.patientPW,
+                //                 roles: 'patient',
+                //                 docId: patientResponse._id
+                //             };
+                // set the id to the credentials
+                
+                
 
                 practice.$update(function(updatePracticeResponse) {
                     ActivePatient.updateActivePractice();
@@ -103,7 +121,15 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                         $location.path('/overview');
                     });
                 });
+                // sign a new user up
+                console.log($scope.credentials);
+                $http.post('/api/auth/signup', $scope.credentials).success(function(response) {
+                    console.log(response);
+                }).error(function(response) {
+                    $scope.error = response.message;
+                });
             });
+   
         };
 
     // Do they want some prepopulated values?

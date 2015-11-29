@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', 'FeedbackService', '$location', '$stateParams', 'ActivePatient',
-    function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, ActivePatient) {
+angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', 'FeedbackService', '$location', '$stateParams', '$window', 'ActivePatient',
+    function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, $window, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
 
@@ -30,6 +30,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             else {
                 $scope.sortBy = sortRequest;
             }
+
+            setTimeout(function(){ $('.tableContainer1').height($('.patientListTableHead').height()); }, 20);
         };
 
 
@@ -106,6 +108,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
                 });
 
+                $('.tableContainer1').height($('.patientListTableHead').height());
+
                 return;
             });
 
@@ -133,6 +137,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.searchChange = function() {
             $scope.activePatientsFiltered = $scope.activePatientsList;
             $scope.activePatientsFiltered = $scope.activePatientsFiltered.filter(searchFilter);
+            $('.tableContainer1').height($('.patientListTableHead').height());
         };
 
         function searchFilter(item) {
@@ -161,6 +166,13 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 
             });
         };
+
+        var window = angular.element($window);
+
+        window.bind('resize', function () {
+            console.log('resize');
+            $('.tableContainer1').height($('.patientListTableHead').height());
+        });
 
     }
 ]);

@@ -23,7 +23,7 @@
 }
 
 .TableComponents {
-    width: 80%;
+    width: 95%;
     margin: 0 auto
 }
 
@@ -69,11 +69,21 @@
     height: 250px;
     margin: 0;
     padding: 0;
-    margin-top: -21px;
+    /*margin-top: -21px;*/
+}
+
+.tableContainer1 {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 .tableContainerBottomBorder {
     border-bottom: 1px solid #DDDDDD;
+}
+
+.patientListTableHead {
+    /*white-space: nowrap;*/
 }
 
 .newPatientButton {
@@ -96,4 +106,28 @@
 
 .centerText {
     text-align: center;
+}
+
+.tableColumn1 {
+}
+
+.tableColumn2 {
+}
+
+.hiddenTable {
+    opacity: 0;
+}
+
+.headerTable {  
+    border: 1px solid #DDDDDD;
+    border-bottom: none;
+}
+
+.column15 {
+    width: 15% !important;
+}
+
+
+.column10 {
+    width: 10% !important;
 }

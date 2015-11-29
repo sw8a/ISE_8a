@@ -8,10 +8,10 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
     $scope.activePatient = ActivePatient.getActivePatient();
 
     $scope.practiceInfo = {
-        preferredUnit: "kg"
+        preferredUnit: 'kg'
     };
 
-    console.log($scope.authentication)
+    console.log($scope.authentication);
     if (!$scope.authentication.user) {
         $location.path('/');
         console.log($scope.authentication);
@@ -56,23 +56,23 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
     };
 
     $scope.patientInfo.startWeight = function() {
-      if($scope.practiceInfo.preferredUnit === "kg") {
+      if($scope.practiceInfo.preferredUnit === 'kg') {
         return $scope.activePatient.startWeight;
       }
       else {
-        return ($scope.activePatient.startWeight*2.20462).toFixed(2);
+        return ($scope.activePatient.startWeight * 2.20462).toFixed(2);
       }
-    }
+    };
 
     $scope.patientInfo.weightLossTotal = function () {
         var startWeight = $scope.activePatient.startWeight;
         var finalWeight = $scope.finalWeight;
 
-        if($scope.practiceInfo.preferredUnit === "kg") {
-          return (startWeight-finalWeight).toFixed(2);
+        if($scope.practiceInfo.preferredUnit === 'kg') {
+          return (startWeight - finalWeight).toFixed(2);
         }
         else {
-          return ((startWeight*2.20462-finalWeight)).toFixed(2);
+          return ((startWeight * 2.20462 - finalWeight)).toFixed(2);
         }
     };
   }

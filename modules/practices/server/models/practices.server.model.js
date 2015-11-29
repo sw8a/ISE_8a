@@ -39,12 +39,12 @@ var PracticeSchema = new Schema({
         ref: 'Feedback'
     }],
 
-    changedData: [ {
+    changedData: [{
         dateChanged: {
             type: Date,
             default: Date.now
         }
-    } ]
+    }]
 },
 { collection: 'practices' });
 

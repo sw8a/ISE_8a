@@ -82,8 +82,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             for (var property in object) {
                 if (object.hasOwnProperty(property)) {
                     var tmp = object[property];
-                    console.log("Loop reached");
-                    fieldChanged.object.property = object.property;
+                    console.log("Loop");
+                    console.log("Prop:" + property);
+                    console.log("Val:" + object[property]);
                 }
             }
 

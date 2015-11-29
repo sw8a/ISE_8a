@@ -5,10 +5,6 @@
     margin: auto;
 }
 
-.h1,h1,.h2,h2,.h3,h3 {
-    text-shadow: 0 1px 0 #000
-}
-
 .header {
     background-color: #F4F4F4
 }
@@ -55,11 +51,6 @@
 }
 
 .patientListTable {
-    /*height: 100px;
-    overflow-y: auto;*/
-    /*width: 100%;
-    overflow: visible;
-    box-sizing: border-box;*/
     margin: 0;
     padding: 0;
 }
@@ -72,7 +63,7 @@
     /*margin-top: -21px;*/
 }
 
-.tableContainer1 {
+.headerTableContainer {
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -108,12 +99,6 @@
     text-align: center;
 }
 
-.tableColumn1 {
-}
-
-.tableColumn2 {
-}
-
 .hiddenTable {
     opacity: 0;
 }
@@ -126,7 +111,6 @@
 .column15 {
     width: 15% !important;
 }
-
 
 .column10 {
     width: 10% !important;

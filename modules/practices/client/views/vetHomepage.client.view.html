@@ -38,51 +38,10 @@
 
         <br>
 
-        <!-- <table class="table table-bordered vetHomeTableHeaders">
-            <thead>
-                <tr>
-                    <th class="notSelectable tableColumn1" ng-click="changeSort('patientId')">Patient ID 
-                        <span ng-show="sortBy == 'patientId'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-patientId'" class="fa fa-caret-up"></span>
-                    </th>
-
-                    <th class="notSelectable tableColumn2" ng-click="changeSort('firstName')">Patient Name 
-                        <span ng-show="sortBy == 'firstName'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-firstName'" class="fa fa-caret-up"></span>
-                    </th>
-
-                    <th class="tableColumn3 notSelectable" ng-click="changeSort('petOwner.lastName')">Client Name 
-                        <span ng-show="sortBy == 'petOwner.lastName'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-petOwner.lastName'" class="fa fa-caret-up"></span>
-                    </th>
-
-                    <th class="th4 notSelectable" ng-click="changeSort('REPLACE_ME')">Client Phone Number 
-                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                    </th>
-
-                    <th class="th5 notSelectable" ng-click="changeSort('REPLACE_ME')">Date Started 
-                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                    </th>
-
-                    <th class="th6 notSelectable" ng-click="changeSort('REPLACE_ME')">Next Appointment 
-                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                    </th>
-
-                    <th class="th7 notSelectable" ng-click="changeSort('REPLACE_ME')">Call or Visit 
-                        <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                        <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                    </th>
-                </tr>
-            </thead>
-        </table> -->
-
-        <div class="tableContainer1">
+        <div class="headerTableContainer">
             <table class="table patientListTable headerTable">
 
-            <thead class="patientListTableHead">
+                <thead class="patientListTableHead">
                     <tr>
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('patientId')">Patient ID 
                             <span ng-show="sortBy == 'patientId'" class="fa fa-caret-down"></span>
@@ -123,21 +82,20 @@
 
                 <tbody>
 
-                    <tr ng-repeat="patient in activePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
+                    <tr ng-repeat="patient in activePatientsFiltered">   
+                        <td class="column15 col-md-2 hiddenTable"> {{ patient.patientId }} </td>
+
+                        <td class="column15 col-md-2 hiddenTable"> {{ patient.firstName }} </td>
+
+                        <td class="column15 col-md-2 hiddenTable"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+
+                        <td class="column15 col-md-2 hiddenTable"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
                         
-                        <td class="column15 col-md-2 tableColumn1 hiddenTable"> {{ patient.patientId }} </td>
+                        <td class="column15 col-md-2 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
 
-                        <td class="column15 col-md-2 tableColumn2 hiddenTable"> {{ patient.firstName }} </td>
+                        <td class="column15 col-md-2 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
 
-                        <td class="column15 col-md-2 td3 hiddenTable"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
-
-                        <td class="column15 col-md-2 td4 hiddenTable"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
-                        
-                        <td class="column15 col-md-2 td5 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
-
-                        <td class="column15 col-md-2 td6 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
-
-                        <td class="column10 col-md-2 td7 hiddenTable"> Visit <!-- {{ patient.X }} --> </td>
+                        <td class="column10 col-md-2 hiddenTable"> Visit <!-- {{ patient.X }} --> </td>
                     </tr>
 
                 </tbody>
@@ -145,67 +103,25 @@
         </div>
 
 
-
-
-        <div class="tableContainer tableContainerBottomBorder mCustomScrollbar fht-table-wrapper" data-mcs-theme="dark-3">
+        <div class="tableContainer tableContainerBottomBorder mCustomScrollbar" data-mcs-theme="dark-3">
             <table class="table table-bordered patientListTable">
-
-            <!-- <thead class="patientListTableHead">
-                    <tr>
-                        <th class="col-md-1 notSelectable" ng-click="changeSort('patientId')">Patient ID 
-                            <span ng-show="sortBy == 'patientId'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-patientId'" class="fa fa-caret-up"></span>
-                        </th>
-
-                        <th class="col-md-2 notSelectable" ng-click="changeSort('firstName')">Patient Name 
-                            <span ng-show="sortBy == 'firstName'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-firstName'" class="fa fa-caret-up"></span>
-                        </th>
-
-                        <th class="col-md-2 notSelectable" ng-click="changeSort('petOwner.lastName')">Client Name 
-                            <span ng-show="sortBy == 'petOwner.lastName'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-petOwner.lastName'" class="fa fa-caret-up"></span>
-                        </th>
-
-                        <th class="col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Client Phone Number 
-                            <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                        </th>
-
-                        <th class="col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Date Started 
-                            <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                        </th>
-
-                        <th class="col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Next Appointment 
-                            <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                        </th>
-
-                        <th class="col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME')">Call or Visit 
-                            <span ng-show="sortBy == 'REPLACE_ME'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME'" class="fa fa-caret-up"></span>
-                        </th>
-                    </tr>
-                </thead> -->
-
                 <tbody>
 
                     <tr ng-repeat="patient in activePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
                         
-                        <td class="column15 col-md-2 tableColumn1"> {{ patient.patientId }} </td>
+                        <td class="column15 col-md-2"> {{ patient.patientId }} </td>
 
-                        <td class="column15 col-md-2 tableColumn2"> {{ patient.firstName }} </td>
+                        <td class="column15 col-md-2"> {{ patient.firstName }} </td>
 
-                        <td class="column15 col-md-2 td3"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+                        <td class="column15 col-md-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
 
-                        <td class="column15 col-md-2 td4"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        <td class="column15 col-md-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
                         
-                        <td class="column15 col-md-2 td5"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2"> {{ patient.dateCreated | dateFormat }} </td>
 
-                        <td class="column15 col-md-2 td6"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2"> {{ patient.dateCreated | dateFormat }} </td>
 
-                        <td class="column10 col-md-2 td7"> Visit <!-- {{ patient.X }} --> </td>
+                        <td class="column10 col-md-2"> Visit <!-- {{ patient.X }} --> </td>
                     </tr>
 
                 </tbody>

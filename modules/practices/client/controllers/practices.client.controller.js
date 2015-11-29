@@ -7,7 +7,6 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
         $scope.authentication = Authentication;
 
-        //console.log($scope.authentication.user );
         // if a user is not logged in, route us back to the root
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -31,7 +30,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 $scope.sortBy = sortRequest;
             }
 
-            setTimeout(function(){ $('.tableContainer1').height($('.patientListTableHead').height()); }, 20);
+            // Angular needs to update the view so the latest size is measured. This is not ideal.
+            setTimeout(function(){ $('.headerTableContainer').height($('.patientListTableHead').height()); }, 20);
         };
 
 
@@ -88,27 +88,19 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 $('.tableContainer').mCustomScrollbar({
                     scrollbarPosition: 'outside',
                     callbacks: {
-                        //alwaysTriggerOffsets: true,
-                        /*onTotalScroll:function(){
-                            $('.tableContainer').removeClass('tableContainerBottomBorder');
-                            console.log('at end');
-                        },
-                        onScrollStart:function(){
-                            $('.tableContainer').addClass('tableContainerBottomBorder');
-                            console.log('movin');
-                        },*/
+                        /*
                         whileScrolling: function() {
                             if (this.mcs.topPct === 100) {
                                 $('.tableContainer').removeClass('tableContainerBottomBorder');
                             } else {
                                 $('.tableContainer').addClass('tableContainerBottomBorder');
                             }
-                        }
+                        }*/
                     }
 
                 });
 
-                $('.tableContainer1').height($('.patientListTableHead').height());
+                $('.headerTableContainer').height($('.patientListTableHead').height());
 
                 return;
             });
@@ -137,7 +129,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.searchChange = function() {
             $scope.activePatientsFiltered = $scope.activePatientsList;
             $scope.activePatientsFiltered = $scope.activePatientsFiltered.filter(searchFilter);
-            $('.tableContainer1').height($('.patientListTableHead').height());
+            $('.headerTableContainer').height($('.patientListTableHead').height());
         };
 
         function searchFilter(item) {
@@ -167,11 +159,12 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             });
         };
 
-        var window = angular.element($window);
 
+        // Maintian table header size on window resize
+        var window = angular.element($window);
         window.bind('resize', function () {
             console.log('resize');
-            $('.tableContainer1').height($('.patientListTableHead').height());
+            $('.headerTableContainer').height($('.patientListTableHead').height());
         });
 
     }

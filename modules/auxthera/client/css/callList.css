@@ -1,9 +1,7 @@
-.heading{
+.callList{
 
-	text-align: center;
-	font-family: "Trajan Pro";
-	color: #1E5687;
-
+	width: 70%;
+	margin: 0 auto;
 }
 
 .TableComponents{
@@ -12,7 +10,7 @@
     margin: 0 auto
 
 }
+.callList{
 
-.heavy-top-buffer {
-    margin-top: 100px
+	width: 70%;
 }

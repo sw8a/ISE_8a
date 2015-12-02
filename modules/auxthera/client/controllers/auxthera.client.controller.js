@@ -25,5 +25,13 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                 $scope.error = response.message;
             });
         };
+
+        $scope.someLimitVar = 2 // only show the first 2 items
+
+        // remove element in call or feedback list
+        $scope.remove = function(item) {
+        var index = $scope.array.indexOf(item)
+        $scope.array.splice(index, 1)
+        }
     }
 ]);

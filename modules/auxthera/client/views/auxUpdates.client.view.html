@@ -1,44 +1,24 @@
+<div data-ng-controller="auxtheraController">
+
 <div class="updatePage">
     <div class="heading">
        <h1> Auxthera Updates </h1>
     </div>
 
-    <div class="row feedElement heavy-top-buffer panel panel-primary">
+    <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update from updateList">
         <div class="panel-body">
             <div class="col-md-4 foodInformation">
-                <p> Food name </p>
-                <p> Brand </p>
-                <p> X calories per serving </p>
-                <p> Other relevant information </p>
+                <p> {{ update.foodName}} </p>
+                <p> {{update.foodBrand}} </p>
+                <p> {{update.calories}} calories per serving </p>
             </div>
             <div class="col-md-4 vetInformation">
-                <p> Organization name </p>
-                <p> Patient number/name </p>
-                <p> Other relevant information </p>
+                <p> Submitted by: {{update.practice}} </p>
+                <p> From patient: {{update.patient}} </p>
             </div>
             <div class="col-md-2 requiredAction">
                 <p> Click to clear entry </p>
-                <button type="button" class="btn btn-default">Clear</button> 
+                <button ng-click="remove(update)"type="button" class="btn btn-default">Clear</button> 
             </div>
         </div>
     </div>
-    <div class="row feedElement top-buffer panel panel-primary">
-        <div class="panel-body">
-            <div class="col-md-4 foodInformation">
-                <p> Food name </p>
-                <p> Brand </p>
-                <p> X calories per serving </p>
-                <p> Other relevant information </p>
-            </div>
-            <div class="col-md-4 vetInformation">
-                <p> Organization name </p>
-                <p> Patient number/name </p>
-                <p> Other relevant information </p>
-            </div>
-            <div class="col-md-2 requiredAction">
-                <p> Click to clear entry </p>
-                <button type="button" class="btn btn-default">Clear</button> 
-            </div>
-        </div>
-    </div>
-</div>

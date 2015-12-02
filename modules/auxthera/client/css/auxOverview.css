@@ -1,3 +1,10 @@
+.overviewPage{
+
+	width:65%;
+	margin: 0 auto;
+	font-size: 24px;
+}
+
 .heading{
 	
 	text-align: center;
@@ -8,11 +15,5 @@
 
 .info{
 	
-	text-align: center;
 	color: #1E5687;
-}
-
-.heavy-buffer{
-
-	padding-top: 100px;
 }

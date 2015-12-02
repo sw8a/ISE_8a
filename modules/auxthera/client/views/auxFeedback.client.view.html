@@ -5,17 +5,18 @@
 	   <h1> Feedback </h1>
 	</div>
 
-	<div class="container newFeedback" ng-repeat="feedback in newFeedbackList">
-		<h3> New Feedback </h3>
+    <!-- Code to show a feed of new feedback -->
+    <h3> New Feedback </h3>
+	<div class="container newFeedback" ng-repeat="feedback in newFeedbackList" ng show="newFeedBackList.length">
 
         <div class="col-md-6">
-            <p> {{ feedback.text }} </p>
+            <p> {{ feedback.messages.message }} </p>
         </div>
 
         <div class="col-md-3" "feedbackInfo">
             <p> Feedback recieved from:<br>
                 {{ feedback.practice }} <br>
-                {{ feedback.dateCreated }}
+                {{ feedback.messages.dateCreated }}
             </p>
         </div>
 
@@ -23,20 +24,22 @@
             <button ng-click="remove(feedback)" class="btn btn-primary" type="button">Mark as Read</button>
         </div>
     </div>
+    <p ng-hide="newFeedBackList.length"> No new feedback! </p>
 
     <hr>
 
+    <!-- Code to show old feedback up until the limitVar value -->
     <div class="container" "oldFeedback" ng-repeat="feedback in oldFeedbackList | filter: '!hidden' | limit: limitVar">
         <h3> Past Feedback </h3>
 
         <div class="col-md-6">
-            <p> {{ feedback.text}} </p>
+            <p> {{ feedback.messages.message}} </p>
         </div>
 
         <div class="col-md-3" "feedbackInfo">
             <p> Feedback recieved from: <br>
                 {{ feedback.practice }} <br>
-                {{ feedback.dateRecieved }}
+                {{ feedback.messages.dateCreated }}
             </p>
         </div>
 
@@ -44,8 +47,9 @@
             <button ng-click="thing.hidden = true" class="btn btn-primary" type="button">Hide</button>
         </div>
 
+        <!-- Show all remaining feedback -->
         <div class="showMore">
-            <h3> <a ng-click="limitVar = array.length"> Show More </a></h3>
+            <h3> <a ng-click="limitVar = oldFeedBackList.length"> Show More </a></h3>
         </div>
     </div>
 </div>

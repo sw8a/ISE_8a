@@ -27,7 +27,7 @@
               <a ui-sref="auxFeedback">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-th-list dashGlyph"></span>Feedback Viewer
-                      <span class="badge">7</span></button>
+                      <span class="badge">{{feedback.length}}</span></button>
                   </button>
               </a>
           </li>
@@ -37,7 +37,7 @@
               <a ui-sref="auxUpdates">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-book dashGlyph" aria-hidden="true"></span> New Updates
-                      <span class="badge">2</span></button>
+                      <span class="badge">{{dog_breeds.length + dog_foods.length}}</span></button>
                   </button>
               </a>
           </li>
@@ -51,16 +51,6 @@
                   </button>
               </a>
           </li>
-
-          <!--
-          <li>
-            <a ui-sref="vetFeedback">
-                <button class="dashButton">
-                    <span class="glyphicon glyphicon-envelope dashGlyph" aria-hidden="true"></span> Feedback
-                </button>
-            </a>
-          </li>
-          -->
 
           <li class="logOutButton">
               <a href="/api/auth/signout" target ="_self">

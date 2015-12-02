@@ -5,10 +5,12 @@
        <h1> Auxthera Updates </h1>
     </div>
 
-    <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update from updateList">
+    <!-- Show feed of dog foods not currently in the database -->
+    <h2> New Dog Foods </h2>
+    <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update from dog_foods" ng-show="dog_foods.length">
         <div class="panel-body">
             <div class="col-md-4 foodInformation">
-                <p> {{ update.foodName}} </p>
+                <p> {{update.name}} </p>
                 <p> {{update.foodBrand}} </p>
                 <p> {{update.calories}} calories per serving </p>
             </div>
@@ -22,3 +24,26 @@
             </div>
         </div>
     </div>
+    <p ng-hide="dog_foods.length"> No new dog foods! </p>
+
+    <!-- Show feed of new dog breeds that aren't currently in the database -->
+    <h2> New Dog Breeds </h2>
+    <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update from dog_breeds" ng-show="dog_breeds.length">
+        <div class="panel-body">
+            <div class="col-md-4 foodInformation">
+                <p> {{update.breeds}} </p>
+            </div>
+            <div class="col-md-4 vetInformation">
+                <p> Submitted by: {{update.practice}} </p>
+                <p> From patient: {{update.patient}} </p>
+            </div>
+            <div class="col-md-2 requiredAction">
+                <p> Click to clear entry </p>
+                <button ng-click="remove(update)"type="button" class="btn btn-default">Clear</button> 
+            </div>
+        </div>
+    </div>
+    <p ng-hide="dog_breeds.length"> No new dog breeds! </p>
+</div>
+
+

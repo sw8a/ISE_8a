@@ -76,8 +76,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         // Update progress Forms
         $scope.updateProgressForm = function(index) {
             console.log("Update Progress Form");
-            var fieldChanged = new Object();
+            var fieldChanged = {};
             var object = this.activePatient.progressForms[index];
+            var currentPatient = ActivePatient.getActivePatient();
 
             for (var property in object) {
                 if (object.hasOwnProperty(property)) {
@@ -85,6 +86,29 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
                     console.log("Loop");
                     console.log("Prop:" + property);
                     console.log("Val:" + object[property]);
+                    if(property == "weightKg") {
+                        if(object[property] != currentPatient.progressForms[index].weight) {
+                            fieldChanged.weight = object[property];
+                        }
+                    }
+                    else if (property == "comments") {
+                        if(object[property] != currentPatient.progressForms[index].comments) {
+                            fieldChanged.comments = object[property];
+                        }
+                    }
+                    else if (property == "foodChanged") {
+                        if(object[property] != currentPatient.progressForms[index].foodChanged) {
+                            fieldChanged.foodChanged = object[property];
+                        }
+                    }
+                    else if (property == "trimauxilUse") {
+                        console.log("HERE");
+                        console.log(currentPatient.progressForms[index].trimauxilUse);
+                        if(object[property] != currentPatient.progressForms[index].trimauxilUse) {
+                            console.log("HERE 2");
+                            fieldChanged.trimauxilUse = object[property];
+                        } 
+                    }
                 }
             }
 

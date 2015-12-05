@@ -6,9 +6,8 @@ module.exports = {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.css',
+        'public/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css',
         'public/lib/font-awesome/css/font-awesome.min.css'
-        
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -23,6 +22,7 @@ module.exports = {
         'public/lib/Chart.js/Chart.js',
         'public/lib/angular-chart.js/angular-chart.js',
         'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js',
+        'public/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
         'public/lib/ngstorage/ngStorage.min.js'
         
       ],

@@ -103,10 +103,28 @@ exports.updatePatient = function (req, res) {
         }
     }
     
-    /*
     else {
-        // All other edits would be done here
-    }*/
+        Patient.findByIdAndUpdate(
+            patient._id,
+            {
+                $push: { 'changedData': patient.changedData } ,
+                $set: patient.updatedData
+            },
+            {
+                safe: true,
+                new: true
+            },
+            function(err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(patient);
+                }
+            }
+        );
+    }
 };
 
 exports.getPatient = function (req, res) {

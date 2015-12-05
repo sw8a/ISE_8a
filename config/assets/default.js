@@ -22,7 +22,8 @@ module.exports = {
         'public/lib/bootstrap/dist/js/*.js',
         'public/lib/Chart.js/Chart.js',
         'public/lib/angular-chart.js/angular-chart.js',
-        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js'
+        'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js',
+        'public/lib/ngstorage/ngStorage.min.js'
         
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

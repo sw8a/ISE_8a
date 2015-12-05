@@ -46,6 +46,11 @@ var PatientSchema = new Schema({
         max: 9
     },
 
+    food: {
+        type: Schema.ObjectId,
+        ref: 'DogFood'
+    },
+
     enrollmentForm: {
         type: Schema.ObjectId,
         ref: 'EnrollmentForm'

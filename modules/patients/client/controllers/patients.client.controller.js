@@ -1,13 +1,16 @@
 'use strict';
 
-angular.module('patients', ['chart.js']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, PatientsService, ActivePatient) {
+angular.module('patients', ['chart.js', 'ngStorage']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient', '$localStorage',
+    function($scope, Authentication, $location, $stateParams, $localStorage, PatientsService, ActivePatient) {
         
         $scope.authentication = Authentication;
 
         if (!$scope.authentication.user) {
             $location.path('/');
         }
+
+        console.log('Overview call get');
+        console.log(ActivePatient.getActivePatient());
 
         ActivePatient.setPatientNeedsUpdate();
 

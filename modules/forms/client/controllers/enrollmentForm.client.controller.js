@@ -128,6 +128,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         var currWeight;
         var bodyFat;
         var idealWeight;
+        
         if($scope.disableInput) {
             currWeight = $scope.activePatient.startWeight;
             bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat

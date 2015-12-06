@@ -2,7 +2,6 @@
 config/env/local.js
 node_modules/
 public/lib/
-public/dist/
 npm-debug.log
 .DS_Store
 config/env/development.js

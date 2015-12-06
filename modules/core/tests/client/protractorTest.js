@@ -32,8 +32,8 @@ describe('Protractor Test of Core', function() {
     expect(browser.getTitle()).toEqual('Trimauxil | Supports weight loss in companion pets');
     browser.sleep(1000);
 
-    element(by.model('credentials.username')).sendKeys('user');
-    element(by.model('credentials.password')).sendKeys('password',
+    element(by.model('credentials.username')).sendKeys('username2');
+    element(by.model('credentials.password')).sendKeys('password2',
                  protractor.Key.ENTER);
 
     browser.sleep(2000);

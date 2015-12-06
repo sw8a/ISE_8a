@@ -9,7 +9,8 @@ module.exports = function(app) {
 
     app.route('/api/petOwners/:petOwnerId')
         .get(petOwners.getPetOwner)
-        .post(petOwners.saveNewPetOwner);
+        .post(petOwners.saveNewPetOwner)
+        .put(petOwners.updatePetOwner);
 
 
      app.param('petOwnerId', petOwners.petOwnerById);   

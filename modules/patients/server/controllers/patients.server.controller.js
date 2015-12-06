@@ -27,16 +27,20 @@ exports.saveNewPatient = function (req, res) {
 exports.updatePatient = function (req, res) {
     var patient = req.body;
 
+    console.log('update patient');
 
     if(patient.formSave) {
         // Adding new form reference to patient document
 
         if(patient.enrollmentForm) {
-            // add enrollment form
+            // add enrollment form and petOwner
             Patient.findByIdAndUpdate(
                 patient._id,
                 {
-                    $set: { enrollmentForm: patient.enrollmentForm } 
+                    $set: { 
+                        enrollmentForm: patient.enrollmentForm,
+                        petOwner: patient.petOwner 
+                    } 
                 },
                 {
                     safe: true,
@@ -104,11 +108,16 @@ exports.updatePatient = function (req, res) {
     }
     
     else {
+        var changedData = patient.changedData;
+        var patientId = patient._id;
+        delete patient.changedData;
+        delete patient._id;
+        
         Patient.findByIdAndUpdate(
-            patient._id,
+            patientId,
             {
-                $push: { 'changedData': patient.changedData } ,
-                $set: patient.updatedData
+                $push: { 'changedData': changedData },
+                $set: patient
             },
             {
                 safe: true,

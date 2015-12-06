@@ -80,6 +80,32 @@ var PatientSchema = new Schema({
         dateChanged: {
             type: Date,
             default: Date.now
+        },
+
+        dateCreated: Date,
+        
+        firstName: String,
+        
+        patientId: String,
+
+        birthDate: Date,
+        
+        sex: {
+            type: String,
+            enum: ['M', 'F']
+        },
+        
+        fixed: Boolean,
+        
+        breed: String,
+
+        startWeight: Number,
+
+        bcs: Number,
+
+        food: {
+            type: Schema.ObjectId,
+            ref: 'DogFood'
         }
     } ]
 },

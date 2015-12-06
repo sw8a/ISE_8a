@@ -90,19 +90,19 @@
                 <tbody>
 
                     <tr ng-repeat="patient in activePatientsFiltered">   
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.patientId }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.patientId }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.firstName }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.firstName }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.petOwner.phoneNumber }}</td>
                         
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column10 col-md-2 hiddenTable"> Visit <!-- {{ patient.X }} --> </td>
+                        <td class="column10 col-md-2 hiddenTable">Visit <!-- {{ patient.X }} --></td>
                     </tr>
 
                 </tbody>
@@ -116,19 +116,19 @@
 
                     <tr ng-repeat="patient in activePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
                         
-                        <td class="column15 col-md-2"> {{ patient.patientId }} </td>
+                        <td class="column15 col-md-2">{{ patient.patientId }}</td>
 
-                        <td class="column15 col-md-2"> {{ patient.firstName }} </td>
+                        <td class="column15 col-md-2">{{ patient.firstName }}</td>
 
-                        <td class="column15 col-md-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+                        <td class="column15 col-md-2">{{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }}</td>
 
-                        <td class="column15 col-md-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        <td class="column15 col-md-2">{{ patient.petOwner.phoneNumber }}</td>
                         
-                        <td class="column15 col-md-2"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column15 col-md-2"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column10 col-md-2"> Visit <!-- {{ patient.X }} --> </td>
+                        <td class="column10 col-md-2">Visit <!-- {{ patient.X }} --></td>
                     </tr>
 
                 </tbody>

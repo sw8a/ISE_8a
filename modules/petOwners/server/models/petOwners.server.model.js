@@ -19,6 +19,16 @@ var PetOwnerSchema = new Schema({
         trim: true
     },
 
+    phoneNumber: {
+        type: String,
+        trim: true
+    },
+
+    email: {
+        type: String,
+        trim: true  
+    },
+
     address: {
         type: String,
         trim: true
@@ -29,10 +39,10 @@ var PetOwnerSchema = new Schema({
         trim: true
     },
 
-    pets: [{
+    pet: {
         type: Schema.ObjectId,
         ref: 'Patient'
-    }],
+    },
     
     practice: {
         type: Schema.ObjectId,
@@ -43,7 +53,19 @@ var PetOwnerSchema = new Schema({
         dateChanged: {
             type: Date,
             default: Date.now
-        }
+        },
+
+        firstName: String,
+
+        lastName: String,
+
+        phoneNumber: String,
+
+        email: String,
+
+        address: String,
+        
+        petOwnerId: String
     } ]
 },
 { collection: 'pet_owners' });

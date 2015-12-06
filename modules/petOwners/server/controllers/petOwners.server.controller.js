@@ -25,6 +25,36 @@ exports.getPetOwner = function (req, res) {
     res.json(req.petOwner);
 };
 
+exports.updatePetOwner = function (req, res) {
+    var petOwner = req.body;
+    var changedData = petOwner.changedData;
+    var petOwnerId = petOwner._id;
+    delete petOwner.changedData;
+    delete petOwner._id;
+
+    console.log('update owner');
+
+    PetOwner.findByIdAndUpdate(
+        petOwnerId,
+        {
+            $push: { 'changedData': changedData },
+            $set: petOwner
+        },
+        {
+            safe: true,
+            new: true
+        },
+        function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.json(petOwner);
+            }
+        }
+    );
+};
 
 exports.petOwnerById = function (req, res, next, id) {
     
@@ -46,9 +76,4 @@ exports.petOwnerById = function (req, res, next, id) {
         req.petOwner = foundPetOwner;
         next();
     });
-
-
-
-
-
 };

@@ -13,6 +13,7 @@
 	height: 275px;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 
 .row {
@@ -52,6 +53,7 @@
 	height: 200px;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 
 .floatRight {

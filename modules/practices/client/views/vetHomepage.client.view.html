@@ -44,38 +44,45 @@
                 <thead class="patientListTableHead">
                     <tr>
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('patientId')">Patient ID 
+                            <span ng-show="sortBy != 'patientId' && sortBy != '-patientId'" class="fa fa-sort"></span>
                             <span ng-show="sortBy == 'patientId'" class="fa fa-caret-down"></span>
                             <span ng-show="sortBy == '-patientId'" class="fa fa-caret-up"></span>
                         </th>
 
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('firstName')">Patient Name 
-                            <span ng-show="sortBy == 'firstName'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-firstName'" class="fa fa-caret-up"></span>
+                            <span ng-show="sortBy != 'firstName' && sortBy != '-firstName'" class="fa fa-sort"></span>
+                            <span ng-show="sortBy == 'firstName'" class="fa fa-sort-down"></span>
+                            <span ng-show="sortBy == '-firstName'" class="fa fa-sort-up"></span>
                         </th>
 
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('petOwner.lastName')">Client Name 
-                            <span ng-show="sortBy == 'petOwner.lastName'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-petOwner.lastName'" class="fa fa-caret-up"></span>
+                            <span ng-show="sortBy != 'petOwner.lastName' && sortBy != '-petOwner.lastName'" class="fa fa-sort"></span>
+                            <span ng-show="sortBy == 'petOwner.lastName'" class="fa fa-sort-down"></span>
+                            <span ng-show="sortBy == '-petOwner.lastName'" class="fa fa-sort-up"></span>
                         </th>
 
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME1')">Client Phone Number 
-                            <span ng-show="sortBy == 'REPLACE_ME1'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME1'" class="fa fa-caret-up"></span>
+                            <span ng-show="sortBy != 'REPLACE_ME1' && sortBy != '-REPLACE_ME1'" class="fa fa-sort"></span>
+                            <span ng-show="sortBy == 'REPLACE_ME1'" class="fa fa-sort-down"></span>
+                            <span ng-show="sortBy == '-REPLACE_ME1'" class="fa fa-sort-up"></span>
                         </th>
 
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME2')">Date Started 
-                            <span ng-show="sortBy == 'REPLACE_ME2'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME2'" class="fa fa-caret-up"></span>
+                            <span ng-show="sortBy != 'REPLACE_ME2' && sortBy != '-REPLACE_ME2'" class="fa fa-sort"></span>
+                            <span ng-show="sortBy == 'REPLACE_ME2'" class="fa fa-sort-down"></span>
+                            <span ng-show="sortBy == '-REPLACE_ME2'" class="fa fa-sort-up"></span>
                         </th>
 
                         <th class="column15 col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME3')">Next Appointment 
-                            <span ng-show="sortBy == 'REPLACE_ME3'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME3'" class="fa fa-caret-up"></span>
+                            <span ng-show="sortBy != 'REPLACE_ME3' && sortBy != '-REPLACE_ME3'" class="fa fa-sort"></span>
+                            <span ng-show="sortBy == 'REPLACE_ME3'" class="fa fa-sort-down"></span>
+                            <span ng-show="sortBy == '-REPLACE_ME3'" class="fa fa-sort-up"></span>
                         </th>
 
                         <th class="column10 col-md-2 notSelectable" ng-click="changeSort('REPLACE_ME4')">Call or Visit 
-                            <span ng-show="sortBy == 'REPLACE_ME4'" class="fa fa-caret-down"></span>
-                            <span ng-show="sortBy == '-REPLACE_ME4'" class="fa fa-caret-up"></span>
+                            <span ng-show="sortBy != 'REPLACE_ME4' && sortBy != '-REPLACE_ME4'" class="fa fa-sort"></span>
+                            <span ng-show="sortBy == 'REPLACE_ME4'" class="fa fa-sort-down"></span>
+                            <span ng-show="sortBy == '-REPLACE_ME4'" class="fa fa-sort-up"></span>
                         </th>
                     </tr>
                 </thead>
@@ -83,19 +90,19 @@
                 <tbody>
 
                     <tr ng-repeat="patient in activePatientsFiltered">   
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.patientId }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.patientId }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.firstName }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.firstName }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.petOwner.phoneNumber }}</td>
                         
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column15 col-md-2 hiddenTable"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2 hiddenTable">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column10 col-md-2 hiddenTable"> Visit <!-- {{ patient.X }} --> </td>
+                        <td class="column10 col-md-2 hiddenTable">Visit <!-- {{ patient.X }} --></td>
                     </tr>
 
                 </tbody>
@@ -109,19 +116,19 @@
 
                     <tr ng-repeat="patient in activePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
                         
-                        <td class="column15 col-md-2"> {{ patient.patientId }} </td>
+                        <td class="column15 col-md-2">{{ patient.patientId }}</td>
 
-                        <td class="column15 col-md-2"> {{ patient.firstName }} </td>
+                        <td class="column15 col-md-2">{{ patient.firstName }}</td>
 
-                        <td class="column15 col-md-2"> Fake, Name <!-- {{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }} --> </td>
+                        <td class="column15 col-md-2">{{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }}</td>
 
-                        <td class="column15 col-md-2"> (012) 345-6789 <!-- {{ patient.petOwner.phoneNumber }} --> </td>
+                        <td class="column15 col-md-2">{{ patient.petOwner.phoneNumber }}</td>
                         
-                        <td class="column15 col-md-2"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column15 col-md-2"> {{ patient.dateCreated | dateFormat }} </td>
+                        <td class="column15 col-md-2">{{ patient.dateCreated | dateFormat }}</td>
 
-                        <td class="column10 col-md-2"> Visit <!-- {{ patient.X }} --> </td>
+                        <td class="column10 col-md-2">Visit <!-- {{ patient.X }} --></td>
                     </tr>
 
                 </tbody>

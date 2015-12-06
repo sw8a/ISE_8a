@@ -17,6 +17,21 @@ var AuxtheraSchema = new Schema({
 },
 { collection: 'auxthera' });
 
+var AuxAdminTasksSchema = new Schema({
+
+    dogFoods: [{
+        type: Schema.ObjectId,
+        ref: 'DogFood'
+    }],
+
+    breeds: [{
+        type: String,
+        trim: true
+    }]
+
+},
+{ collection: 'aux_admin_tasks' });
+
 
 var FeedbackSchema = new Schema({
     
@@ -44,6 +59,10 @@ var FeedbackSchema = new Schema({
         read: {
             type: Boolean,
             default: false
+        },
+        sentBy: {
+            type: String,
+            enum: ['Auxthera', 'Practice']
         }
     }],
 
@@ -92,7 +111,7 @@ var DogFoodsSchema = new Schema({
         trim: true
     },
 
-    caloriesPerCup: {
+    kcalPerCup: {
         type: Number,
         min: 0
     }

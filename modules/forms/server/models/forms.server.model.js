@@ -58,7 +58,30 @@ var ProgressFormSchema = new Schema({
 		dateChanged: {
 			type: Date,
 			default: Date.now
-		}
+		},
+
+        dateCreated: Date,
+        
+        weight: Number,
+        
+        trimauxilUse: {
+            type: String,
+            enum: ['Overuse', 'Just Right', 'Underuse']
+        },
+        
+        weightLossAppropriate: Boolean,
+        
+        foodChanged: Boolean,
+
+        overrideCupsPerFeeding: Number,
+
+        vetIdOverrideCPF: String,
+        
+        comments: String,
+
+        techId: String,
+        
+        vetId: String
 	} ]
 },
 { collection: 'progress_forms' });
@@ -100,6 +123,11 @@ var EnrollmentFormSchema = new Schema({
         default: '',
         trim: true
     },
+
+    vetSig: {
+        type: String,
+        trim: true
+    },
     
     techId: {
         type: String,
@@ -115,7 +143,23 @@ var EnrollmentFormSchema = new Schema({
 		dateChanged: {
 			type: Date,
 			default: Date.now
-		}
+		},
+
+        dateCreated: Date,
+
+        treats: String,
+
+        currentMedications: String,
+
+        medicalHistory: String,
+
+        peFindings: String,
+
+        vetSig: String,
+        
+        techId: String,
+        
+        vetId: String
 	} ]
 
 },
@@ -164,7 +208,19 @@ var ExitFormSchema = new Schema({
         dateChanged: {
             type: Date,
             default: Date.now
-        }
+        },
+
+        dateCreated: Date,
+
+        endingReason: String,
+
+        finalWeight: Number,
+
+        finalBCS: Number,
+        
+        techId: String,
+        
+        vetId: String
     } ]
 
 },

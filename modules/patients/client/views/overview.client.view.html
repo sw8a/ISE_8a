@@ -1,4 +1,4 @@
-<div class="progressPage" data-ng-controller="patientsController">
+<div class="progressPage" data-ng-controller="patientsController" data-ng-init="initPatient()">
     <br/>
     <div class="row text-center boxOne">
             <h2 class="floatLeft">{{activePatient.firstName}}'s Progress Tracker</h2>
@@ -7,10 +7,10 @@
 
             <div class="col-md-4" >
                 <p>Patient Name:   {{activePatient.firstName}}<br/>
-                    Client Name:   John Doe<br/>
+                    Client Name:   {{activePatient.petOwner.firstName}} {{activePatient.petOwner.lastName}}<br/>
                     Last Appointment:   {{activePatient.progressForms[activePatient.progressForms.length - 1].dateCreated | date:'MM/dd/yyyy'}}<br/>
-                    Current Appointment:   10/15/15<br/>
                     Next Appointment:   10/29/15<br/>
+                    Starting Weight:   {{activePatient.startWeight}} lbs
                 </p>
             </div>
 
@@ -37,11 +37,11 @@
 
         <div class="floatLeft">
             <h2>{{activePatient.firstName}}'s Weight Loss Summary</h2>
-            <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ (activePatient.startWeight).toFixed(2) }}<br/>
-                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ (weight).toFixed(2) }}<br/>
-                Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ idealWeight() }}<br/>
-                Total Weight Lost: &nbsp &nbsp {{ (activePatient.startWeight-weight).toFixed(2) }} <br/>
-                Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ (weight-idealWeight()).toFixed(2) }}<br/>
+            <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ (activePatient.startWeight).toFixed(2) }} lbs<br/>
+                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ (weight).toFixed(2) }} lbs<br/>
+                Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ idealWeight() }} lbs<br/>
+                Total Weight Lost: &nbsp &nbsp {{ (activePatient.startWeight-weight).toFixed(2) }} lbs<br/>
+                Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ (weight-idealWeight()).toFixed(2) }} lbs<br/>
             </p>
         </div>
 

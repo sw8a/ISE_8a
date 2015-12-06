@@ -1,13 +1,18 @@
 'use strict';
 
-angular.module('patients', ['chart.js']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, PatientsService, ActivePatient) {
+angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient', /*'$localStorage',*/
+    function($scope, Authentication, $location, $stateParams, /*$localStorage, */PatientsService, ActivePatient) {
 
         $scope.authentication = Authentication;
 
         if (!$scope.authentication.user) {
             $location.path('/');
         }
+
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+            //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+        };
 
         $scope.activePatient = ActivePatient.getActivePatient();
 
@@ -19,14 +24,16 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         var weightsShown = [];
         var idealWeightsShown = [];
 
+        var kgToLb = 2.2046; // kg * 2.2046 = lb
+
         monthsShown.push(months[monthStarted-1]);
         weightsShown.push($scope.activePatient.startWeight);
         idealWeightsShown.push(idealWeights[0]);
 
         for(var i = 0; i < progressForms.length; i++) {
           monthsShown.push(months[Number(progressForms[i].dateCreated.substring(5,7))-1]);
-          weightsShown.push(progressForms[i].weight);
-          idealWeightsShown.push(idealWeights[i+1]);
+          weightsShown.push(progressForms[i].weight * kgToLb);
+          idealWeightsShown.push(idealWeights[i+1] * kgToLb);
         }
 
         $scope.labelsLine = monthsShown;
@@ -37,9 +44,9 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
             idealWeightsShown
         ];
 
-        $scope.weight = $scope.activePatient.startWeight;
+        $scope.weight = $scope.activePatient.startWeight * kgToLb;
         if($scope.activePatient.progressForms.length) {
-          $scope.weight = $scope.activePatient.progressForms[$scope.activePatient.progressForms.length - 1].weight;
+          $scope.weight = $scope.activePatient.progressForms[$scope.activePatient.progressForms.length - 1].weight * kgToLb;
         }
 
         $scope.trimauxilSKU = function() {
@@ -66,7 +73,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
           }
         };
 
-        $scope.imageURL = "modules/patients/img/" + $scope.trimauxilSKU() + ".png";
+        $scope.imageURL = 'modules/patients/img/' + $scope.trimauxilSKU() + '.png';
 
         $scope.idealWeight = function () {
             var currWeight = $scope.activePatient.startWeight;
@@ -78,7 +85,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
 
         // Weight Lost vs. Pounds To Go Doughnut Graph
         $scope.labelsDoughnut = ['Total Weight Lost', 'Pounds To Go'];
-        $scope.dataDoughnut = [($scope.activePatient.startWeight-$scope.weight).toFixed(2), ($scope.weight-$scope.idealWeight()).toFixed(2)];
+        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(2), ($scope.weight-$scope.idealWeight()).toFixed(2)];
         $scope.colorsDoughnut = ['#6399CC', '#505050'];
     }
 ]);

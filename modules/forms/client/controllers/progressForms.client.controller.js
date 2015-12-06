@@ -286,6 +286,14 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return trimauxilDose;
         };
 
+        $scope.getIdealWeight = function () {
+            var currWeight = $scope.activePatient.startWeight;
+            var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
+            var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
+
+            return (idealWeight * 2.20462).toFixed(2);
+        };
+
         // Editing form's input
         $scope.editForm = function(index) {
             // If forms are locked from editing. Do not allow this to execute

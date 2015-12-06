@@ -345,24 +345,14 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
                 idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
 
-                if($scope.practiceInfo.preferredUnit === 'kg') {
-                  return idealWeight.toFixed(2);
-                }
-                else {
-                  return (idealWeight * 2.20462).toFixed(2);
-                }
+                return idealWeight.toFixed(2);
             }
             else {
                 currWeight = $scope.startWeight;
                 bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
                 idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
 
-                if($scope.practiceInfo.preferredUnit === 'kg') {
-                    return idealWeight.toFixed(2);
-                }
-                else {
-                    return (idealWeight * 2.20462).toFixed(2);
-                }
+                return idealWeight.toFixed(2);
             }
         };
 
@@ -392,6 +382,15 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             }
 
             return diff;
+        };
+
+        // Convert a lb weight to kg
+        $scope.lbToKg = function(lbWeight) {
+            return (lbWeight / 2.2046).toFixed(2);
+        };
+        // Convert a kg weight to lb
+        $scope.kgToLb = function(kgWeight) {
+            return (kgWeight * 2.2046).toFixed(2);
         };
     }
 ]);

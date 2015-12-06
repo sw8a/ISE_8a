@@ -24,31 +24,55 @@ exports.saveNewPractice = function (req, res) {
 
 exports.updatePractice = function (req, res) {
     var practice = req.body;
-    var changedData = practice.changedData;
-    var practiceId = practice._id;
-    delete practice.changedData;
-    delete practice._id;
 
-    Practice.findByIdAndUpdate(
-        practiceId,
-        {
-            $push: { 'changedData': changedData },
-            $set: practice
-        },
-        {
-            safe: true,
-            new: true
-        },
-        function(err) {
-            if (err) {
-                return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                res.json(practice);
+    if(practice.newPatient) {
+        Practice.findByIdAndUpdate(
+            practice._id,
+            {
+                $push: { 'patients': practice.newPatient }
+            },
+            {
+                safe: true,
+                new: true
+            },
+            function(err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(practice);
+                }
             }
-        }
-    );
+        );
+    }
+    else {
+        var changedData = practice.changedData;
+        var practiceId = practice._id;
+        delete practice.changedData;
+        delete practice._id;
+
+        Practice.findByIdAndUpdate(
+            practiceId,
+            {
+                $push: { 'changedData': changedData },
+                $set: practice
+            },
+            {
+                safe: true,
+                new: true
+            },
+            function(err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(practice);
+                }
+            }
+        );
+    }
 };
 
 exports.getPractice = function (req, res) {

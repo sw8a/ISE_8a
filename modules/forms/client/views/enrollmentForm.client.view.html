@@ -4,18 +4,6 @@
     <h1 class="text-center">Enrollment Form</h1>
   </div>
 
-  <div class="col-md-12 kglb">
-    <div class="col-md-2">
-      Preferred Unit:
-    </div>
-    <label class="radio-inline col-md-1">
-        <input type="radio" name="kgOrlb" data-ng-model="practiceInfo.preferredUnit" value="kg">kg
-    </label>
-    <label class="radio-inline col-md-1">
-        <input type="radio" name="kgOrlb" data-ng-model="practiceInfo.preferredUnit" value="lb">lb
-    </label>
-  </div>
-
   <form data-ng-submit="createEnrollmentForm()" name="myForm" class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
     <div class="form-group">
       <label for="date">Date</label>
@@ -172,9 +160,16 @@
     <br>
 
     <div class="form-group">
-       <label class="col-md-4 col-xs-7" for="currentWeight">Today's Weight ({{practiceInfo.preferredUnit}}): </label>
-       <input data-ng-model="startWeight" class="col-md-2 col-xs-5" type="number" step="any" id="currentWeight" min="0" max="300" ng-disabled="disableInput">
-       <label class="col-md-4 col-xs-9">Ideal Weight ({{practiceInfo.preferredUnit}}): </label>
+       <label class="col-md-4 col-xs-7" for="currentWeight">Today's Weight (lb): </label>
+       <input data-ng-model="startWeightLb" data-ng-change="startWeight = lbToKg(startWeightLb)-0" class="col-md-2 col-xs-5" type="number" step="any" id="currentWeight" min="0" max="300" ng-disabled="disableInput">
+       <label class="col-md-4 col-xs-9">Ideal Weight (lb): </label>
+       <span class="col-md-2 col-xs-3">{{(patientInfo.idealWeight() * 2.20462).toFixed(2)}}</span>
+   </div>
+
+   <div class="form-group">
+       <label class="col-md-4 col-xs-7" for="currentWeight">Today's Weight (kg): </label>
+       <input data-ng-model="startWeight" data-ng-change="startWeightLb = kgToLb(startWeight)-0" class="col-md-2 col-xs-5" type="number" step="any" id="currentWeight" min="0" max="300" ng-disabled="disableInput">
+       <label class="col-md-4 col-xs-9">Ideal Weight (kg): </label>
        <span class="col-md-2 col-xs-3">{{patientInfo.idealWeight()}}</span>
    </div>
 

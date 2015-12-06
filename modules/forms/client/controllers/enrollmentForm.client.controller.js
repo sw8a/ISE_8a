@@ -18,7 +18,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.firstName = $scope.activePatient.firstName;
         $scope.patientId = $scope.activePatient.patientId;
-        $scope.birthDate = $scope.activePatient.birthDate;
+        $scope.birthDate = new Date($scope.activePatient.birthDate);
         $scope.startWeight = $scope.activePatient.startWeight;
         $scope.sex = $scope.activePatient.sex;
         $scope.fixed = $scope.activePatient.fixed;

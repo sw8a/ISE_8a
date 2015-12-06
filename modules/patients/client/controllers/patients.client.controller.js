@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('patients', ['chart.js', 'ngStorage']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient', '$localStorage',
-    function($scope, Authentication, $location, $stateParams, $localStorage, PatientsService, ActivePatient) {
+angular.module('patients', ['chart.js', 'ngStorage']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient', /*'$localStorage',*/
+    function($scope, Authentication, $location, $stateParams, /*$localStorage, */PatientsService, ActivePatient) {
 
         $scope.authentication = Authentication;
 
@@ -9,7 +9,10 @@ angular.module('patients', ['chart.js', 'ngStorage']).controller('patientsContro
             $location.path('/');
         }
 
-        $scope.activePatient = ActivePatient.getActivePatient();
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+            console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+        };
 
         var progressForms = $scope.activePatient.progressForms;
         var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));

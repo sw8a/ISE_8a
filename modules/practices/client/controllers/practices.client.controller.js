@@ -160,10 +160,9 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
 
-        // Maintian table header size on window resize
+        // Maintian table header size on window resize, binding to window extends outside of this controller
         var window = angular.element($window);
         window.bind('resize', function () {
-            console.log('resize');
             $('.headerTableContainer').height($('.patientListTableHead').height());
         });
 

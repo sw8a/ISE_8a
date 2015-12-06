@@ -27,8 +27,6 @@ exports.saveNewPatient = function (req, res) {
 exports.updatePatient = function (req, res) {
     var patient = req.body;
 
-    console.log('update patient');
-
     if(patient.formSave) {
         // Adding new form reference to patient document
 

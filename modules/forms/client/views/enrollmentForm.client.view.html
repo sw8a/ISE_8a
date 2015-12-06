@@ -242,7 +242,7 @@
     </div>
 
     <div class="form-group text-center">
-      <button ng-show="disableInput" ng-click="editForm()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+      <button ng-show="disableInput && !editActive" ng-click="editForm()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
       <button ng-show="!disableInput" ng-click="cancelEdit()" class="btn btn-default" type="button">Cancel</button>
       <button ng-show="!disableInput && !editActive" class="btn btn-primary" type="submit" ng-disabled="userForm.$invalid">Save</button>
       <button ng-show="editActive" ng-click="saveEdit()" class="btn btn-primary" type="button" ng-disabled="userForm.$invalid">Save Changes</button>

@@ -40,15 +40,17 @@ exports.getProgressForm = function (req, res) {
 
 // Update progress form
 exports.updateProgressForm = function (req, res) {
-    var progressForm = req.progressForm;
-
-    console.log('update form');
+    var progressForm = req.body;
+    var changedData = progressForm.changedData;
+    var progressFormId = progressForm._id;
+    delete progressForm.changedData;
+    delete progressForm._id;
 
     ProgressForm.findByIdAndUpdate(
-        progressForm._id,
+        progressFormId,
         {
-            $push: { 'changedData': progressForm.changedData } ,
-            $set: progressForm.updatedData
+            $push: { 'changedData': changedData },
+            $set: progressForm
         },
         {
             safe: true,
@@ -143,15 +145,11 @@ exports.getEnrollmentForm = function (req, res) {
 
 // Update enrollment form
 exports.updateEnrollmentForm = function (req, res) {
-    var enrollmentForm = req.enrollmentForm;
-    console.log('enrollmentForm');
-    console.log(enrollmentForm);
+    var enrollmentForm = req.body;
     var changedData = enrollmentForm.changedData;
     var enrollmentFormId = enrollmentForm._id;
     delete enrollmentForm.changedData;
     delete enrollmentForm._id;
-    console.log('enrollmentForm');
-    console.log(enrollmentForm);
 
     EnrollmentForm.findByIdAndUpdate(
         enrollmentFormId,
@@ -255,13 +253,17 @@ exports.getExitForm = function (req, res) {
 
 // Update exit form
 exports.updateExitForm = function (req, res) {
-    var exitForm = req.exitForm;
+    var exitForm = req.body;
+    var changedData = exitForm.changedData;
+    var exitFormId = exitForm._id;
+    delete exitForm.changedData;
+    delete exitForm._id;
 
     ExitForm.findByIdAndUpdate(
-        exitForm._id,
+        exitFormId,
         {
-            $push: { 'changedData': exitForm.changedData } ,
-            $set: exitForm.updatedData
+            $push: { 'changedData': changedData },
+            $set: exitForm
         },
         {
             safe: true,

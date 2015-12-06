@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 describe('Controller: progressFormsController', function() {
 	
@@ -20,4 +20,4 @@ describe('Controller: progressFormsController', function() {
 	it('Should have oneTime = true, enterFood = false, and feedAdjustFlag = false', function() {
 		expect(scope.oneAtTime).toBe(true);
 	});
-});
+});*/

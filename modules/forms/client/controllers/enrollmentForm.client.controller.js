@@ -16,39 +16,44 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             preferredUnit: 'kg'
         };
 
-        $scope.dateCreated = new Date($scope.activePatient.enrollmentForm.dateCreated);
-        $scope.firstName = $scope.activePatient.firstName;
-        $scope.patientId = $scope.activePatient.patientId;
-
-        $scope.clientLastName = $scope.activePatient.petOwner.lastName;
-        $scope.clientFirstName = $scope.activePatient.petOwner.firstName;
-        $scope.clientTelephone = $scope.activePatient.petOwner.phoneNumber;
-        $scope.clientEmail = $scope.activePatient.petOwner.email;
-
-        $scope.birthDate = new Date($scope.activePatient.birthDate);
-        $scope.startWeight = $scope.activePatient.startWeight;
-        $scope.sex = $scope.activePatient.sex;
-        $scope.fixed = $scope.activePatient.fixed;
-        $scope.breed = $scope.activePatient.breed;
-        $scope.bcs = $scope.activePatient.bcs;
-
-        $scope.treats = $scope.activePatient.enrollmentForm.treats;
-        $scope.currentMedications = $scope.activePatient.enrollmentForm.currentMedications;
-        $scope.medicalHistory = $scope.activePatient.enrollmentForm.medicalHistory;
-        $scope.peFindings = $scope.activePatient.enrollmentForm.peFindings;
-        $scope.vetSig = $scope.activePatient.enrollmentForm.vetSig;
-        $scope.techId = $scope.activePatient.enrollmentForm.techId;
-        $scope.vetId = $scope.activePatient.enrollmentForm.vetId;
+        
 
         console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
         if($scope.firstName) {
             $scope.disableInput = true;
             $scope.vetApproval = true;
+
+            $scope.dateCreated = new Date($scope.activePatient.enrollmentForm.dateCreated);
+            $scope.firstName = $scope.activePatient.firstName;
+            $scope.patientId = $scope.activePatient.patientId;
+
+            $scope.clientLastName = $scope.activePatient.petOwner.lastName;
+            $scope.clientFirstName = $scope.activePatient.petOwner.firstName;
+            $scope.clientTelephone = $scope.activePatient.petOwner.phoneNumber;
+            $scope.clientEmail = $scope.activePatient.petOwner.email;
+
+            $scope.birthDate = new Date($scope.activePatient.birthDate);
+            $scope.startWeight = $scope.activePatient.startWeight;
+            $scope.sex = $scope.activePatient.sex;
+            $scope.fixed = $scope.activePatient.fixed;
+            $scope.breed = $scope.activePatient.breed;
+            $scope.bcs = $scope.activePatient.bcs;
+
+            $scope.treats = $scope.activePatient.enrollmentForm.treats;
+            $scope.currentMedications = $scope.activePatient.enrollmentForm.currentMedications;
+            $scope.medicalHistory = $scope.activePatient.enrollmentForm.medicalHistory;
+            $scope.peFindings = $scope.activePatient.enrollmentForm.peFindings;
+            $scope.vetSig = $scope.activePatient.enrollmentForm.vetSig;
+            $scope.techId = $scope.activePatient.enrollmentForm.techId;
+            $scope.vetId = $scope.activePatient.enrollmentForm.vetId;
         }
         else {
             $scope.disableInput = false;
+            $scope.dateCreated = new Date();
         }
+
+        $scope.editActive = false;
 
         console.log('birthDate: ' + $scope.birthDate);
 
@@ -210,9 +215,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             if(ownerChanged) {
                 changedDataOwner.changedData = oldDataOwner;
                 var petOwner = new PetOwnersService(changedDataOwner);
-                console.log('petOwner edit:');
-                console.log(petOwner);
-                console.log(changedDataOwner);
+                x
                 petOwner.$update(function(petOwnerUpdateResponse) {});
             }
 

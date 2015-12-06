@@ -10,7 +10,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.feedAdjustFlag = false;                              // Flag use to override feeding adjustment in new form 
         $scope.constProgForm = [];                                  // Empty array to store progress form before it is changed
         
-        // Fields
+        // Fields for use in automatic conversion when entering weight in New progress form
         $scope.weight = {
             lb: '',
             kg: ''
@@ -130,7 +130,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.updateProgressForm = function(index) {
             
             console.log('Update Progress Form');
-            var fieldChanged = {};
+            var fieldChanged = {};                              // Object containing old values before the fields were changed
             var changeMadeFlag = false;                         // Flag to check if any field was changed
 
             var progressFormUpdate = new ProgressFormsService({
@@ -139,7 +139,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
             // Add fields changed to Progress Form service
             if(this.activePatient.progressForms[index].weightKg !== this.activePatient.progressForms[index].weight) {
-                fieldChanged.weight = this.activePatient.progressForms[index].weight;
+                fieldChanged.weight = $scope.constProgForm[index].weight.weightKg;
                 progressFormUpdate.weight = this.activePatient.progressForms[index].weightKg;
                 changeMadeFlag = true;
                 this.activePatient.progressForms[index].weight = this.activePatient.progressForms[index].weightKg;
@@ -197,9 +197,11 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             console.log('***************');
             console.log(fieldChanged);
 
-            // Call Update field in the database
 
-            // Update this object fields so that changes reflect on the front end
+            // Call necessary update function in database here
+
+
+            
             this.activePatient.progressForms[index].edit = false;           // Set done editing flag
         };
 

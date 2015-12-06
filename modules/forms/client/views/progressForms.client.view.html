@@ -9,8 +9,8 @@
             <h5>Phone: {{activePatient.petOwner.phoneNumber}}</h5>
         </div>
         <div class="col-xs-12 pull-right col-sm-4 col-md-3">
-            <h5>Initial Weight: {{activePatient.startWeight}}</h5>
-            <h5>Ideal Weight: {{getIdealWeight()}} lbs</h5>
+            <h5>Initial Weight: {{activePatient.startWeight}} kg ({{kgToLb(activePatient.startWeight)}} lbs)</h5>
+            <h5>Ideal Weight: {{lbToKg(getIdealWeight())}} kg ({{getIdealWeight()}} lbs)</h5>
         </div>
     </div>
     <hr/>
@@ -26,10 +26,10 @@
             </accordion-heading>
             <accordion-body>
                 <!-- Print Message. Only one visit form can be submitted per day -->
-                <div data-ng-hide="!todayFormSubmitFlag">
+                <div data-ng-show="todayFormSubmitFlag">
                     <p class="lead text-center text-danger">Only one visit form can be submitted per day</p>
                 </div>
-                <div data-ng-hide="todayFormSubmitFlag">
+                <div data-ng-show="!todayFormSubmitFlag">
                     <form data-ng-submit="createProgressForm()" class="form-horizontal">
                         <!-- Actual form-->
                         <div class="row">
@@ -104,7 +104,7 @@
                                             <small class="pull-right control-label">Enter number of cups per meal</small>
                                         </div>
                                         <div class="col-sm-3 input-group">
-                                            <input data-ng-model="overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text" required="feedAdjustFlag"><em class="input-group-addon">cups/meal</em>
+                                            <input data-ng-model="overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text" data-ng-required="feedAdjustFlag"><em class="input-group-addon">cups/meal</em>
                                         </div>
                                         <div class="col-sm-5 pull-right">
                                             <input data-ng-model="vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" data-ng-required="feedAdjustFlag">

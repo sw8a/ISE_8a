@@ -1,6 +1,11 @@
 
 /* Toggle Styles */
 
+.active {
+    background: #DCDCDC;
+    background: rgba(220,220,220,0.55);
+}
+
 .wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;

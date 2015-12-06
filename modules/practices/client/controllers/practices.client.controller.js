@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', 'FeedbackService', '$location', '$stateParams', 'ActivePatient',
-    function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, ActivePatient) {
+angular.module('practices').controller('practicesController', ['$scope', 'Authentication', 'PracticesService', 'PatientsService', 'FeedbackService', '$location', '$stateParams', '$window', 'ActivePatient',
+    function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, $window, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
+        $scope.practiceName = ActivePatient.getActivePractice().name;
 
         $scope.authentication = Authentication;
 
-        //console.log($scope.authentication.user );
         // if a user is not logged in, route us back to the root
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -30,6 +30,9 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             else {
                 $scope.sortBy = sortRequest;
             }
+
+            // Angular needs to update the view so the latest size is measured. This is not ideal.
+            setTimeout(function(){ $('.headerTableContainer').height($('.patientListTableHead').height()); }, 20);
         };
 
 
@@ -43,6 +46,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
         $scope.selectPatient = function(selectedPatient) {
+            ActivePatient.setActivePatient(selectedPatient);
+
             // Get active patient to populate forms
             var patient = new PatientsService({
                 _id: selectedPatient._id,
@@ -68,6 +73,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 ActivePatient.setActivePractice(practiceResponse);
 
                 $scope.patients = practiceResponse.patients;
+                $scope.practiceName = ActivePatient.getActivePractice().name;
 
                 console.log('APc: ' + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
@@ -86,25 +92,19 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 $('.tableContainer').mCustomScrollbar({
                     scrollbarPosition: 'outside',
                     callbacks: {
-                        //alwaysTriggerOffsets: true,
-                        /*onTotalScroll:function(){
-                            $('.tableContainer').removeClass('tableContainerBottomBorder');
-                            console.log('at end');
-                        },
-                        onScrollStart:function(){
-                            $('.tableContainer').addClass('tableContainerBottomBorder');
-                            console.log('movin');
-                        },*/
+                        /*
                         whileScrolling: function() {
                             if (this.mcs.topPct === 100) {
                                 $('.tableContainer').removeClass('tableContainerBottomBorder');
                             } else {
                                 $('.tableContainer').addClass('tableContainerBottomBorder');
                             }
-                        }
+                        }*/
                     }
 
                 });
+
+                $('.headerTableContainer').height($('.patientListTableHead').height());
 
                 return;
             });
@@ -133,6 +133,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.searchChange = function() {
             $scope.activePatientsFiltered = $scope.activePatientsList;
             $scope.activePatientsFiltered = $scope.activePatientsFiltered.filter(searchFilter);
+            $('.headerTableContainer').height($('.patientListTableHead').height());
         };
 
         function searchFilter(item) {
@@ -161,6 +162,13 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 
             });
         };
+
+
+        // Maintian table header size on window resize, binding to window extends outside of this controller
+        var window = angular.element($window);
+        window.bind('resize', function () {
+            $('.headerTableContainer').height($('.patientListTableHead').height());
+        });
 
     }
 ]);

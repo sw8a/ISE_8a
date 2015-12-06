@@ -17,6 +17,21 @@ var AuxtheraSchema = new Schema({
 },
 { collection: 'auxthera' });
 
+var AuxAdminTasksSchema = new Schema({
+
+    dogFoods: [{
+        type: Schema.ObjectId,
+        ref: 'DogFood'
+    }],
+
+    breeds: [{
+        type: String,
+        trim: true
+    }]
+
+},
+{ collection: 'aux_admin_tasks' });
+
 
 var FeedbackSchema = new Schema({
     
@@ -44,6 +59,10 @@ var FeedbackSchema = new Schema({
         read: {
             type: Boolean,
             default: false
+        },
+        sentBy: {
+            type: String,
+            enum: ['Auxthera', 'Practice']
         }
     }],
 
@@ -83,12 +102,26 @@ var DogBreedsSchema = new Schema({
         trim: true
     }]
 },
-{ collection: 'dogBreeds' });
+{ collection: 'dog_breeds' });
+
+var DogFoodsSchema = new Schema({
+
+    name: {
+        type: String,
+        trim: true
+    },
+
+    kcalPerCup: {
+        type: Number,
+        min: 0
+    }
+},
+{ collection: 'dog_foods' });
 
 
 
 
-
-mongoose.model('DogBreeds', DogBreedsSchema);
-mongoose.model('Feedback', FeedbackSchema);
 mongoose.model('Auxthera', AuxtheraSchema);
+mongoose.model('Feedback', FeedbackSchema);
+mongoose.model('DogBreeds', DogBreedsSchema);
+mongoose.model('DogFood', DogBreedsSchema);

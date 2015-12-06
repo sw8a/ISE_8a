@@ -67,6 +67,9 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
             $scope.getPracticePromise = practice.$get(function(practiceResponse) {
 
+                console.log('Promise 1:');
+                console.log($scope.getPracticePromise);
+
                 ActivePatient.setActivePractice(practiceResponse);
 
                 $scope.patients = practiceResponse.patients;
@@ -101,6 +104,9 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 });
 
                 $('.headerTableContainer').height($('.patientListTableHead').height());
+
+                console.log('Promise 2:');
+                console.log($scope.getPracticePromise);
 
                 return;
             });
@@ -160,10 +166,9 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
 
-        // Maintian table header size on window resize
+        // Maintian table header size on window resize, binding to window extends outside of this controller
         var window = angular.element($window);
         window.bind('resize', function () {
-            console.log('resize');
             $('.headerTableContainer').height($('.patientListTableHead').height());
         });
 

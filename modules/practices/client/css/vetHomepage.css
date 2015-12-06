@@ -73,9 +73,11 @@
     border-bottom: 1px solid #DDDDDD;
 }
 
+/*
 .patientListTableHead {
-    /*white-space: nowrap;*/
+    white-space: nowrap;
 }
+*/
 
 .newPatientButton {
     margin-top: 15px;

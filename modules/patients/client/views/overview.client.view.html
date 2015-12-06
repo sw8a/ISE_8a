@@ -1,46 +1,47 @@
-<div class="progressPage" data-ng-controller="patientsController">
+<div class="progressPage" data-ng-controller="patientsController" data-ng-init="initPatient()">
     <br/>
-    <div class="boxOne" align="Left">
-        <div>
-            <h2 class="floatLeft">{{activePatient.firstName}}'s Information</h2>
+    <div class="row text-center boxOne">
+            <h2 class="floatLeft">{{activePatient.firstName}}'s Progress Tracker</h2>
 
             <br/><br/><br/><br/>
 
-            <div class="floatLeftPadded" >
+            <div class="col-md-4" >
                 <p>Patient Name:   {{activePatient.firstName}}<br/>
-                    Client Name:   John Doe<br/>
+                    Client Name:   {{activePatient.petOwner.firstName}} {{activePatient.petOwner.lastName}}<br/>
                     Last Appointment:   {{activePatient.progressForms[activePatient.progressForms.length - 1].dateCreated | date:'MM/dd/yyyy'}}<br/>
-                    Current Appointment:   10/15/15<br/>
                     Next Appointment:   10/29/15<br/>
+                    Starting Weight:   {{activePatient.startWeight}} lbs
                 </p>
             </div>
 
-            <div class="floatLeftNoPad" >
+            <div class="col-md-4" >
                 <p>Current Food:   Purina Dog Chow<br/>
                     Meals per day:  2<br/>
                     Cups of food per meal:   1 3/4<br/>
-                    Current Trimauxil:   S2<br/>
+                    Current Trimauxil:   {{ trimauxilSKU() }} <br/>
                 </p>
             </div>
 
-        </div>
+            <div class="col-md-4" >
+                 <img ng-src="{{imageURL}}" class="img-responsive imgVertical">
+            </div>
     </div>
 
     <br/>
 
-    <canvas class="chart chart-line line" chart-data="dataLine" chart-labels="labelsLine" chart-series="seriesLine" chart-colours="colorsLine"></canvas>
+    <canvas class="chart chart-line line canvas" chart-data="dataLine" chart-labels="labelsLine" chart-series="seriesLine" chart-colours="colorsLine"></canvas>
 
     <br/><br/>
 
-    <div class="boxTwo" align="Left">
+    <div class="row text-center boxTwo">
 
         <div class="floatLeft">
             <h2>{{activePatient.firstName}}'s Weight Loss Summary</h2>
-            <p>Starting Weight: &nbsp &nbsp &nbsp   100<br/>
-                Current Weight: &nbsp &nbsp &nbsp&nbsp   60<br/>
-                Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp   53.1<br/>
-                Total Weight Lost: &nbsp&nbsp   40<br/>
-                Pounds to Go: &nbsp &nbsp &nbsp &nbsp&nbsp   6.9<br/>
+            <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ (activePatient.startWeight).toFixed(2) }} lbs<br/>
+                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ (weight).toFixed(2) }} lbs<br/>
+                Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ idealWeight() }} lbs<br/>
+                Total Weight Lost: &nbsp &nbsp {{ (activePatient.startWeight-weight).toFixed(2) }} lbs<br/>
+                Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ (weight-idealWeight()).toFixed(2) }} lbs<br/>
             </p>
         </div>
 

@@ -76,21 +76,21 @@
     <div class="form-group text-center">
       <div class="col-md-6 columns">
         <label>Sex</label> <br/>
-        <label data-ng-model="sex" class="radio-inline">
-          <input type="radio" name="sex" value="M" ng-disabled="disableInput" required>Male
+        <label class="radio-inline">
+          <input data-ng-model="sex" type="radio" name="sex" value="M" ng-checked="sex == 'M'" ng-disabled="disableInput" required>Male
         </label>
-        <label data-ng-model="sex" class="radio-inline">
-          <input type="radio" name="sex" value="F" ng-disabled="disableInput" required>Female
+        <label class="radio-inline">
+          <input data-ng-model="sex" type="radio" name="sex" value="F" ng-checked="sex == 'F'" ng-disabled="disableInput" required>Female
         </label>
       </div>
 
       <div class="col-md-6 columns">
         <label>Castrated?</label> <br/>
         <label class="radio-inline">
-          <input data-ng-model="fixed" type="radio" name="castrated" value="true" ng-disabled="disableInput" required>Castrated
+          <input data-ng-model="fixed" type="radio" name="castrated" value="true" ng-checked="fixed != undefined && fixed" ng-disabled="disableInput" required>Castrated
         </label>
         <label class="radio-inline">
-          <input data-ng-model="fixed" type="radio" name="castrated" value="false" ng-disabled="disableInput" required>Intact
+          <input data-ng-model="fixed" type="radio" name="castrated" value="false" ng-checked="fixed != undefined && !fixed" ng-disabled="disableInput" required>Intact
         </label>
       </div>
     </div>
@@ -98,7 +98,7 @@
     <div class="form-group">
       <label for="breed">Breed</label>
       <input data-ng-model="breed" type="text" class="form-control" name="breed" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed" ng-disabled="disableInput" required>
-      <span class="alert alert-danger alertMessage" ng-show="myForm.breed.$error.required  && myForm.breed.$dirty">Breed is required!</span>
+      <span class="alert alert-danger alertMessage" ng-show="myForm.breed.$error.required && myForm.breed.$dirty">Breed is required!</span>
     </div>
 
     <h3 class="text-center">Current Diet</h3>
@@ -107,20 +107,20 @@
     <div class="form-group">
       <label for="brand">Brand</label>
       <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" ng-disabled="disableInput" required>
-      <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required  && myForm.brand.$dirty">Brand is required!</span>
+      <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required && myForm.brand.$dirty">Brand is required!</span>
     </div>
 
     <div class="form-group">
       <div class="col-md-6">
         <label class="col-md-8 negativeLeftMargin" for="foodAmount">Cups of food per meal: </label>
         <input class="col-md-4" type="number" class="form-control" name="cups" step="any" id="foodAmount" min="1" max="10" data-ng-model="patientInfo.cups" ng-disabled="disableInput" required>
-        <span class="alert alert-danger alertMessage" ng-show="myForm.cups.$error.required  && myForm.cups.$dirty">Cups is required!</span>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.cups.$error.required && myForm.cups.$dirty">Cups is required!</span>
       </div>
 
       <div class="col-md-6">
         <label class="col-md-6" for="foodAmount">Meals per day: </label>
         <input class="col-md-4" type="number" class="form-control" name="meals" step="1" min="1" max="10" data-ng-model="patientInfo.perDay" ng-disabled="disableInput" required>
-        <span class="alert alert-danger alertMessage" ng-show="myForm.meals.$error.required  && myForm.meals.$dirty">Meals is required!</span>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.meals.$error.required && myForm.meals.$dirty">Meals is required!</span>
       </div>
     </div>
 
@@ -157,15 +157,15 @@
     </div>
 
     <div class="row">
-      <label for="significantPEFindings">Today's Significant PE Findings:</label><br>
+      <label for="peFindings">Today's Significant PE Findings:</label><br>
       <div class="col-md-4">
-        <input type="checkbox" name="significantPEFindings" value="None" checked> None
+        <input type="checkbox" name="peFindings" value="None" checked> None
       </div>
       <div class="col-md-4">
-        <input type="checkbox" name="significantPEFindings" value="A"> A
+        <input type="checkbox" name="peFindings" value="A"> A
       </div>
       <div class="col-md-4">
-        <input type="checkbox" name="significantPEFindings" value="B"> B
+        <input type="checkbox" name="peFindings" value="B"> B
       </div>
     </div>
 
@@ -225,16 +225,15 @@
     <!-- approval not linked to anything yet -->
     <div class="form-group">
       <label for="eligibleDog">Veterinarian, please review any potential exclusion criteria. Is this dog eligible to proceed with Trimauxil treatment?</label>
-      <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval.continueWithTrimauxil" value="Y" ng-disabled="disableInput">Yes</label>
-      <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval.continueWithTrimauxil" value="N" ng-disabled="disableInput">No</label>
+      <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval" ng-checked="vetApproval" value="true" ng-disabled="disableInput">Yes</label>
+      <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval" ng-checked="!vetApproval" value="false" ng-disabled="disableInput">No</label>
     </div>
 
     <div class="form-group">
-      <label for="vetSignature">Veterinarian Signature</label>
-      <input type="text" class="form-control" id="vetSignature" placeholder="Signature" data-ng-model="vetApproval.vetSignature" ng-disabled="disableInput" required>
+      <label for="vetSig">Veterinarian Signature</label>
+      <input type="text" class="form-control" id="vetSig" placeholder="Signature" data-ng-model="vetSig" ng-disabled="disableInput" required>
     </div>
 
-    <!-- AT approval not linked to anything yet -->
     <div class="form-group">
       <label class="col-md-3" for="technician">Technician: </label>
       <input data-ng-model="techId" class="col-md-3" type="text" id="technician" ng-disabled="disableInput">
@@ -245,7 +244,8 @@
     <div class="form-group text-center">
       <button ng-show="disableInput" ng-click="editForm()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
       <button ng-show="!disableInput" ng-click="cancelEdit()" class="btn btn-default" type="button">Cancel</button>
-      <button ng-show="!disableInput" class="btn btn-primary" type="submit" ng-disabled="userForm.$invalid">Save</button>
+      <button ng-show="!disableInput && !editActive" class="btn btn-primary" type="submit" ng-disabled="userForm.$invalid">Save</button>
+      <button ng-show="editActive" ng-click="saveEdit()" class="btn btn-primary" type="button" ng-disabled="userForm.$invalid">Save Changes</button>
     </div>
 
   </form>

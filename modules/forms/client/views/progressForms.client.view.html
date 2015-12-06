@@ -5,12 +5,12 @@
             <h1 class="text-info">[{{activePatient.patientId}}] Visit Form</h1>
         </div>
         <div class="col-xs-12 col-sm-8">
-            <h5>Client: LastName, {{activePatient.firstName}}</h5>
-            <h5>Phone: (0000) 000-0000</h5>
+            <h5>Client: {{activePatient.petOwner.lastName}}, {{activePatient.petOwner.firstName}}</h5>
+            <h5>Phone: {{activePatient.petOwner.phoneNumber}}</h5>
         </div>
         <div class="col-xs-12 pull-right col-sm-4 col-md-3">
             <h5>Initial Weight: {{activePatient.startWeight}}</h5>
-            <h5>Ideal Weight: 2 lbs</h5>
+            <h5>Ideal Weight: {{getIdealWeight()}} lbs</h5>
         </div>
     </div>
     <hr/>

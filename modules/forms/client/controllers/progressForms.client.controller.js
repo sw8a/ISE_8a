@@ -8,11 +8,14 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.oneAtTime = true;                                    // To allow one form to open at a time
         $scope.enterFood = false;                                   // Use to give user the options to enter food info
         $scope.feedAdjustFlag = false;                              // Flag use to override feeding adjustment in new form 
+        $scope.constProgForm = [];                                  // Empty array to store progress form before it is changed
+        
+        // Fields for use in automatic conversion when entering weight in New progress form
         $scope.weight = {
             lb: '',
             kg: ''
         };
-        $scope.constProgForm = [];                                  // Empty array to store progress form before it is changed
+
 
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -20,45 +23,66 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
         $scope.initPatient = function() {
             $scope.activePatient = ActivePatient.getActivePatient();
-            $scope.formsLocked = $scope.formsLockedFromEditing();    // Are forms allowed to be edited?
+            $scope.formsLocked = $scope.formsLockedFromEditing();            // Are forms allowed to be edited?
 
             // Flag to prevent the user from adding a form if one is already entered
             $scope.todayFormSubmitFlag = false;
-            var today = new Date();
-            var lstForm = $scope.toDate($scope.activePatient.progressForms[$scope.activePatient.progressForms.length-1].dateCreated);
-            if(today.getFullYear() === lstForm.getFullYear()) {
-                if(today.getMonth() === lstForm.getMonth()) {
-                    if(today.getDate() === lstForm.getDate()) {
-                        $scope.todayFormSubmitFlag = true;
+            if($scope.activePatient.progressForms === undefined || $scope.activePatient.progressForms.length === 0) {
+                $scope.todayFormSubmitFlag = false;
+            }
+            else{
+                var today = new Date();
+                var lstForm = $scope.toDate($scope.activePatient.progressForms[$scope.activePatient.progressForms.length-1].dateCreated);
+                if(today.getFullYear() === lstForm.getFullYear()) {
+                    if(today.getMonth() === lstForm.getMonth()) {
+                        if(today.getDate() === lstForm.getDate()) {
+                            $scope.todayFormSubmitFlag = true;
+                        }
                     }
                 }
             }
-            
 
             // Add index as part of the object to overcome the issue of using $index with ng-repeat
             var i;
             for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
-                // Store progress form before user make any modifications
-                $scope.constProgForm[i] = $scope.activePatient.progressForms[i];
-
-                // Add index in object
+                // Add necessary index and necessary flag to each progress form object
                 $scope.activePatient.progressForms[i].index = i;
-                $scope.activePatient.progressForms[i].trimDose = $scope.getTrimauxilDose($scope.activePatient.progressForms[i].weight);
                 $scope.activePatient.progressForms[i].edit = false;
-                $scope.activePatient.progressForms[i].feedAdjustmentFlag = false;
+                if($scope.activePatient.progressForms[i].overrideCupsPerFeeding === undefined &&
+                    $scope.activePatient.progressForms[i].vetIdOverrideCPF === undefined) {
+                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = false;
+                }
+                else {
+                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
+                }
+                $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
                 $scope.activePatient.progressForms[i].foodChangedFlag = false;
 
-                // For weight editing features
+                // For weight editing features in Adding new form
                 $scope.activePatient.progressForms[i].weightKg = $scope.activePatient.progressForms[i].weight;
                 $scope.activePatient.progressForms[i].weightLb = $scope.kgToLb($scope.activePatient.progressForms[i].weight);
 
-                // Copy other fields for when user edit forms
-                $scope.activePatient.progressForms[i].oldTrimauxilUse = $scope.activePatient.progressForms[i].trimauxilUse;
-                $scope.activePatient.progressForms[i].oldfoodChanged = $scope.activePatient.progressForms[i].foodChanged;
-                $scope.activePatient.progressForms[i].oldComments = $scope.activePatient.progressForms[i].comments;
-                $scope.activePatient.progressForms[i].oldoverrideCupsPerFeeding = $scope.activePatient.progressForms[i].overrideCupsPerFeeding;
-                $scope.activePatient.progressForms[i].oldvetID = $scope.activePatient.progressForms[i].vetID;
-                $scope.activePatient.progressForms[i].oldtechID = $scope.activePatient.progressForms[i].techID;
+
+                // Copy all the progress forms before user makes any modifications to them
+                $scope.constProgForm[i] = new Object({
+                    index:i,
+                    edit: false,
+                    weight:{
+                        weigthKg:$scope.activePatient.progressForms[i].weight,
+                        weightLb:$scope.kgToLb($scope.activePatient.progressForms[i].weight)
+                    },
+                    trimauxilUse:$scope.activePatient.progressForms[i].trimauxilUse,
+                    feedAdjustmentFlag: $scope.activePatient.progressForms[i].feedAdjustmentFlag,
+                    overrideCupsPerFeeding: $scope.activePatient.progressForms[i].overrideCupsPerFeeding,
+                    vetIdOverrideCPF: $scope.activePatient.progressForms[i].vetIdOverrideCPF,
+                    foodChanged:$scope.activePatient.progressForms[i].foodChanged,
+                    kcalPerCup: 0,
+                    kcalPerKg: 0,
+                    comments: $scope.activePatient.progressForms[i].comments,
+                    techID: $scope.activePatient.progressForms[i].techID,
+                    vetID: $scope.activePatient.progressForms[i].vetID,
+                    dateCreated: $scope.activePatient.progressForms[i].dateCreated
+                });
 
                 console.log($scope.activePatient.progressForms[i].weight);
             }
@@ -74,10 +98,12 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
                 weight: this.weight.kg,
                 trimauxilUse: this.trimauxilUse,
                 weightLossAppropriate: this.weightLossAppropriate,
+                overrideCupsPerFeeding: this.overrideCupsPerFeeding,
+                vetIdOverrideCPF: this.vetIdOverrideCPF,
                 foodChanged: this.foodChanged,
                 comments: this.comments,
-                techID: this.techID,
-                vetID: this.vetID,
+                techId: this.techId,
+                vetId: this.vetId,
                 patient: ActivePatient.getActivePatient()._id
             });
 
@@ -104,7 +130,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.updateProgressForm = function(index) {
             
             console.log('Update Progress Form');
-            var fieldChanged = {};
+            var fieldChanged = {};                              // Object containing old values before the fields were changed
             var changeMadeFlag = false;                         // Flag to check if any field was changed
 
             var progressFormUpdate = new ProgressFormsService({
@@ -113,39 +139,53 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
             // Add fields changed to Progress Form service
             if(this.activePatient.progressForms[index].weightKg !== this.activePatient.progressForms[index].weight) {
-                fieldChanged.weight = this.activePatient.progressForms[index].weight;
+                fieldChanged.weight = $scope.constProgForm[index].weight.weightKg;
                 progressFormUpdate.weight = this.activePatient.progressForms[index].weightKg;
                 changeMadeFlag = true;
                 this.activePatient.progressForms[index].weight = this.activePatient.progressForms[index].weightKg;
             }
-            if(this.activePatient.progressForms[index].oldTrimauxilUse !== this.activePatient.progressForms[index].trimauxilUse) {
-                fieldChanged.trimauxilUse = this.activePatient.progressForms[index].oldTrimauxilUse;
+            // Trimauxil Use
+            if($scope.constProgForm[index].trimauxilUse !== this.activePatient.progressForms[index].trimauxilUse) {
+                fieldChanged.trimauxilUse = $scope.constProgForm[index].trimauxilUse;
                 progressFormUpdate.trimauxilUse = this.activePatient.progressForms[index].trimauxilUse;
                 changeMadeFlag = true;
-                this.activePatient.progressForms[index].oldTrimauxilUse = this.activePatient.progressForms[index].trimauxilUse;
             }
-            if(this.activePatient.progressForms[index].oldfoodChanged !== this.activePatient.progressForms[index].foodChanged) {
-                fieldChanged.foodChanged = this.activePatient.progressForms[index].foodChanged;
-                // Need to also check if food change is true
-                // So that the calory can be updated as well
+            // Feeding adjustment needed edited
+            if(this.activePatient.progressForms[index].feedAdjustmentFlag === true){
+                fieldChanged.overrideCupsPerFeeding = $scope.constProgForm[index].overrideCupsPerFeeding;
+                fieldChanged.vetIdOverrideCPF = $scope.constProgForm[index].vetIdOverrideCPF;
+                progressFormUpdate.overrideCupsPerFeeding = this.activePatient.progressForms[index].overrideCupsPerFeeding;
+                progressFormUpdate.overrideCupsPerFeeding = this.activePatient.progressForms[index].vetIdOverrideCPF;
+                changeMadeFlag = true;
             }
-            if(this.activePatient.progressForms[index].oldComments !== this.activePatient.progressForms[index].comments) {
-                fieldChanged.comments = this.activePatient.progressForms[index].oldComments;
+            // Food changed edited
+            if($scope.constProgForm[index].foodChanged !== this.activePatient.progressForms[index].foodChanged) {
+                fieldChanged.foodChanged = $scope.constProgForm[index].foodChanged;
+                progressFormUpdate.foodChanged = this.activePatient.progressForms[index].foodChanged;
+                changeMadeFlag = true;
+                // New food information needed?
+                if(this.activePatient.progressForms[index].foodChanged === true) {
+                    // Add new kcal/cup and kcal/kg to food collection
+                    console.log('Update the food database with the new food information');
+                }
+            }
+            // Comments edited
+            if($scope.constProgForm[index].comments !== this.activePatient.progressForms[index].comments) {
+                fieldChanged.comments = $scope.constProgForm[index].comments;
                 progressFormUpdate.comments = this.activePatient.progressForms[index].comments;
                 changeMadeFlag = true;
-                this.activePatient.progressForms[index].oldComments = this.activePatient.progressForms[index].comments;
             }
-            if(this.activePatient.progressForms[index].oldtechID !== this.activePatient.progressForms[index].techID) {
-                fieldChanged.techID = this.activePatient.progressForms[index].oldtechID;
+            // Tech ID edited
+            if($scope.constProgForm[index].techID !== this.activePatient.progressForms[index].techID) {
+                fieldChanged.techID = $scope.constProgForm[index].techID;
                 progressFormUpdate.techID = this.activePatient.progressForms[index].techID;
                 changeMadeFlag = true;
-                this.activePatient.progressForms[index].oldtechID = this.activePatient.progressForms.techID;
             }
-            if(this.activePatient.progressForms[index].oldvetID !== this.activePatient.progressForms[index].vetID) {
-                fieldChanged.vetID = this.activePatient.progressForms[index].oldvetID;
+            // Vet ID edited
+            if($scope.constProgForm[index].vetID !== this.activePatient.progressForms[index].vetID) {
+                fieldChanged.vetID = $scope.constProgForm[index].vetID;
                 progressFormUpdate.vetID = this.activePatient.progressForms[index].vetID;
                 changeMadeFlag = true;
-                this.activePatient.progressForms[index].vetID = this.activePatient.progressForms[index].oldvetID;
             }
             // Add changed old fields input to progress form
             if(changeMadeFlag === true) {
@@ -157,10 +197,24 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             console.log('***************');
             console.log(fieldChanged);
 
-            // Call Update field in the database
 
-            // Update this object fields so that changes reflect on the front end
+            // Call necessary update function in database here
+
+
+            
             this.activePatient.progressForms[index].edit = false;           // Set done editing flag
+        };
+
+        // Find out if food was adjusted
+        // Need to display on the form whether it was yes or false.
+        // Reason: Field is not stored in Database
+        $scope.isFeedingAjusted = function(index) {
+            var pat = ActivePatient.getActivePatient();
+            if(pat.progressForms[index].overrideCupsPerFeeding === undefined &&
+                pat.progressForms[index].vetIdOverrideCPF === undefined) {
+                return true;
+            }
+            return false;
         };
 
         // Convert a lb weight to kg
@@ -175,6 +229,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         // This function takes the index of a progress form an return the last weight
         $scope.getLastWeight = function(index) {
             var pat = ActivePatient.getActivePatient();
+            if(pat.progressForms === undefined) {
+                return pat.startWeight;
+            }
             // Past Forms exist
             if(pat.progressForms.length !== 0) {
                 if(index === -1) {
@@ -198,6 +255,12 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         // Param: weight, index of current progress form
         $scope.getTodayWeightLoss = function(todayWeight, index) {
             var pat = ActivePatient.getActivePatient();
+            // IF no progress EXIST yet
+            if(pat.progressForms === undefined) {
+                return pat.startWeight - todayWeight;
+            }
+
+            // IF progress form exist
             if(pat.progressForms.length === 0) {
                 return pat.startWeight - todayWeight; 
             }
@@ -229,12 +292,13 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         };
 
         // Check if forms should be locked. Return true or false
+        // Based on 60 threshold of today's date and the exit form date completion
         $scope.formsLockedFromEditing = function() {
             var pat = ActivePatient.getActivePatient();
             if(pat.exitForm !== undefined) {
                 var today = Date();
                 var exitDate = $scope.toDate(pat.exitForm.dateCreated);
-                if($scope.getNumDays(exitDate, today)) {
+                if($scope.getNumDays(exitDate, today) === 60) {
                     return true;
                 }
             }
@@ -286,6 +350,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return trimauxilDose;
         };
 
+        // When user clicks edit button
         $scope.getIdealWeight = function () {
             var currWeight = $scope.activePatient.startWeight;
             var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
@@ -307,14 +372,18 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
         // Cancel editing on forms
         $scope.cancelEditing = function(index) {
-
-            // Reset form fields to original
+            // Reset form fields to original value due to user canceling changes
             this.activePatient.progressForms[index].edit = false;
-            this.activePatient.progressForms[index].weightKg = this.activePatient.progressForms[index].weight;
-            this.activePatient.progressForms[index].weightLb = $scope.kgToLb(this.activePatient.progressForms[index].weight);
-            this.activePatient.progressForms[index].trimauxilUse = this.activePatient.progressForms[index].oldTrimauxilUse;
-            this.activePatient.progressForms[index].foodChanged = this.activePatient.progressForms[index].oldfoodChanged;
-            this.activePatient.progressForms[index].comments = this.activePatient.progressForms[index].oldComments;
+            this.activePatient.progressForms[index].weightKg = $scope.constProgForm[index].weight.weightKg;
+            this.activePatient.progressForms[index].weightLb = $scope.constProgForm[index].weight.weightLb;
+            this.activePatient.progressForms[index].trimauxilUse = $scope.constProgForm[index].trimauxilUse;
+            this.activePatient.progressForms[index].overrideCupsPerFeeding = $scope.constProgForm[index].overrideCupsPerFeeding;
+            this.activePatient.progressForms[index].vetIdOverrideCPF = $scope.constProgForm[index].vetIdOverrideCPF;
+            this.activePatient.progressForms[index].foodChanged = $scope.constProgForm[index].foodChanged;
+            this.activePatient.progressForms[index].comments = $scope.constProgForm[index].comments;
+            this.activePatient.progressForms[index].techID = $scope.constProgForm[index].techID;
+            this.activePatient.progressForms[index].vetID = $scope.constProgForm[index].vetID;
+            this.activePatient.progressForms[index].dateCreated = $scope.constProgForm[index].dateCreated;
         };
     }
 ]);

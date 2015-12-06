@@ -9,7 +9,7 @@
             <h5>Phone: {{activePatient.petOwner.phoneNumber}}</h5>
         </div>
         <div class="col-xs-12 pull-right col-sm-4 col-md-3">
-            <h5>Initial Weight: {{activePatient.startWeight}}</h5>
+            <h5>Initial Weight: {{activePatient.startWeight}} kg ({{kgToLb(activePatient.startWeight)}} lbs)</h5>
             <h5>Ideal Weight: {{getIdealWeight()}} lbs</h5>
         </div>
     </div>
@@ -25,148 +25,156 @@
                 </div>
             </accordion-heading>
             <accordion-body>
-
-                <form data-ng-submit="createProgressForm()" class="form-horizontal">
-
-                    <!-- Actual form-->
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <!-- Today's Weight -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Today's Weight</label>
-                                <div class="col-xs-6 col-sm-3 input-group">
-                                    <input data-ng-model="weight.lb" data-ng-change="weight.kg = lbToKg(weight.lb)" class="form-control" id="focusedInput" type="text" placeholder="Enter weight"><em class="input-group-addon">lb</em>
+                <!-- Print Message. Only one visit form can be submitted per day -->
+                <div data-ng-show="todayFormSubmitFlag">
+                    <p class="lead text-center text-danger">Only one visit form can be submitted per day</p>
+                </div>
+                <div data-ng-show="!todayFormSubmitFlag">
+                    <form data-ng-submit="createProgressForm()" class="form-horizontal">
+                        <!-- Actual form-->
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <!-- Today's Weight -->
+                                <div class="row form-inline">
+                                    <label class="col-sm-4 control-label">Today's Weight</label>
+                                    <div class="col-xs-6 col-sm-3 input-group">
+                                        <input data-ng-model="weight.lb" data-ng-change="weight.kg = lbToKg(weight.lb)" class="form-control" id="focusedInput" type="text" placeholder="Enter weight"><em class="input-group-addon">lb</em>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-sm-offset-1 input-group">
+                                       <input data-ng-model="weight.kg" data-ng-change="weight.lb = kgToLb(weight.kg)" class="form-control" id="focusedInput" type="text" placeholder="Enter weight" required><em class="input-group-addon">kg</em>
+                                    </div>
                                 </div>
-                                <div class="col-xs-6 col-sm-3 col-sm-offset-1 input-group">
-                                   <input data-ng-model="weight.kg" data-ng-change="weight.lb = lbToKg(weight.kg)" class="form-control" id="focusedInput" type="text" placeholder="Enter weight" required><em class="input-group-addon">kg</em>
-                                </div>
-                            </div>
-                            <!-- Last Weight -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Last Weight</label>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{kgToLb(getLastWeight(-1))}} <em>lb</em></span>
-                                </div>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{getLastWeight(-1) | number:2}} <em>kg</em></span>
-                                </div>
-                            </div>
-                            <!-- Today Weight Loss -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Today Weight Loss</label>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{kgToLb(getTodayWeightLoss(weight.kg, -1))}} <em>lb</em></span>
-                                </div>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{getTodayWeightLoss(weight.kg, -1) | number:2}} <em>kg</em></span>
-                                </div>
-                            </div>
-                            <!-- % Weight Loss / week -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">% Weight Loss / week</label>
-                                <div class="col-sm-8">
-                                    <!--To be computed using angularJs-->
-                                    <span class="static-data">{{getAvgWeightLossPerWeek()}} <em>%</em></span>
-                                </div>
-                            </div>
-                            <!-- Trimauxil Use && Weight Loss Appropriate-->
-                            <div class="form-group form-inline">
-                                <!-- Trimauxil Use -->
-                                <label class="col-sm-4 control-label">Trimauxil Use</label><br/>
-                                <div class="col-sm-8" >
-                                    <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Overuse" required> Overuse (ran out > 2 days)<br/>
-                                    <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Just Right" required> Just Right (+/- 2 doses)<br/>
-                                    <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Underuse" required> Underuse (>2 doses remaining)<br/>
-                                </div>
-                            </div>
-                            <!-- Trimauxil Dose -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Trimauxil Dose</label>
-                                <div class="col-sm-8">
-                                    <span class="static-data">{{getTrimauxilDose(weight.lb)}}</span>
-                                </div>
-                            </div>
-                            <!-- Feeding adjustment needed -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
-                                <div class="col-sm-4">
-                                    <label class="radio-inline"><input data-ng-model="overrideCupsPerFeeding" type="radio" data-ng-change="feedAdjustFlag = true" value="true"> yes</label>
-                                    <label class="radio-inline"><input data-ng-model="overrideCupsPerFeeding"type="radio" data-ng-change="feedAdjustFlag = false" value="false"> no</label>
-                                </div>
-                            </div>
-                            <!-- Feeding adjustment needed Extended form -->
-                            <div ng-hide="!feedAdjustFlag">
-                                <div class="row form-group form-inline">
+                                <!-- Last Weight -->
+                                <div class="row form-inline">
+                                    <label class="col-sm-4 control-label">Last Weight</label>
                                     <div class="col-sm-4">
-                                        <small class="pull-right control-label">Enter number of cups per meal</small>
+                                        <span class="static-data">{{kgToLb(getLastWeight(-1))}} <em>lb</em></span>
                                     </div>
-                                    <div class="col-sm-7 input-group">
-                                        <input data-ng-model="cupsPerMeal" class="form-control" id="focusedInput" type="text" ng-required="feedAdjustFlag"><em class="input-group-addon">cups/meal</em>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Food Changed -->
-                            <div class="row form-group form-inline">
-                                <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
-                                <div class="col-xs-12 col-sm-8">
-                                    <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true" data-ng-change="enterFood = true"> yes</label>
-                                    <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false" data-ng-change="enterFood = false"> no</label>
-                                </div>
-                            </div>
-
-                            <!-- Food changed extended form -->
-                            <div ng-hide="!enterFood">
-                                <div class="row form-group form-inline">
                                     <div class="col-sm-4">
-                                        <small class="pull-right control-label">Enter the food name</small>
-                                    </div>
-                                    <div class="col-sm-7 input-group">
-                                        <input data-ng-model="foodCalPerCup" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
+                                        <span class="static-data">{{getLastWeight(-1) | number:2}} <em>kg</em></span>
                                     </div>
                                 </div>
+                                <!-- Today Weight Loss -->
+                                <div class="row form-inline">
+                                    <label class="col-sm-4 control-label">Today Weight Loss</label>
+                                    <div class="col-sm-4">
+                                        <span class="static-data">{{kgToLb(getTodayWeightLoss(weight.kg, -1))}} <em>lb</em></span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="static-data">{{getTodayWeightLoss(weight.kg, -1) | number:2}} <em>kg</em></span>
+                                    </div>
+                                </div>
+                                <!-- % Weight Loss / week -->
+                                <div class="row form-inline">
+                                    <label class="col-sm-4 control-label">% Weight Loss / week</label>
+                                    <div class="col-sm-8">
+                                        <!--To be computed using angularJs-->
+                                        <span class="static-data">{{getAvgWeightLossPerWeek()}} <em>%</em></span>
+                                    </div>
+                                </div>
+                                <!-- Trimauxil Use && Weight Loss Appropriate-->
+                                <div class="form-group form-inline">
+                                    <!-- Trimauxil Use -->
+                                    <label class="col-sm-4 control-label">Trimauxil Use</label><br/>
+                                    <div class="col-sm-8" >
+                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Overuse" required> Overuse (ran out > 2 days)<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Just Right" required> Just Right (+/- 2 doses)<br/>
+                                        <input data-ng-model="trimauxilUse" type="radio" name="trimauxilUse" value="Underuse" required> Underuse (>2 doses remaining)<br/>
+                                    </div>
+                                </div>
+                                <!-- Trimauxil Dose -->
+                                <div class="row form-inline">
+                                    <label class="col-sm-4 control-label">Trimauxil Dose</label>
+                                    <div class="col-sm-8">
+                                        <span class="static-data">{{getTrimauxilDose(weight.lb)}}</span>
+                                    </div>
+                                </div>
+                                <!-- Feeding adjustment needed -->
+                                <div class="row form-inline">
+                                    <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
+                                    <div class="col-sm-4">
+                                        <label class="radio-inline"><input data-ng-model="adjustFeeding" type="radio" data-ng-change="feedAdjustFlag = true" value="true"> yes</label>
+                                        <label class="radio-inline"><input data-ng-model="adjustFeeding" type="radio" data-ng-change="feedAdjustFlag = false" value="false"> no</label>
+                                    </div>
+                                </div>
+                                <!-- Feeding adjustment needed Extended form -->
+                                <div ng-hide="!feedAdjustFlag">
+                                    <div class="row form-group form-inline">
+                                        <div class="col-sm-4">
+                                            <small class="pull-right control-label">Enter number of cups per meal</small>
+                                        </div>
+                                        <div class="col-sm-3 input-group">
+                                            <input data-ng-model="overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text" data-ng-required="feedAdjustFlag"><em class="input-group-addon">cups/meal</em>
+                                        </div>
+                                        <div class="col-sm-5 pull-right">
+                                            <input data-ng-model="vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" data-ng-required="feedAdjustFlag">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Food Changed -->
                                 <div class="row form-group form-inline">
-                                    <div class="col-sm-3 col-sm-offset-4 input-group">
-                                        <input data-ng-model="foodCalPerCup" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/cup</em>
+                                    <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true" data-ng-change="enterFood = true"> yes</label>
+                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false" data-ng-change="enterFood = false"> no</label>
                                     </div>
-                                    <div class="col-sm-3 col-sm-offset-1 input-group">
-                                        <input data-ng-model="foodKCalPerKg" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/kg</em>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Columns containing Comments and approval -->
-                        <div class="col-sm-5">
-                            <!-- Trimauxil Dose -->
-                            <div class="form-group">
-                                <label class="col-xs-12" for="comments">Comments</label>
-                                <div class="col-xs-12">
-                                    <textarea data-ng-model="comments" class="form-control" rows="10" id="comment" placeholder="Enter comments if applicable"></textarea>
-                                </div>
-                            </div>
-                            <!-- Tech Initial -->
-                            <div class="form-group">
-                                <label class="col-xs-12 col-sm-3">Tech ID</label>
-                                <div class="col-xs-12 col-sm-9">
-                                    <input data-ng-model="techId" class="form-control" id="focusedInput" type="text" placeholder="Enter Tech ID" required>
-                                </div>
-                            </div>
-                            <!-- Vet Initial -->
-                            <div class="form-group">
-                                <label class="col-xs-12 col-sm-3">Vet ID</label>
-                                <div class="col-xs-12 col-sm-9">
-                                    <input data-ng-model="vetId" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Row containing Cancel and Save button -->
-                    <div class="row">
-                        <div class="col-xs-6 col-xs-offset-6" data-ng-hide="todayFormSubmitFlag">
-                            <button type="submit" class="btn btn-primary pull-right">Save</button>
+                                <!-- Food changed extended form -->
+                                <div ng-hide="!enterFood">
+                                    <div class="row form-group form-inline">
+                                        <div class="col-sm-4">
+                                            <small class="pull-right control-label">Enter the food name</small>
+                                        </div>
+                                        <div class="col-sm-7 input-group">
+                                            <input data-ng-model="foodCalPerCup" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group form-inline">
+                                        <div class="col-sm-3 col-sm-offset-4 input-group">
+                                            <input data-ng-model="foodCalPerCup" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/cup</em>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-offset-1 input-group">
+                                            <input data-ng-model="foodKCalPerKg" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/kg</em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Columns containing Comments and approval -->
+                            <div class="col-sm-5">
+                                <!-- Trimauxil Dose -->
+                                <div class="form-group">
+                                    <label class="col-xs-12" for="comments">Comments</label>
+                                    <div class="col-xs-12">
+                                        <textarea data-ng-model="comments" class="form-control" rows="10" id="comment" placeholder="Enter comments if applicable"></textarea>
+                                    </div>
+                                </div>
+                                <!-- Tech Initial -->
+                                <div class="form-group">
+                                    <label class="col-xs-12 col-sm-3">Tech ID</label>
+                                    <div class="col-xs-12 col-sm-9">
+                                        <input data-ng-model="techId" class="form-control" id="focusedInput" type="text" placeholder="Enter Tech ID" required>
+                                    </div>
+                                </div>
+                                <!-- Vet Initial -->
+                                <div class="form-group">
+                                    <label class="col-xs-12 col-sm-3">Vet ID</label>
+                                    <div class="col-xs-12 col-sm-9">
+                                        <input data-ng-model="vetId" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" required>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                        <!-- Row containing Cancel and Save button -->
+                        <hr/>
+                        <div class="row">
+                            <div class="col-xs-6 col-xs-offset-6">
+                                <button type="submit" class="btn btn-primary pull-right">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </accordion-body>
         </accordion-group>
         <br/>
@@ -254,18 +262,22 @@
                             <div class="row form-inline">
                                 <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
                                 <div class="col-sm-8">
-                                    <label class="radio-inline"><input data-ng-model="form.feedingAdjustment" ng-disabled="!form.edit" type="radio" data-ng-change="form.feedAdjustmentFlag = true" value="true"> yes</label>
-                                    <label class="radio-inline"><input data-ng-model="form.feedingAdjustment" data-ng-change="form.feedAdjustmentFlag = false" ng-disabled="!form.edit" type="radio" value="false"> no</label>
+                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustmentFlag" ng-disabled="!form.edit" type="radio" data-ng-change="form.feedAdjustmentFlag = true" value="true"> yes</label>
+                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustmentFlag" data-ng-change="form.feedAdjustmentFlag = false" ng-disabled="!form.edit" type="radio" value="false"> no</label>
                                 </div>
                             </div>
                             <!-- Feeding adjustment needed Extended form -->
                             <div ng-hide="!form.feedAdjustmentFlag">
                                 <div class="row form-group form-inline">
                                     <div class="col-sm-4">
-                                        <small class="pull-right control-label">Enter number of cups per meal</small>
+                                        <small ng-hide="!form.edit" class="pull-right control-label">Enter number of cups per meal</small>
+                                        <small ng-hide="form.edit" class="pull-right control-label">New feeding adjustment</small>
                                     </div>
-                                    <div class="col-sm-7 input-group">
-                                        <input data-ng-model="form.overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">cups/meal</em>
+                                    <div class="col-sm-3 input-group">
+                                        <input data-ng-model="form.overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text"ng-disabled="!form.edit" data-ng-required="!form.feedAdjustmentFlag"><em class="input-group-addon">cups/meal</em>
+                                    </div>
+                                    <div class="col-sm-5 pull-right">
+                                        <input data-ng-model="form.vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" ng-disabled="!form.edit" data-ng-required="!form.feedAdjustmentFlag">
                                     </div>
                                 </div>
                             </div>
@@ -282,18 +294,19 @@
                             <div ng-hide="!form.edit || (form.edit && !form.foodChangedFlag)">
                                 <div class="row form-group form-inline">
                                     <div class="col-sm-4">
-                                        <small class="pull-right control-label">Enter the food name</small>
+                                        <small ng-hide="!form.edit" class="pull-right control-label">Enter the food name</small>
+                                        <small ng-hide="form.edit" class="pull-right control-label">Food Name</small>
                                     </div>
                                     <div class="col-sm-7 input-group">
-                                        <input data-ng-model="form.foodName" class="form-control" id="focusedInput" type="text">
+                                        <input data-ng-model="form.foodName" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text">
                                     </div>
                                 </div>
                                 <div class="row form-group form-inline">
                                     <div class="col-sm-3 col-sm-offset-4 input-group">
-                                        <input data-ng-model="form.foodKCalPerCup" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/cup</em>
+                                        <input data-ng-model="form.foodKCalPerCup" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/cup</em>
                                     </div>
                                     <div class="col-sm-3 col-sm-offset-1 input-group">
-                                        <input data-ng-model="form.foodKCalPerKg" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/kg</em>
+                                        <input data-ng-model="form.foodKCalPerKg" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/kg</em>
                                     </div>
                                 </div>
                             </div>
@@ -325,6 +338,7 @@
                     </div>
 
                     <!-- Row containing Cancel and Save button -->
+                    <hr/>
                     <div class="row">
                         <div class="col-xs-6 col-xs-offset-6">
                             <button ng-show="!form.edit && !formsLocked" ng-click="editForm(form.index)" type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
@@ -336,9 +350,7 @@
                             </fieldset>
                         </div>
                     </div>
-
                 </form>
-
             </acordion-body>
         </accordion-group>
     </accordion>

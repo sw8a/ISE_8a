@@ -320,5 +320,47 @@ describe('Protractor Test of Core', function() {
     //browser.sleep(1000);
   });
 
+  it('should log into the AuxThera Side', function() {
+
+
+    browser.sleep(2000);
+
+    element(by.model('credentials.username')).sendKeys('username1');
+    element(by.model('credentials.password')).sendKeys('password1',
+                 protractor.Key.ENTER);
+
+    browser.sleep(1000);
+    expect(browser.getCurrentUrl()).toEqual('http://127.0.0.1:3000/auxOverview');
+    browser.sleep(1000);
+
+
+    //patient call list
+    element(by.css('.sidebar-nav > li:nth-child(3) > a:nth-child(1) > button:nth-child(1)')).click();
+    browser.sleep(4000);
+
+    //Feedback viewer
+    element(by.css('.sidebar-nav > li:nth-child(4) > a:nth-child(1) > button:nth-child(1)')).click();
+    browser.sleep(4000);
+    
+    //New updates
+    element(by.css('.sidebar-nav > li:nth-child(5) > a:nth-child(1) > button:nth-child(1)')).click();
+    browser.sleep(4000);
+
+    //New user
+    element(by.css('.sidebar-nav > li:nth-child(6) > a:nth-child(1) > button:nth-child(1)')).click();
+    browser.sleep(4000);
+    
+
+   
+    //log out
+    element(by.css('.logOutButton > a:nth-child(1) > button:nth-child(1)')).click();
+    browser.sleep(2000);
+
+
+    //expect(browser.getCurrentUrl()).toEqual('http://127.0.0.1:3000/signin');
+    browser.sleep(1000);
+    //browser.sleep(1000);
+  });
+
 });
 

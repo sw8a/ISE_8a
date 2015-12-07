@@ -37,8 +37,9 @@
 
         <div class="floatLeft">
             <h2>{{activePatient.firstName}}'s Weight Loss Summary</h2>
+
             <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ kgToLb(activePatient.startWeight) }} lbs<br/>
-                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ (weight).toFixed(1) }} lbs<br/>
+                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ weight.toFixed(1) }} lbs<br/>
                 Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ kgToLb(idealWeight()) }} lbs<br/>
                 Total Weight Lost: &nbsp &nbsp {{ (kgToLb(activePatient.startWeight) - weight).toFixed(1) }} lbs<br/>
                 Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ (weight - kgToLb(idealWeight())).toFixed(1) }} lbs<br/>

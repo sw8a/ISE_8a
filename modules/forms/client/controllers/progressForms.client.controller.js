@@ -21,9 +21,31 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             $location.path('/');
         }
 
+        // Check if forms should be locked. Return true or false
+        // Based on 60 threshold of today's date and the exit form date completion
+        $scope.formsLockedFromEditing = function() {
+            var pat = ActivePatient.getActivePatient();
+            if(pat.exitForm !== undefined) {
+                var today = Date();
+                var exitDate = $scope.toDate(pat.exitForm.dateCreated);
+                if($scope.getNumDays(exitDate, today) === 60) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
         $scope.initPatient = function() {
             $scope.activePatient = ActivePatient.getActivePatient();
             console.log('APt: ' + $scope.activePatient);
+
+            $scope.activePatient = ActivePatient.getActivePatient();
+            //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            if(!ActivePatient.activePatientSet()) {
+                $location.path('/'); 
+                //setTimeout(function(){ $location.path('/overview'); }, 100);
+            }
+
             $scope.formsLocked = $scope.formsLockedFromEditing();   // Are forms allowed to be edited?
 
             // Flag to prevent the user from adding a form if one is already entered
@@ -88,6 +110,8 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
                 console.log($scope.activePatient.progressForms[i].weight);
             }
         };
+
+        $scope.initPatient();
 
         // Create new progress form
         $scope.createProgressForm = function() {
@@ -290,20 +314,6 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             tmp.setMonth(month);
             tmp.setDate(day);
             return tmp;
-        };
-
-        // Check if forms should be locked. Return true or false
-        // Based on 60 threshold of today's date and the exit form date completion
-        $scope.formsLockedFromEditing = function() {
-            var pat = ActivePatient.getActivePatient();
-            if(pat.exitForm !== undefined) {
-                var today = Date();
-                var exitDate = $scope.toDate(pat.exitForm.dateCreated);
-                if($scope.getNumDays(exitDate, today) === 60) {
-                    return true;
-                }
-            }
-            return false;
         };
 
         // Function borrowed online to compute number of weeks between two dates

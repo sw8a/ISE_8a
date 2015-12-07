@@ -12,8 +12,13 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         $scope.initPatient = function() {
             $scope.activePatient = ActivePatient.getActivePatient();
             //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            if(!ActivePatient.activePatientSet()) {
+                $location.path('/'); 
+                //setTimeout(function(){ $location.path('/overview'); }, 100);
+            }
         };
 
+        $scope.initPatient();
         $scope.activePatient = ActivePatient.getActivePatient();
 
         var progressForms = $scope.activePatient.progressForms;

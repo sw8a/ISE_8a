@@ -163,7 +163,7 @@
        <label class="col-md-4 col-xs-7" for="currentWeight">Today's Weight (lb): </label>
        <input data-ng-model="startWeightLb" data-ng-change="startWeight = lbToKg(startWeightLb)-0" class="col-md-2 col-xs-5" type="number" step="any" id="currentWeight" min="0" max="300" ng-disabled="disableInput">
        <label class="col-md-4 col-xs-9">Ideal Weight (lb): </label>
-       <span class="col-md-2 col-xs-3">{{(patientInfo.idealWeight() * 2.20462).toFixed(2)}}</span>
+       <span class="col-md-2 col-xs-3">{{kgToLb(patientInfo.idealWeight())}}</span>
    </div>
 
    <div class="form-group">

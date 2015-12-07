@@ -215,7 +215,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             if(ownerChanged) {
                 changedDataOwner.changedData = oldDataOwner;
                 var petOwner = new PetOwnersService(changedDataOwner);
-                x
                 petOwner.$update(function(petOwnerUpdateResponse) {});
             }
 

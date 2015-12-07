@@ -17,6 +17,17 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
         console.log($scope.authentication);
     }
 
+    $scope.initPatient = function() {
+        $scope.activePatient = ActivePatient.getActivePatient();
+        //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+        if(!ActivePatient.activePatientSet()) {
+          $location.path('/'); 
+          //setTimeout(function(){ $location.path('/overview'); }, 100);
+        }
+    };
+
+    $scope.initPatient();
+
     $scope.createExitForm = function () {
 
         var exitForm = new ExitFormsService({

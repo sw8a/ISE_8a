@@ -112,6 +112,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             /*
             // Create new practice
             var practice = new PracticesService({
+                _id: '5639a8f129e356c349ff1934',
                 name: 'Acme Animal Care',
                 address: '123 Street Rd, Nowhere, FL 33333',
                 practiceId: 'fakePracticeId'

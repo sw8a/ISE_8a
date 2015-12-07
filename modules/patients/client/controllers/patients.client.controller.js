@@ -81,16 +81,27 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         $scope.imageURL = 'modules/patients/img/' + $scope.trimauxilSKU() + '.png';
 
         $scope.idealWeight = function () {
+            // Returns weight in kg
             var currWeight = $scope.activePatient.startWeight;
             var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
             var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
 
-            return (idealWeight).toFixed(2);
+            return (idealWeight).toFixed(1);
         };
+
+        // Convert a lb weight to kg
+        $scope.lbToKg = function(lbWeight) {
+            return (lbWeight / 2.2046).toFixed(1);
+        };
+        // Convert a kg weight to lb
+        $scope.kgToLb = function(kgWeight) {
+            return (kgWeight * 2.2046).toFixed(1);
+        };
+
 
         // Weight Lost vs. Pounds To Go Doughnut Graph
         $scope.labelsDoughnut = ['Total Weight Lost', 'Pounds To Go'];
-        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(2), ($scope.weight-$scope.idealWeight()).toFixed(2)];
+        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(1), ($scope.weight-($scope.idealWeight() * kgToLb)).toFixed(1)];
         $scope.colorsDoughnut = ['#6399CC', '#505050'];
     }
 ]);

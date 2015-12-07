@@ -2096,6 +2096,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         $scope.practiceName = ActivePatient.getActivePractice().name;
 
         $scope.authentication = Authentication;
+        console.log(JSON.stringify($scope.authentication, null, 4));
 
         // if a user is not logged in, route us back to the root
         if (!$scope.authentication.user) {
@@ -2153,9 +2154,19 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
         $scope.initPractice = function() {
 
-            var practice = new PracticesService({
-                _id: '5639a8f129e356c349ff1934'
-            });
+            var practice;
+            if($scope.authentication.user.practiceDocId !== undefined) {
+                practice = new PracticesService({
+                    _id: $scope.authentication.user.practiceDocId
+                });
+            }
+            // Else should be replaced with redirect to signin for real use
+            else {
+                practice = new PracticesService({
+                    _id: '5639a8f129e356c349ff1934'
+                });
+            }
+            
 
             $scope.getPracticePromise = practice.$get(function(practiceResponse) {
 

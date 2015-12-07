@@ -32,8 +32,6 @@ exports.updatePetOwner = function (req, res) {
     delete petOwner.changedData;
     delete petOwner._id;
 
-    console.log('update owner');
-
     PetOwner.findByIdAndUpdate(
         petOwnerId,
         {

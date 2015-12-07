@@ -4,6 +4,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
     function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, $window, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
+        $scope.practiceName = ActivePatient.getActivePractice().name;
 
         $scope.authentication = Authentication;
 
@@ -45,6 +46,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
         $scope.selectPatient = function(selectedPatient) {
+            ActivePatient.setActivePatient(selectedPatient);
+
             // Get active patient to populate forms
             var patient = new PatientsService({
                 _id: selectedPatient._id,
@@ -67,12 +70,10 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
             $scope.getPracticePromise = practice.$get(function(practiceResponse) {
 
-                console.log('Promise 1:');
-                console.log($scope.getPracticePromise);
-
                 ActivePatient.setActivePractice(practiceResponse);
 
                 $scope.patients = practiceResponse.patients;
+                $scope.practiceName = ActivePatient.getActivePractice().name;
 
                 console.log('APc: ' + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
@@ -105,15 +106,13 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
                 $('.headerTableContainer').height($('.patientListTableHead').height());
 
-                console.log('Promise 2:');
-                console.log($scope.getPracticePromise);
-
                 return;
             });
 
             /*
             // Create new practice
             var practice = new PracticesService({
+                _id: '5639a8f129e356c349ff1934',
                 name: 'Acme Animal Care',
                 address: '123 Street Rd, Nowhere, FL 33333',
                 practiceId: 'fakePracticeId'

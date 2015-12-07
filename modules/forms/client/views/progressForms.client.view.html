@@ -26,10 +26,10 @@
             </accordion-heading>
             <accordion-body>
                 <!-- Print Message. Only one visit form can be submitted per day -->
-                <div data-ng-show="todayFormSubmitFlag">
+                <div data-ng-show="false">
                     <p class="lead text-center text-danger">Only one visit form can be submitted per day</p>
                 </div>
-                <div data-ng-show="!todayFormSubmitFlag">
+                <div data-ng-show="true">
                     <form data-ng-submit="createProgressForm()" class="form-horizontal">
                         <!-- Actual form-->
                         <div class="row">

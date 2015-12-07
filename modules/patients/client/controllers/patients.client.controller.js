@@ -103,8 +103,8 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         i = 0;
         while(trendOne[trendOne.length - 1] * percentLoss1 > $scope.idealWeight()) {
             monthsShown.push(months[(lastMonthShown+i)%12]);
-            trendOne.push((trendOne[trendOne.length-1] * percentLoss1 * kgToLb).toFixed(2));
-            trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2 * kgToLb).toFixed(2));
+            trendOne.push((trendOne[trendOne.length-1] * percentLoss1).toFixed(2));
+            trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2).toFixed(2));
             i++;
         }
 

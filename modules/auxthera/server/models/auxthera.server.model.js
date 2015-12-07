@@ -12,7 +12,12 @@ var AuxtheraSchema = new Schema({
     feedback: [{
         type: Schema.ObjectId,
         ref: 'Feedback'
-    }]
+    }],
+
+    adminTasks: {
+        type: Schema.ObjectId,
+        ref: 'AuxAdminTasks'
+    }
 
 },
 { collection: 'auxthera' });
@@ -120,8 +125,8 @@ var DogFoodsSchema = new Schema({
 
 
 
-
 mongoose.model('Auxthera', AuxtheraSchema);
+mongoose.model('AuxAdminTasks', AuxAdminTasksSchema);
 mongoose.model('Feedback', FeedbackSchema);
 mongoose.model('DogBreeds', DogBreedsSchema);
 mongoose.model('DogFood', DogBreedsSchema);

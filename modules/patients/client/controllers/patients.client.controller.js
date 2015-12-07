@@ -55,11 +55,21 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         $scope.imageURL = 'modules/patients/img/' + $scope.trimauxilSKU() + '.png';
 
         $scope.idealWeight = function () {
-            var currWeight = $scope.activePatient.startWeight * kgToLb;
+            // Returns weight in kg
+            var currWeight = $scope.activePatient.startWeight;
             var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
             var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
 
-            return (idealWeight).toFixed(2);
+            return (idealWeight).toFixed(1);
+        };
+
+        // Convert a lb weight to kg
+        $scope.lbToKg = function(lbWeight) {
+            return (lbWeight / 2.2046).toFixed(1);
+        };
+        // Convert a kg weight to lb
+        $scope.kgToLb = function(kgWeight) {
+            return (kgWeight * 2.2046).toFixed(1);
         };
 
         // Line Graph
@@ -79,22 +89,23 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         trendOne.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
         trendTwo.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
 
-        for(var i = 0; i < progressForms.length; i++) {
-          monthsShown.push(months[(Number(progressForms[i].dateCreated.substring(5,7))-1)%12]);
-          weightsShown.push((progressForms[i].weight * kgToLb).toFixed(2));
-          trendOne.push((progressForms[i].weight * kgToLb).toFixed(2));
-          trendTwo.push((progressForms[i].weight * kgToLb).toFixed(2));
-          if(i == progressForms.length-1) {
-            lastMonthShown = Number(progressForms[i].dateCreated.substring(5,7));
+        var i = 0;
+        for(i = 0; i < progressForms.length; i++) {
+            monthsShown.push(months[(Number(progressForms[i].dateCreated.substring(5,7))-1)%12]);
+            weightsShown.push((progressForms[i].weight * kgToLb).toFixed(2));
+            trendOne.push((progressForms[i].weight * kgToLb).toFixed(2));
+            trendTwo.push((progressForms[i].weight * kgToLb).toFixed(2));
+            if(i === progressForms.length - 1) {
+                lastMonthShown = Number(progressForms[i].dateCreated.substring(5,7));
           }
         }
 
-        var i = 0;
-        while(trendOne[trendOne.length-1] * percentLoss1 > $scope.idealWeight()) {
-          monthsShown.push(months[(lastMonthShown+i)%12]);
-          trendOne.push((trendOne[trendOne.length-1] * percentLoss1 * kgToLb).toFixed(2));
-          trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2 * kgToLb).toFixed(2));
-          i++;
+        i = 0;
+        while(trendOne[trendOne.length - 1] * percentLoss1 > $scope.idealWeight()) {
+            monthsShown.push(months[(lastMonthShown+i)%12]);
+            trendOne.push((trendOne[trendOne.length-1] * percentLoss1 * kgToLb).toFixed(2));
+            trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2 * kgToLb).toFixed(2));
+            i++;
         }
 
         $scope.labelsLine = monthsShown;
@@ -108,7 +119,7 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
 
         // Weight Lost vs. Pounds To Go Doughnut Graph
         $scope.labelsDoughnut = ['Total Weight Lost', 'Pounds To Go'];
-        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(2), ($scope.weight-$scope.idealWeight()).toFixed(2)];
+        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(1), ($scope.weight-($scope.idealWeight() * kgToLb)).toFixed(1)];
         $scope.colorsDoughnut = ['#6399CC', '#505050'];
     }
 ]);

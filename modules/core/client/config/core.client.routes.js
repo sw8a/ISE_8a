@@ -177,7 +177,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                         templateUrl: '/modules/core/views/auxSidebar.client.view.html'
                     },
                     'content': {
-                        templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+                        templateUrl: 'modules/auxthera/views/auxSignUp.client.view.html'
                     }
                 },
                 data: {

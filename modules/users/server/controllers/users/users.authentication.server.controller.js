@@ -11,8 +11,8 @@ var path = require('path'),
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
-	'/authentication/signin',
-	'/authentication/signup'
+  '/authentication/signin',
+  '/authentication/signup'
 ];
 
 /**
@@ -24,31 +24,37 @@ exports.signup = function (req, res) {
 
   // Init Variables
   var user = new User(req.body);
+  console.log(user);
   var message = null;
 
   // Add missing user fields
-  user.provider = 'local';
-  user.displayName = user.firstName + ' ' + user.lastName;
+  //user.provider = 'local';
+  //user.displayName = user.firstName + ' ' + user.lastName;
 
   // Then save the user
   user.save(function (err) {
     if (err) {
+      console.log('error');
+      console.log(message);
+      console.log(err);
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      // Remove sensitive data before login
-      user.password = undefined;
-      user.salt = undefined;
 
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
       });
-    }
+    } 
+    // else {
+    //   // Remove sensitive data before login
+    //   user.password = undefined;
+    //   user.salt = undefined;
+
+    //   // req.login(user, function (err) {
+    //   //   if (err) {
+    //   //     res.status(400).send(err);
+    //   //   } else {
+    //   //     res.json(user);
+    //   //   }
+    //   // });
+    // }
   });
 };
 
@@ -129,6 +135,7 @@ exports.oauthCallback = function (strategy) {
  * Helper function to save or update a OAuth user profile
  */
 exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
+  console.log('in save OAuth');
   if (!req.user) {
     // Define a search query fields
     var searchMainProviderIdentifierField = 'providerData.' + providerUserProfile.providerIdentifierField;
@@ -157,14 +164,14 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
 
           User.findUniqueUsername(possibleUsername, null, function (availableUsername) {
             user = new User({
-              firstName: providerUserProfile.firstName,
-              lastName: providerUserProfile.lastName,
-              username: availableUsername,
-              displayName: providerUserProfile.displayName,
-              email: providerUserProfile.email,
-              profileImageURL: providerUserProfile.profileImageURL,
-              provider: providerUserProfile.provider,
-              providerData: providerUserProfile.providerData
+              //firstName: providerUserProfile.firstName,
+              //lastName: providerUserProfile.lastName,
+              username: availableUsername//,
+              //displayName: providerUserProfile.displayName,
+              //email: providerUserProfile.email,
+              //profileImageURL: providerUserProfile.profileImageURL,
+              //provider: providerUserProfile.provider,
+              //providerData: providerUserProfile.providerData
             });
 
             // And save the user

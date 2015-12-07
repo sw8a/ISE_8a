@@ -1,18 +1,14 @@
-.heading{
-	
+.heading {
 	text-align: center;
 	font-family: "Trajan Pro";
 	color: #1E5687;
-
 }
 
-.info{
-	
+.info {
 	text-align: center;
 	color: #1E5687;
 }
 
-.heavy-buffer{
-
+.heavy-buffer {
 	padding-top: 100px;
 }

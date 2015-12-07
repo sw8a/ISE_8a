@@ -1,113 +1,67 @@
 'use strict';
 
-angular.module('patients').service('ActivePatient', ['PatientsService', 'PracticesService',
-    function(PatientsService, PracticesService) {
+angular.module('auxthera').service('ActiveAuxthera', ['AuxtheraService',
+    function(AuxtheraService) {
 
         
-        var activePatient = {};
-        var patientNeedsUpdate = false;
+        var activeAuxthera = {};
+        var auxtheraNeedsUpdate = false;
 
-        var activePractice = {};
-        var practiceNeedsUpdate = false;
 
         return {
-            setActivePatient: function(patientToSet) {
-                // Takes in an object and makes that the active patient 
-                //  ~ no checking to make sure it is a valid patient
-                activePatient = patientToSet;
-                return activePatient;
+            setActiveAuxthera: function(auxtheraToSet) {
+                // Takes in an object and makes that the active Auxthera 
+                //  ~ no checking to make sure it is a valid Auxthera
+                activeAuxthera = auxtheraToSet;
+                return activeAuxthera;
             },
 
-            getActivePatient: function() {
-                // Returns the active patient unless an update has been requested at which point it will get the latest version of the current active patient from the database
-                if(patientNeedsUpdate) {
-                    patientNeedsUpdate = false;
-                    var patient = new PatientsService({
-                        _id: activePatient._id,
-                        populateForms: true
+            getActiveAuxthera: function() {
+                // Returns the active auxthera unless an update has been requested at which point it will get the latest version of the current active auxthera from the database
+                if(auxtheraNeedsUpdate) {
+                    auxtheraNeedsUpdate = false;
+                    var auxthera = new AuxtheraService({
+                        _id: activeAuxthera._id
                     });
                     
-                    patient.$get(function( updateActivePatientResponse ) {
-                        activePatient = updateActivePatientResponse;
-                        return activePatient;
+                    auxthera.$get(function( updateActiveAuxtheraResponse ) {
+                        activeAuxthera = updateActiveAuxtheraResponse;
+                        return activeAuxthera;
                     });
                 }
                 else {
-                    return activePatient;
+                    return activeAuxthera;
                 }
             },
 
-            setPatientNeedsUpdate: function() {
-                // Request an update the next time getActivePatient is called
-                patientNeedsUpdate = true;
+            setAuxtheraNeedsUpdate: function() {
+                // Request an update the next time getActiveAuxthera is called
+                auxtheraNeedsUpdate = true;
             },
 
-            updateActivePatient: function() {
-                // Similar to getActivePatient but will always get the latest version from the database
-                var patient = new PatientsService({
-                    _id: activePatient._id,
+            updateActiveAuxthera: function() {
+                // Similar to getActiveAuxthera but will always get the latest version from the database
+                var auxthera = new AuxtheraService({
+                    _id: activeAuxthera._id,
                     populateForms: true
                 });
                 
-                patient.$get(function( updateActivePatientResponse ) {
-                    activePatient = updateActivePatientResponse;
-                    patientNeedsUpdate = false;
-                    console.log('update done: ' + activePatient.firstName);
-                    return activePatient;
+                auxthera.$get(function( updateActiveAuxtheraResponse ) {
+                    activeAuxthera = updateActiveAuxtheraResponse;
+                    auxtheraNeedsUpdate = false;
+                    return activeAuxthera;
                 });
             },
 
-            activePatientSet: function() {
-                console.log(activePatient);
-                if(activePatient._id === undefined) {
+            activeAuxtheraSet: function() {
+                console.log(activeAuxthera);
+                if(activeAuxthera._id === undefined) {
                     return false;
                 }
                 else {
                     return true;
                 }
-            },
-
-
-
-            setActivePractice: function(practiceToSet) {
-                activePractice = practiceToSet;
-                return activePractice;
-            },
-
-            getActivePractice: function() {
-                if(practiceNeedsUpdate) {
-                    var practice = new PracticesService({
-                        _id: activePractice._id
-                    });
-                    
-                    practice.$get(function( updateActivePracticeResponse ) {
-                        activePractice = updateActivePracticeResponse;
-                        practiceNeedsUpdate = false;
-                        return activePractice;
-                    });
-                }
-                else {
-                    return activePractice;
-                }
-            },
-
-            setPracticeNeedsUpdate: function() {
-                practiceNeedsUpdate = true;
-            },
-
-            updateActivePractice: function() {
-                var practice = new PracticesService({
-                    _id: activePractice._id
-                });
-                
-                practice.$get(function( updateActivePracticeResponse ) {
-                    activePractice = updateActivePracticeResponse;
-                    practiceNeedsUpdate = false;
-                    return activePractice;
-                });
             }
-            
         };
-
     }
 ]);

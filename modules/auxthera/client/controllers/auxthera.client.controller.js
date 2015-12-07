@@ -3,8 +3,8 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
-    function($scope, $state, $http, $window, Authentication, $location, $stateParams, ActivePatient, PracticesService, $sce) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'FeedbackService','$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, AuxtheraService, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -120,6 +120,22 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                     });
                 }
                 else {
+
+                    var auxthera = new AuxtheraService({
+
+                    });
+
+                    auxthera.$save(function (practiceResponse) {
+                        $scope.signUpCredentials = {
+                            username: $scope.signUp.username,
+                            password: $scope.signUp.password,
+                            roles: 'user',
+                            practiceDocId: practiceResponse._id
+                        };
+
+                    });
+
+
                     $scope.signUpCredentials = {
                         username: $scope.signUp.username,
                         password: $scope.signUp.password,

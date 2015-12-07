@@ -97,8 +97,7 @@ ApplicationConfiguration.registerModule('forms');
 
 // Use Applicaion configuration module to register the module
 ApplicationConfiguration.registerModule('patients');
-
-
+ApplicationConfiguration.registerModule('ngStorage');
 'use strict';
 
 ApplicationConfiguration.registerModule('petOwners');
@@ -119,27 +118,137 @@ ApplicationConfiguration.registerModule('users.admin.routes', ['core.admin.route
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', '$location', '$stateParams', 'ActivePatient',
-    function($scope, $state, $http, $window, Authentication, $location, $stateParams, ActivePatient) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
         }
 
-        // Get an eventual error defined in the URL query string:
-        $scope.error = $location.search().err;
+        $scope.accountType = 'auxthera';
 
-        $scope.signup = function() {
-            console.log($scope.credentials);
-            $http.post('/api/auth/signup', $scope.credentials).success(function(response) {
-                console.log(response);
-                // If successful we assign the response to the global user model
-                //$scope.authentication.user = response;
-                // refresh the page, the admin may want to create another user
-                $state.reload();
-            }).error(function(response) {
-                $scope.error = response.message;
-            });
+        $scope.practiceSignup = {};
+        $scope.signUp = {};
+
+        $scope.practiceSignup.name = '';
+        $scope.practiceSignup.address = '';
+        $scope.practiceSignup.practiceId = '';
+        $scope.practiceSignup.email = '';
+
+        $scope.signUp.username = '';
+        $scope.signUp.password = '';
+
+        $scope.signUpError = '';
+
+
+        // Get an eventual error defined in the URL query string:
+        //$scope.error = $location.search().err;
+
+        $scope.signUp = function() {
+            var error = false;
+            if($scope.accountType === 'practice') {
+                if($scope.practiceSignup.name === '' || $scope.practiceSignup.name === undefined) {
+                    if(!error) {
+                        $scope.signUpError = 'Sign up unsuccessful<br />';
+                    }
+                    $scope.signUpError += 'Error:<br />Practice name required<br />';
+                    error = true;
+                }
+                if($scope.practiceSignup.address === '' || $scope.practiceSignup.address === undefined) {
+                    if(!error) {
+                        $scope.signUpError = 'Sign up unsuccessful<br />';
+                        $scope.signUpError += 'Error:<br />Practice address required<br />';
+                        error = true;
+                    }
+                    else {
+                        $scope.signUpError += 'Practice address required<br />';
+                    }  
+                }
+                if($scope.practiceSignup.email === '' || $scope.practiceSignup.email === undefined) {
+                    if(!error) {
+                        $scope.signUpError = 'Sign up unsuccessful<br />';
+                        $scope.signUpError += 'Error:<br />Practice email required<br />';
+                        error = true;
+                    }
+                    else {
+                        $scope.signUpError += 'Practice email required<br />';
+                    }  
+                }
+            }
+            if($scope.signUp.username === '' || $scope.signUp.username === undefined) {
+                if(!error) {
+                    $scope.signUpError = 'Sign up unsuccessful<br />';
+                    $scope.signUpError += 'Error:<br />Username required<br />';
+                    error = true;
+                }
+                else {
+                    $scope.signUpError += 'Username required<br />';
+                }  
+            }
+            if($scope.signUp.password === '' || $scope.signUp.password === undefined) {
+                if(!error) {
+                    $scope.signUpError = 'Sign up unsuccessful<br />';
+                    $scope.signUpError += 'Error:<br />Password required<br />';
+                    error = true;
+                }
+                else {
+                    $scope.signUpError += 'Password required<br />';
+                }  
+            }
+
+            if(error) {
+                $scope.signUpError = $sce.trustAsHtml($scope.signUpError);
+                return;
+            }
+            else {
+                if($scope.accountType === 'practice') {
+                    // Create new practice
+                    var practice = new PracticesService({
+                        name: $scope.practiceSignup.name,
+                        address: $scope.practiceSignup.address,
+                        practiceId: $scope.practiceSignup.practiceId,
+                        email: $scope.practiceSignup.email
+                    });
+
+                    practice.$save(function (practiceResponse) {
+                        $scope.signUpCredentials = {
+                            username: $scope.signUp.username,
+                            password: $scope.signUp.password,
+                            roles: 'user',
+                            practiceDocId: practiceResponse._id
+                        };
+
+                        console.log($scope.signUpCredentials);
+
+                        $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
+                            console.log(response);
+                            // If successful we assign the response to the global user model
+                            //$scope.authentication.user = response;
+                            // refresh the page, the admin may want to create another user
+                            $state.reload();
+                        }).error(function(response) {
+                            $scope.error = response.message;
+                        });
+                   
+                    });
+                }
+                else {
+                    $scope.signUpCredentials = {
+                        username: $scope.signUp.username,
+                        password: $scope.signUp.password,
+                        roles: 'admin'
+                    };
+                    $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
+                        console.log(response);
+                        // If successful we assign the response to the global user model
+                        //$scope.authentication.user = response;
+                        // refresh the page, the admin may want to create another user
+                        $state.reload();
+                    }).error(function(response) {
+                        $scope.error = response.message;
+                    });
+                }
+            }    
         };
     }
 ]);
@@ -367,7 +476,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                         templateUrl: '/modules/core/views/auxSidebar.client.view.html'
                     },
                     'content': {
-                        templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+                        templateUrl: 'modules/auxthera/views/auxSignUp.client.view.html'
                     }
                 },
                 data: {
@@ -753,8 +862,8 @@ angular.module('forms').config(['$stateProvider',
 ]);*/
 'use strict';
 
-angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, ActivePatient) {
+angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'PetOwnersService', 'ActivePatient',
+    function($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, PetOwnersService, ActivePatient) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
         console.log($scope.authentication);
@@ -769,29 +878,209 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             preferredUnit: 'kg'
         };
 
-        $scope.firstName = $scope.activePatient.firstName;
-        $scope.patientId = $scope.activePatient.patientId;
-        $scope.birthDate = $scope.activePatient.birthDate;
-        $scope.startWeight = $scope.activePatient.startWeight;
-        $scope.sex = $scope.activePatient.sex;
-        $scope.fixed = $scope.activePatient.fixed;
-        $scope.breed = $scope.activePatient.breed;
-        $scope.bcs = $scope.activePatient.bcs;
+        
+
+        console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
         if($scope.firstName) {
             $scope.disableInput = true;
+            $scope.vetApproval = true;
+
+            $scope.dateCreated = new Date($scope.activePatient.enrollmentForm.dateCreated);
+            $scope.firstName = $scope.activePatient.firstName;
+            $scope.patientId = $scope.activePatient.patientId;
+
+            $scope.clientLastName = $scope.activePatient.petOwner.lastName;
+            $scope.clientFirstName = $scope.activePatient.petOwner.firstName;
+            $scope.clientTelephone = $scope.activePatient.petOwner.phoneNumber;
+            $scope.clientEmail = $scope.activePatient.petOwner.email;
+
+            $scope.birthDate = new Date($scope.activePatient.birthDate);
+            $scope.startWeight = $scope.activePatient.startWeight;
+            $scope.sex = $scope.activePatient.sex;
+            $scope.fixed = $scope.activePatient.fixed;
+            $scope.breed = $scope.activePatient.breed;
+            $scope.bcs = $scope.activePatient.bcs;
+
+            $scope.treats = $scope.activePatient.enrollmentForm.treats;
+            $scope.currentMedications = $scope.activePatient.enrollmentForm.currentMedications;
+            $scope.medicalHistory = $scope.activePatient.enrollmentForm.medicalHistory;
+            $scope.peFindings = $scope.activePatient.enrollmentForm.peFindings;
+            $scope.vetSig = $scope.activePatient.enrollmentForm.vetSig;
+            $scope.techId = $scope.activePatient.enrollmentForm.techId;
+            $scope.vetId = $scope.activePatient.enrollmentForm.vetId;
         }
         else {
             $scope.disableInput = false;
+            $scope.dateCreated = new Date();
         }
+
+        $scope.editActive = false;
 
         console.log('birthDate: ' + $scope.birthDate);
 
         $scope.editForm = function() {
             $scope.disableInput = false;
+            $scope.editActive = true;
+            $scope.vetApproval = true;
         };
         $scope.cancelEdit = function() {
             $scope.disableInput = true;
+            $scope.editActive = false;
+        };
+
+        $scope.saveEdit = function() {
+            var changedDataPatient = {
+                _id: $scope.activePatient._id
+            };
+            var oldDataPatient = {};
+            var patientChanged = false;
+
+            var changedDataForm = {
+                _id: $scope.activePatient.enrollmentForm._id
+            };
+            var oldDataForm = {};
+            var formChanged = false;
+
+            var changedDataOwner = {
+                _id: $scope.activePatient.petOwner._id
+            };
+            var oldDataOwner = {};
+            var ownerChanged = false;
+
+
+            /*if(new Date($scope.dateCreated) != new Date($scope.activePatient.enrollmentForm.dateCreated)) {
+                changedDataForm.dateCreated = new Date($scope.dateCreated);
+                oldDataForm.dateCreated = new Date($scope.activePatient.enrollmentForm.dateCreated);
+                formChanged = true;
+            }*/
+            if($scope.patientId !== $scope.activePatient.patientId) {
+                changedDataPatient.patientId = $scope.patientId;
+                oldDataPatient.patientId = $scope.activePatient.patientId;
+                patientChanged = true;
+            }
+            if($scope.firstName !== $scope.activePatient.firstName) {
+                changedDataPatient.firstName = $scope.firstName;
+                oldDataPatient.firstName = $scope.activePatient.firstName;
+                patientChanged = true;
+            }
+
+            if($scope.clientLastName !== $scope.activePatient.petOwner.lastName) {
+                changedDataOwner.lastName = $scope.clientLastName;
+                oldDataOwner.lastName = $scope.activePatient.petOwner.lastName;
+                ownerChanged = true;
+            }
+            if($scope.clientLastName !== $scope.activePatient.petOwner.lastName) {
+                changedDataOwner.lastName = $scope.clientLastName;
+                oldDataOwner.lastName = $scope.activePatient.petOwner.lastName;
+                ownerChanged = true;
+            }
+            if($scope.clientFirstName !== $scope.activePatient.petOwner.firstName) {
+                changedDataOwner.firstName = $scope.clientFirstName;
+                oldDataOwner.firstName = $scope.activePatient.petOwner.firstName;
+                ownerChanged = true;
+            }
+            if($scope.clientTelephone !== $scope.activePatient.petOwner.phoneNumber) {
+                changedDataOwner.phoneNumber = $scope.clientTelephone;
+                oldDataOwner.phoneNumber = $scope.activePatient.petOwner.phoneNumber;
+                ownerChanged = true;
+            }
+            if($scope.clientEmail !== $scope.activePatient.petOwner.email) {
+                changedDataOwner.email = $scope.clientEmail;
+                oldDataOwner.email = $scope.activePatient.petOwner.email;
+                ownerChanged = true;
+            }
+
+            /*if(new Date($scope.birthDate) != new Date($scope.activePatient.birthDate)) {
+                changedDataPatient.birthDate = new Date($scope.birthDate);
+                oldDataPatient.birthDate = new Date($scope.activePatient.birthDate);
+                patientChanged = true;
+            }*/
+            if($scope.startWeight !== $scope.activePatient.startWeight) {
+                changedDataPatient.startWeight = $scope.startWeight;
+                oldDataPatient.startWeight = $scope.activePatient.startWeight;
+                patientChanged = true;
+            }
+            if($scope.sex !== $scope.activePatient.sex) {
+                changedDataPatient.sex = $scope.sex;
+                oldDataPatient.sex = $scope.activePatient.sex;
+                patientChanged = true;
+            }
+            if($scope.fixed !== $scope.activePatient.fixed) {
+                changedDataPatient.fixed = $scope.fixed;
+                oldDataPatient.fixed = $scope.activePatient.fixed;
+                patientChanged = true;
+            }
+            if($scope.breed !== $scope.activePatient.breed) {
+                changedDataPatient.breed = $scope.breed;
+                oldDataPatient.breed = $scope.activePatient.breed;
+                patientChanged = true;
+            }
+            if($scope.bcs !== $scope.activePatient.bcs) {
+                changedDataPatient.bcs = $scope.bcs;
+                oldDataPatient.bcs = $scope.activePatient.bcs;
+                patientChanged = true;
+            }
+
+            if($scope.treats !== $scope.activePatient.enrollmentForm.treats) {
+                changedDataForm.treats = $scope.treats;
+                oldDataForm.treats = $scope.activePatient.enrollmentForm.treats;
+                formChanged = true;
+            }
+            if($scope.currentMedications !== $scope.activePatient.enrollmentForm.currentMedications) {
+                changedDataForm.currentMedications = $scope.currentMedications;
+                oldDataForm.currentMedications = $scope.activePatient.enrollmentForm.currentMedications;
+                formChanged = true;
+            }
+            if($scope.medicalHistory !== $scope.activePatient.enrollmentForm.medicalHistory) {
+                changedDataForm.medicalHistory = $scope.medicalHistory;
+                oldDataForm.medicalHistory = $scope.activePatient.enrollmentForm.medicalHistory;
+                formChanged = true;
+            }
+            if($scope.peFindings !== $scope.activePatient.enrollmentForm.peFindings) {
+                changedDataForm.peFindings = $scope.peFindings;
+                oldDataForm.peFindings = $scope.activePatient.enrollmentForm.peFindings;
+                formChanged = true;
+            }
+            if($scope.vetSig !== $scope.activePatient.enrollmentForm.vetSig) {
+                changedDataForm.vetSig = $scope.vetSig;
+                oldDataForm.vetSig = $scope.activePatient.enrollmentForm.vetSig;
+                formChanged = true;
+            }
+            if($scope.techId !== $scope.activePatient.enrollmentForm.techId) {
+                changedDataForm.techId = $scope.techId;
+                oldDataForm.techId = $scope.activePatient.enrollmentForm.techId;
+                formChanged = true;
+            }
+            if($scope.vetId !== $scope.activePatient.enrollmentForm.vetId) {
+                changedDataForm.vetId = $scope.vetId;
+                oldDataForm.vetId = $scope.activePatient.enrollmentForm.vetId;
+                formChanged = true;
+            }
+
+            if(patientChanged) {
+                changedDataPatient.changedData = oldDataPatient;
+                var patient = new PatientsService(changedDataPatient);
+                console.log('patient edit:');
+                console.log(patient);
+                console.log(changedDataPatient);
+                patient.$update(function(patientUpdateResponse) {});
+            }
+            if(formChanged) {
+                changedDataForm.changedData = oldDataForm;
+                var enrollmentForm = new EnrollmentFormsService(changedDataForm);
+                console.log('enrollmentForm edit:');
+                console.log(enrollmentForm);
+                console.log(changedDataForm);
+                enrollmentForm.$update(function(enrollmentFormUpdateResponse) {});
+            }
+            if(ownerChanged) {
+                changedDataOwner.changedData = oldDataOwner;
+                var petOwner = new PetOwnersService(changedDataOwner);
+                petOwner.$update(function(petOwnerUpdateResponse) {});
+            }
+
+            ActivePatient.setPatientNeedsUpdate();
         };
 
         var today = new Date();
@@ -808,7 +1097,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.createEnrollmentForm = function() {
 
             var patient = new PatientsService({
-                dateCreated: $scope.todayDate,
                 firstName: this.firstName,
                 patientId: this.patientId,
                 birthDate: this.birthDate,
@@ -820,11 +1108,21 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 practice: ActivePatient.getActivePractice()._id
             });
 
+            var petOwner = new PetOwnersService({
+                firstName: $scope.clientFirstName,
+                lastName: $scope.clientLastName,
+                phoneNumber: $scope.clientTelephone,
+                email: $scope.clientEmail,
+                practice: ActivePatient.getActivePractice()._id
+            });
+
             var enrollmentForm = new EnrollmentFormsService({
+                dateCreated: $scope.dateCreated,
                 treats: this.treats,
                 currentMedications: this.currentMedications,
                 medicalHistory: this.medicalHistory,
                 peFindings: this.peFindings,
+                vetSig: this.vetSig,
                 techId: this.techId,
                 vetId: this.vetId
             });
@@ -842,100 +1140,120 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 });
 
                 enrollmentForm.patient = patientResponse._id;
+                petOwner.pet = patientResponse._id;
 
-                enrollmentForm.$save(function(enrollmentFormResponse) {
-                    // executed after save
-                    //patientResponse.enrollmentForm = enrollmentFormResponse._id;
-                    //patientResponse.formSave = true;
-                    patient = new PatientsService({
-                        _id: patientResponse._id,
-                        enrollmentForm: enrollmentFormResponse._id,
-                        formSave: true
-                    });
+                petOwner.$save(function(petOwnerResponse) {
+                    enrollmentForm.$save(function(enrollmentFormResponse) {
+                        // executed after save
+                        //patientResponse.enrollmentForm = enrollmentFormResponse._id;
+                        //patientResponse.formSave = true;
+                        patient = new PatientsService({
+                            _id: patientResponse._id,
+                            enrollmentForm: enrollmentFormResponse._id,
+                            petOwner: petOwnerResponse._id,
+                            formSave: true
+                        });
 
-                    patient.$update(function(patientAddFormResponse) {
-                        ActivePatient.setPatientNeedsUpdate();
-                        $location.path('/overview');
+                        patient.$update(function(patientAddFormResponse) {
+                            var patient = new PatientsService({
+                                _id: patientAddFormResponse._id
+                            });
+                            /*
+                            $scope.getPatientPromise = patient.$get(function(patientResponse) {
+                                ActivePatient.setActivePatient(patientResponse);
+                            });*/
+                            ActivePatient.updateActivePatient();
+
+                            // Wait until the active patient has been updated. Current setup is not ideal
+                            setTimeout(function(){ 
+                                if(ActivePatient.getActivePatient().firstName) {
+                                    $location.path('/overview'); 
+                                }
+                                else {
+                                    setTimeout(function(){ $location.path('/overview'); }, 100);
+                                }
+                            }, 100);
+                            
+                        });
                     });
                 });
             });
         };
 
-    // Do they want some prepopulated values?
-    $scope.patientInfo = {
-        DOB: new Date(2013, 9, 22)
-    };
+        // Do they want some prepopulated values?
+        $scope.patientInfo = {
+            DOB: new Date(2013, 9, 22)
+        };
 
-    $scope.patientInfo.age = function () {
-        if($scope.birthDate !== undefined) {
-            var DOB = $scope.birthDate; //$scope.activePatient.birthDate
-            var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth() + 1, day: DOB.getDate()});
-            return age;
-        }
-        else {
-            return null;
-        }
-    };
-
-    $scope.patientInfo.idealWeight = function () {
-        var currWeight;
-        var bodyFat;
-        var idealWeight;
-        
-        if($scope.disableInput) {
-            currWeight = $scope.activePatient.startWeight;
-            bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
-            idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
-
-            if($scope.practiceInfo.preferredUnit === 'kg') {
-              return idealWeight.toFixed(2);
+        $scope.patientInfo.age = function () {
+            if($scope.birthDate !== undefined) {
+                var DOB = $scope.birthDate; //$scope.activePatient.birthDate
+                var age = $scope.yearDifference({year: DOB.getFullYear(), month: DOB.getMonth() + 1, day: DOB.getDate()});
+                return age;
             }
             else {
-              return (idealWeight * 2.20462).toFixed(2);
+                return '';
             }
-        }
-        else {
-            currWeight = $scope.startWeight;
-            bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
-            idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
+        };
 
-            if($scope.practiceInfo.preferredUnit === 'kg') {
+        $scope.patientInfo.idealWeight = function () {
+            var currWeight;
+            var bodyFat;
+            var idealWeight;
+            
+            if($scope.disableInput) {
+                currWeight = $scope.activePatient.startWeight;
+                bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
+                idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
+
                 return idealWeight.toFixed(2);
             }
             else {
-                return (idealWeight * 2.20462).toFixed(2);
+                currWeight = $scope.startWeight;
+                bodyFat = $scope.bcs * 5; // Assumes each BCS equals 5% body fat
+                idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
+
+                return idealWeight.toFixed(2);
             }
-        }
-    };
+        };
 
-    $scope.patientInfo.cupsPerFeeding = function () {
-        var dailykCalIdealWeight = 600; // Use Recommended Daily Caloric Intake for Ideal Weight Chart
-        var kCalPerCup = 150; // Eventually need to find on food database
-        var cupsPerDay = dailykCalIdealWeight/kCalPerCup;
-        var perDay = $scope.patientInfo.perDay;
-        var cupsPerFeeding = cupsPerDay/perDay;
+        $scope.patientInfo.cupsPerFeeding = function () {
+            var dailykCalIdealWeight = 600; // Use Recommended Daily Caloric Intake for Ideal Weight Chart
+            var kCalPerCup = 150; // Eventually need to find on food database
+            var cupsPerDay = dailykCalIdealWeight/kCalPerCup;
+            var perDay = $scope.patientInfo.perDay;
+            var cupsPerFeeding = cupsPerDay/perDay;
 
-        return cupsPerFeeding.toFixed(2);
-    };
+            return cupsPerFeeding.toFixed(2);
+        };
 
-    $scope.yearDifference = function (date) {
-        var curDate = new Date(),
-            now     = {
-              year: curDate.getUTCFullYear(),
-              // UTC month value is zero-based
-              month: curDate.getUTCMonth() + 1,
-              day: curDate.getUTCDate()
-            },
-            diff = now.year % date.year;
+        $scope.yearDifference = function (date) {
+            var curDate = new Date(),
+                now     = {
+                  year: curDate.getUTCFullYear(),
+                  // UTC month value is zero-based
+                  month: curDate.getUTCMonth() + 1,
+                  day: curDate.getUTCDate()
+                },
+                diff = now.year % date.year;
 
-        // Do not update the date unless it is time
-        if (now.month < date.month || now.month === date.month && now.day < date.day) {
-          diff -= 1;
-        }
+            // Do not update the date unless it is time
+            if (now.month < date.month || now.month === date.month && now.day < date.day) {
+              diff -= 1;
+            }
 
-        return diff;
-    };
-  }
+            return diff;
+        };
+
+        // Convert a lb weight to kg
+        $scope.lbToKg = function(lbWeight) {
+            return (lbWeight / 2.2046).toFixed(2);
+        };
+        // Convert a kg weight to lb
+        $scope.kgToLb = function(kgWeight) {
+            return (kgWeight * 2.2046).toFixed(2);
+        };
+    }
 ]);
 
 'use strict';
@@ -956,6 +1274,17 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
         $location.path('/');
         console.log($scope.authentication);
     }
+
+    $scope.initPatient = function() {
+        $scope.activePatient = ActivePatient.getActivePatient();
+        //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+        if(!ActivePatient.activePatientSet()) {
+          $location.path('/'); 
+          //setTimeout(function(){ $location.path('/overview'); }, 100);
+        }
+    };
+
+    $scope.initPatient();
 
     $scope.createExitForm = function () {
 
@@ -1025,64 +1354,36 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        $scope.oneAtTime = true;                                    // To allow one form to open at a time
-        $scope.enterFood = false;                                   // Use to give user the options to enter food info
-        $scope.feedAdjustFlag = false;                              // Flag use to override feeding adjustment in new form 
+        $scope.oneAtTime = true;    // To allow one form to open at a time
+        $scope.enterFood = false;   // Use to give user the options to enter food info
+        $scope.feedAdjustFlag = false;  // Flag use to override feeding adjustment in new form 
+        $scope.constProgForm = [];  // Empty array to store progress form before it is changed
+        
+        // Fields for use in automatic conversion when entering weight in New progress form
         $scope.weight = {
             lb: '',
             kg: ''
         };
-        $scope.constProgForm = [];                                  // Empty array to store progress form before it is changed
+
 
         if (!$scope.authentication.user) {
             $location.path('/');
         }
 
-        $scope.initPatient = function() {
-            $scope.activePatient = ActivePatient.getActivePatient();
-            $scope.formsLocked = $scope.formsLockedFromEditing();    // Are forms allowed to be edited?
-
-            // Flag to prevent the user from adding a form if one is already entered
-            $scope.todayFormSubmitFlag = false;
-            var today = new Date();
-            var lstForm = $scope.toDate($scope.activePatient.progressForms[$scope.activePatient.progressForms.length-1].dateCreated);
-            if(today.getFullYear() === lstForm.getFullYear()) {
-                if(today.getMonth() === lstForm.getMonth()) {
-                    if(today.getDate() === lstForm.getDate()) {
-                        $scope.todayFormSubmitFlag = true;
-                    }
+        // Check if forms should be locked. Return true or false
+        // Based on 60 threshold of today's date and the exit form date completion
+        $scope.formsLockedFromEditing = function() {
+            var pat = ActivePatient.getActivePatient();
+            if(pat.exitForm !== undefined) {
+                var today = Date();
+                var exitDate = $scope.toDate(pat.exitForm.dateCreated);
+                if($scope.getNumDays(exitDate, today) === 60) {
+                    return true;
                 }
             }
-            
-
-            // Add index as part of the object to overcome the issue of using $index with ng-repeat
-            var i;
-            for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
-                // Store progress form before user make any modifications
-                $scope.constProgForm[i] = $scope.activePatient.progressForms[i];
-
-                // Add index in object
-                $scope.activePatient.progressForms[i].index = i;
-                $scope.activePatient.progressForms[i].trimDose = $scope.getTrimauxilDose($scope.activePatient.progressForms[i].weight);
-                $scope.activePatient.progressForms[i].edit = false;
-                $scope.activePatient.progressForms[i].feedAdjustmentFlag = false;
-                $scope.activePatient.progressForms[i].foodChangedFlag = false;
-
-                // For weight editing features
-                $scope.activePatient.progressForms[i].weightKg = $scope.activePatient.progressForms[i].weight;
-                $scope.activePatient.progressForms[i].weightLb = $scope.kgToLb($scope.activePatient.progressForms[i].weight);
-
-                // Copy other fields for when user edit forms
-                $scope.activePatient.progressForms[i].oldTrimauxilUse = $scope.activePatient.progressForms[i].trimauxilUse;
-                $scope.activePatient.progressForms[i].oldfoodChanged = $scope.activePatient.progressForms[i].foodChanged;
-                $scope.activePatient.progressForms[i].oldComments = $scope.activePatient.progressForms[i].comments;
-                $scope.activePatient.progressForms[i].oldoverrideCupsPerFeeding = $scope.activePatient.progressForms[i].overrideCupsPerFeeding;
-                $scope.activePatient.progressForms[i].oldvetID = $scope.activePatient.progressForms[i].vetID;
-                $scope.activePatient.progressForms[i].oldtechID = $scope.activePatient.progressForms[i].techID;
-
-                console.log($scope.activePatient.progressForms[i].weight);
-            }
+            return false;
         };
+
 
         // Create new progress form
         $scope.createProgressForm = function() {
@@ -1094,17 +1395,17 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
                 weight: this.weight.kg,
                 trimauxilUse: this.trimauxilUse,
                 weightLossAppropriate: this.weightLossAppropriate,
+                overrideCupsPerFeeding: this.overrideCupsPerFeeding,
+                vetIdOverrideCPF: this.vetIdOverrideCPF,
                 foodChanged: this.foodChanged,
                 comments: this.comments,
-                techID: this.techID,
-                vetID: this.vetID,
+                techId: this.techId,
+                vetId: this.vetId,
                 patient: ActivePatient.getActivePatient()._id
             });
 
             progressForm.$save(function(progressFormResponse) {
                 // Function that is executed after save
-
-                console.log('saved p form');
 
                 var patient = new PatientsService({
                     _id: ActivePatient.getActivePatient()._id,
@@ -1124,63 +1425,90 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.updateProgressForm = function(index) {
             
             console.log('Update Progress Form');
-            var fieldChanged = {};
-            var changeMadeFlag = false;                         // Flag to check if any field was changed
+            var changedData = {
+                _id:  $scope.activePatient.progressForms[index]._id
+            };  // Object containing old values before the fields were changed
+            var oldData = {};
+            var formChanged = false; // Flag to check if any field was changed
 
-            var progressFormUpdate = new ProgressFormsService({
-                _id: ActivePatient.getActivePatient().progressForms[index]._id
-            });
+            
 
             // Add fields changed to Progress Form service
-            if(this.activePatient.progressForms[index].weightKg !== this.activePatient.progressForms[index].weight) {
-                fieldChanged.weight = this.activePatient.progressForms[index].weight;
-                progressFormUpdate.weight = this.activePatient.progressForms[index].weightKg;
-                changeMadeFlag = true;
-                this.activePatient.progressForms[index].weight = this.activePatient.progressForms[index].weightKg;
+            if($scope.constProgForm[index].weight.weightKg !== $scope.activePatient.progressForms[index].weightKg-0) {
+                oldData.weight = $scope.constProgForm[index].weight.weightKg;
+                changedData.weight = $scope.activePatient.progressForms[index].weightKg-0;
+                $scope.activePatient.progressForms[index].weight = changedData.weight;
+                formChanged = true;
+                //this.activePatient.progressForms[index].weight = this.activePatient.progressForms[index].weightKg;
             }
-            if(this.activePatient.progressForms[index].oldTrimauxilUse !== this.activePatient.progressForms[index].trimauxilUse) {
-                fieldChanged.trimauxilUse = this.activePatient.progressForms[index].oldTrimauxilUse;
-                progressFormUpdate.trimauxilUse = this.activePatient.progressForms[index].trimauxilUse;
-                changeMadeFlag = true;
-                this.activePatient.progressForms[index].oldTrimauxilUse = this.activePatient.progressForms[index].trimauxilUse;
+            // Trimauxil Use
+            if($scope.constProgForm[index].trimauxilUse !== $scope.activePatient.progressForms[index].trimauxilUse) {
+                oldData.trimauxilUse = $scope.constProgForm[index].trimauxilUse;
+                changedData.trimauxilUse = $scope.activePatient.progressForms[index].trimauxilUse;
+                formChanged = true;
             }
-            if(this.activePatient.progressForms[index].oldfoodChanged !== this.activePatient.progressForms[index].foodChanged) {
-                fieldChanged.foodChanged = this.activePatient.progressForms[index].foodChanged;
-                // Need to also check if food change is true
-                // So that the calory can be updated as well
+            /* Assess this
+            // Feeding adjustment needed edited
+            if(this.activePatient.progressForms[index].feedAdjustmentFlag === true){
+                changedData.overrideCupsPerFeeding = $scope.constProgForm[index].overrideCupsPerFeeding;
+                changedData.vetIdOverrideCPF = $scope.constProgForm[index].vetIdOverrideCPF;
+                oldData.overrideCupsPerFeeding = this.activePatient.progressForms[index].overrideCupsPerFeeding;
+                oldData.overrideCupsPerFeeding = this.activePatient.progressForms[index].vetIdOverrideCPF;
+                formChanged = true;
+            }*/
+            // Food changed edited
+            if($scope.constProgForm[index].foodChanged !== $scope.activePatient.progressForms[index].foodChanged) {
+                oldData.foodChanged = $scope.constProgForm[index].foodChanged;
+                changedData.foodChanged = $scope.activePatient.progressForms[index].foodChanged;
+                formChanged = true;
+                // New food information needed?
+                if(this.activePatient.progressForms[index].foodChanged === true) {
+                    // Add new kcal/cup and kcal/kg to food collection
+                    console.log('Update the food database with the new food information');
+                }
             }
-            if(this.activePatient.progressForms[index].oldComments !== this.activePatient.progressForms[index].comments) {
-                fieldChanged.comments = this.activePatient.progressForms[index].oldComments;
-                progressFormUpdate.comments = this.activePatient.progressForms[index].comments;
-                changeMadeFlag = true;
-                this.activePatient.progressForms[index].oldComments = this.activePatient.progressForms[index].comments;
+            // Comments edited
+            if($scope.constProgForm[index].comments !== $scope.activePatient.progressForms[index].comments) {
+                oldData.comments = $scope.constProgForm[index].comments;
+                changedData.comments = $scope.activePatient.progressForms[index].comments;
+                formChanged = true;
             }
-            if(this.activePatient.progressForms[index].oldtechID !== this.activePatient.progressForms[index].techID) {
-                fieldChanged.techID = this.activePatient.progressForms[index].oldtechID;
-                progressFormUpdate.techID = this.activePatient.progressForms[index].techID;
-                changeMadeFlag = true;
-                this.activePatient.progressForms[index].oldtechID = this.activePatient.progressForms.techID;
+            // Tech ID edited
+            if($scope.constProgForm[index].techID !== $scope.activePatient.progressForms[index].techID) {
+                oldData.techID = $scope.constProgForm[index].techID;
+                changedData.techID = $scope.activePatient.progressForms[index].techID;
+                formChanged = true;
             }
-            if(this.activePatient.progressForms[index].oldvetID !== this.activePatient.progressForms[index].vetID) {
-                fieldChanged.vetID = this.activePatient.progressForms[index].oldvetID;
-                progressFormUpdate.vetID = this.activePatient.progressForms[index].vetID;
-                changeMadeFlag = true;
-                this.activePatient.progressForms[index].vetID = this.activePatient.progressForms[index].oldvetID;
+            // Vet ID edited
+            if($scope.constProgForm[index].vetID !== $scope.activePatient.progressForms[index].vetID) {
+                oldData.vetID = $scope.constProgForm[index].vetID;
+                changedData.vetID = $scope.activePatient.progressForms[index].vetID;
+                formChanged = true;
             }
             // Add changed old fields input to progress form
-            if(changeMadeFlag === true) {
-                // Add changed data to list of changed data
-                progressFormUpdate.changedData = fieldChanged;
+            if(formChanged === true) {
+                changedData.changedData = oldData;
+                var progressFormUpdate = new ProgressFormsService(changedData);
+                console.log('progress form edit:');
+                console.log(progressFormUpdate);
+                console.log(changedData);
+                progressFormUpdate.$update(function(progressFormUpdateResponse) {
+                    $scope.activePatient.progressForms[index].edit = false;   // Set done editing flag
+                    //$scope.activePatient = ActivePatient.setPatientNeedsUpdate();
+                });
             }
+        };
 
-            // For testing purposes, remove before deployment
-            console.log('***************');
-            console.log(fieldChanged);
-
-            // Call Update field in the database
-
-            // Update this object fields so that changes reflect on the front end
-            this.activePatient.progressForms[index].edit = false;           // Set done editing flag
+        // Find out if food was adjusted
+        // Need to display on the form whether it was yes or false.
+        // Reason: Field is not stored in Database
+        $scope.isFeedingAjusted = function(index) {
+            var pat = ActivePatient.getActivePatient();
+            if(pat.progressForms[index].overrideCupsPerFeeding === undefined &&
+                pat.progressForms[index].vetIdOverrideCPF === undefined) {
+                return true;
+            }
+            return false;
         };
 
         // Convert a lb weight to kg
@@ -1195,6 +1523,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         // This function takes the index of a progress form an return the last weight
         $scope.getLastWeight = function(index) {
             var pat = ActivePatient.getActivePatient();
+            if(pat.progressForms === undefined) {
+                return pat.startWeight;
+            }
             // Past Forms exist
             if(pat.progressForms.length !== 0) {
                 if(index === -1) {
@@ -1218,6 +1549,12 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         // Param: weight, index of current progress form
         $scope.getTodayWeightLoss = function(todayWeight, index) {
             var pat = ActivePatient.getActivePatient();
+            // IF no progress EXIST yet
+            if(pat.progressForms === undefined) {
+                return pat.startWeight - todayWeight;
+            }
+
+            // IF progress form exist
             if(pat.progressForms.length === 0) {
                 return pat.startWeight - todayWeight; 
             }
@@ -1246,19 +1583,6 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             tmp.setMonth(month);
             tmp.setDate(day);
             return tmp;
-        };
-
-        // Check if forms should be locked. Return true or false
-        $scope.formsLockedFromEditing = function() {
-            var pat = ActivePatient.getActivePatient();
-            if(pat.exitForm !== undefined) {
-                var today = Date();
-                var exitDate = $scope.toDate(pat.exitForm.dateCreated);
-                if($scope.getNumDays(exitDate, today)) {
-                    return true;
-                }
-            }
-            return false;
         };
 
         // Function borrowed online to compute number of weeks between two dates
@@ -1306,6 +1630,15 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return trimauxilDose;
         };
 
+        // When user clicks edit button
+        $scope.getIdealWeight = function () {
+            var currWeight = $scope.activePatient.startWeight;
+            var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
+            var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
+
+            return (idealWeight * 2.20462).toFixed(2);
+        };
+
         // Editing form's input
         $scope.editForm = function(index) {
             // If forms are locked from editing. Do not allow this to execute
@@ -1319,15 +1652,97 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
 
         // Cancel editing on forms
         $scope.cancelEditing = function(index) {
-
-            // Reset form fields to original
+            // Reset form fields to original value due to user canceling changes
             this.activePatient.progressForms[index].edit = false;
-            this.activePatient.progressForms[index].weightKg = this.activePatient.progressForms[index].weight;
-            this.activePatient.progressForms[index].weightLb = $scope.kgToLb(this.activePatient.progressForms[index].weight);
-            this.activePatient.progressForms[index].trimauxilUse = this.activePatient.progressForms[index].oldTrimauxilUse;
-            this.activePatient.progressForms[index].foodChanged = this.activePatient.progressForms[index].oldfoodChanged;
-            this.activePatient.progressForms[index].comments = this.activePatient.progressForms[index].oldComments;
+            this.activePatient.progressForms[index].weightKg = $scope.constProgForm[index].weight.weightKg;
+            this.activePatient.progressForms[index].weightLb = $scope.constProgForm[index].weight.weightLb;
+            this.activePatient.progressForms[index].trimauxilUse = $scope.constProgForm[index].trimauxilUse;
+            this.activePatient.progressForms[index].overrideCupsPerFeeding = $scope.constProgForm[index].overrideCupsPerFeeding;
+            this.activePatient.progressForms[index].vetIdOverrideCPF = $scope.constProgForm[index].vetIdOverrideCPF;
+            this.activePatient.progressForms[index].foodChanged = $scope.constProgForm[index].foodChanged;
+            this.activePatient.progressForms[index].comments = $scope.constProgForm[index].comments;
+            this.activePatient.progressForms[index].techID = $scope.constProgForm[index].techID;
+            this.activePatient.progressForms[index].vetID = $scope.constProgForm[index].vetID;
+            this.activePatient.progressForms[index].dateCreated = $scope.constProgForm[index].dateCreated;
         };
+
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+            console.log('APt: ' + $scope.activePatient);
+
+            $scope.activePatient = ActivePatient.getActivePatient();
+            //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            if(!ActivePatient.activePatientSet()) {
+                $location.path('/'); 
+                //setTimeout(function(){ $location.path('/overview'); }, 100);
+            }
+
+            $scope.formsLocked = $scope.formsLockedFromEditing();   // Are forms allowed to be edited?
+
+            // Flag to prevent the user from adding a form if one is already entered
+            $scope.todayFormSubmitFlag = false;
+            if($scope.activePatient.progressForms === undefined || $scope.activePatient.progressForms.length === 0) {
+                $scope.todayFormSubmitFlag = false;
+            }
+            else{
+                var today = new Date();
+                var lstForm = $scope.toDate($scope.activePatient.progressForms[$scope.activePatient.progressForms.length-1].dateCreated);
+                if(today.getFullYear() === lstForm.getFullYear()) {
+                    if(today.getMonth() === lstForm.getMonth()) {
+                        if(today.getDate() === lstForm.getDate()) {
+                            $scope.todayFormSubmitFlag = true;
+                        }
+                    }
+                }
+            }
+
+            // Add index as part of the object to overcome the issue of using $index with ng-repeat
+            var i;
+            for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
+                // Add necessary index and necessary flag to each progress form object
+                $scope.activePatient.progressForms[i].index = i;
+                $scope.activePatient.progressForms[i].edit = false;
+                if($scope.activePatient.progressForms[i].overrideCupsPerFeeding === undefined &&
+                    $scope.activePatient.progressForms[i].vetIdOverrideCPF === undefined) {
+                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = false;
+                }
+                else {
+                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
+                }
+                $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
+                $scope.activePatient.progressForms[i].foodChangedFlag = false;
+
+                // For weight editing features in Adding new form
+                $scope.activePatient.progressForms[i].weightKg = $scope.activePatient.progressForms[i].weight;
+                $scope.activePatient.progressForms[i].weightLb = $scope.kgToLb($scope.activePatient.progressForms[i].weight);
+
+
+                // Copy all the progress forms before user makes any modifications to them
+                $scope.constProgForm[i] = new Object({
+                    index:i,
+                    edit: false,
+                    weight:{
+                        weightKg:$scope.activePatient.progressForms[i].weight,
+                        weightLb:$scope.kgToLb($scope.activePatient.progressForms[i].weight)
+                    },
+                    trimauxilUse:$scope.activePatient.progressForms[i].trimauxilUse,
+                    feedAdjustmentFlag: $scope.activePatient.progressForms[i].feedAdjustmentFlag,
+                    overrideCupsPerFeeding: $scope.activePatient.progressForms[i].overrideCupsPerFeeding,
+                    vetIdOverrideCPF: $scope.activePatient.progressForms[i].vetIdOverrideCPF,
+                    foodChanged:$scope.activePatient.progressForms[i].foodChanged,
+                    kcalPerCup: 0,
+                    kcalPerKg: 0,
+                    comments: $scope.activePatient.progressForms[i].comments,
+                    techID: $scope.activePatient.progressForms[i].techID,
+                    vetID: $scope.activePatient.progressForms[i].vetID,
+                    dateCreated: $scope.activePatient.progressForms[i].dateCreated
+                });
+
+                console.log($scope.activePatient.progressForms[i].weight);
+            }
+        };
+
+        $scope.initPatient();
     }
 ]);
 'use strict';
@@ -1390,8 +1805,8 @@ angular.module('patients').config(['$stateProvider',
 ]);*/
 'use strict';
 
-angular.module('patients', ['chart.js']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, PatientsService, ActivePatient) {
+angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient', /*'$localStorage',*/
+    function($scope, Authentication, $location, $stateParams, /*$localStorage, */PatientsService, ActivePatient) {
 
         $scope.authentication = Authentication;
 
@@ -1399,37 +1814,23 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
             $location.path('/');
         }
 
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+            //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            if(!ActivePatient.activePatientSet()) {
+                $location.path('/'); 
+                //setTimeout(function(){ $location.path('/overview'); }, 100);
+            }
+        };
+
+        $scope.initPatient();
         $scope.activePatient = ActivePatient.getActivePatient();
 
-        var progressForms = $scope.activePatient.progressForms;
-        var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        var idealWeights = [100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5];
-        var monthsShown = [];
-        var weightsShown = [];
-        var idealWeightsShown = [];
+        var kgToLb = 2.2046; // kg * 2.2046 = lb
 
-        monthsShown.push(months[monthStarted-1]);
-        weightsShown.push($scope.activePatient.startWeight);
-        idealWeightsShown.push(idealWeights[0]);
-
-        for(var i = 0; i < progressForms.length; i++) {
-          monthsShown.push(months[Number(progressForms[i].dateCreated.substring(5,7))-1]);
-          weightsShown.push(progressForms[i].weight);
-          idealWeightsShown.push(idealWeights[i+1]);
-        }
-
-        $scope.labelsLine = monthsShown;
-        $scope.colorsLine = ['#6399CC', '#505050'];
-        $scope.seriesLine = ['Current Weight', 'Ideal Weight'];
-        $scope.dataLine = [
-            weightsShown,
-            idealWeightsShown
-        ];
-
-        $scope.weight = $scope.activePatient.startWeight;
+        $scope.weight = $scope.activePatient.startWeight * kgToLb;
         if($scope.activePatient.progressForms.length) {
-          $scope.weight = $scope.activePatient.progressForms[$scope.activePatient.progressForms.length - 1].weight;
+          $scope.weight = $scope.activePatient.progressForms[$scope.activePatient.progressForms.length - 1].weight * kgToLb;
         }
 
         $scope.trimauxilSKU = function() {
@@ -1456,19 +1857,74 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
           }
         };
 
-        $scope.imageURL = "modules/patients/img/" + $scope.trimauxilSKU() + ".png";
+        $scope.imageURL = 'modules/patients/img/' + $scope.trimauxilSKU() + '.png';
 
         $scope.idealWeight = function () {
+            // Returns weight in kg
             var currWeight = $scope.activePatient.startWeight;
             var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
             var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
 
-            return (idealWeight).toFixed(2);
+            return (idealWeight).toFixed(1);
         };
+
+        // Convert a lb weight to kg
+        $scope.lbToKg = function(lbWeight) {
+            return (lbWeight / 2.2046).toFixed(1);
+        };
+        // Convert a kg weight to lb
+        $scope.kgToLb = function(kgWeight) {
+            return (kgWeight * 2.2046).toFixed(1);
+        };
+
+        // Line Graph
+        var progressForms = $scope.activePatient.progressForms;
+        var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var monthsShown = [];
+        var weightsShown = [];
+        var trendOne = [];
+        var trendTwo = [];
+        var lastMonthShown = 0;
+        var percentLoss1 = 0.95;
+        var percentLoss2 = 0.90;
+
+        monthsShown.push(months[monthStarted-1]);
+        weightsShown.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+        trendOne.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+        trendTwo.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+
+        var i = 0;
+        for(i = 0; i < progressForms.length; i++) {
+            monthsShown.push(months[(Number(progressForms[i].dateCreated.substring(5,7))-1)%12]);
+            weightsShown.push((progressForms[i].weight * kgToLb).toFixed(2));
+            trendOne.push((progressForms[i].weight * kgToLb).toFixed(2));
+            trendTwo.push((progressForms[i].weight * kgToLb).toFixed(2));
+            if(i === progressForms.length - 1) {
+                lastMonthShown = Number(progressForms[i].dateCreated.substring(5,7));
+          }
+        }
+
+        i = 0;
+        while(trendOne[trendOne.length - 1] * percentLoss1 > $scope.idealWeight()) {
+            monthsShown.push(months[(lastMonthShown+i)%12]);
+            trendOne.push((trendOne[trendOne.length-1] * percentLoss1 * kgToLb).toFixed(2));
+            trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2 * kgToLb).toFixed(2));
+            i++;
+        }
+
+        $scope.labelsLine = monthsShown;
+        $scope.colorsLine = ['#6399CC', '#505050','#757575'];
+        $scope.seriesLine = ['Current Weight', '5% Loss','10% Loss'];
+        $scope.dataLine = [
+            weightsShown,
+            trendOne,
+            trendTwo
+        ];
 
         // Weight Lost vs. Pounds To Go Doughnut Graph
         $scope.labelsDoughnut = ['Total Weight Lost', 'Pounds To Go'];
-        $scope.dataDoughnut = [($scope.activePatient.startWeight-$scope.weight).toFixed(2), ($scope.weight-$scope.idealWeight()).toFixed(2)];
+        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(1), ($scope.weight-($scope.idealWeight() * kgToLb)).toFixed(1)];
         $scope.colorsDoughnut = ['#6399CC', '#505050'];
     }
 ]);
@@ -1530,6 +1986,16 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                     console.log('update done: ' + activePatient.firstName);
                     return activePatient;
                 });
+            },
+
+            activePatientSet: function() {
+                console.log(activePatient);
+                if(activePatient._id === undefined) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
             },
 
 
@@ -1627,6 +2093,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
     function($scope, Authentication, PracticesService, PatientsService, FeedbackService, $location, $stateParams, $window, ActivePatient) {
 
         $scope.patients = ActivePatient.getActivePractice().patients;
+        $scope.practiceName = ActivePatient.getActivePractice().name;
 
         $scope.authentication = Authentication;
 
@@ -1668,6 +2135,8 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
         $scope.selectPatient = function(selectedPatient) {
+            ActivePatient.setActivePatient(selectedPatient);
+
             // Get active patient to populate forms
             var patient = new PatientsService({
                 _id: selectedPatient._id,
@@ -1693,6 +2162,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                 ActivePatient.setActivePractice(practiceResponse);
 
                 $scope.patients = practiceResponse.patients;
+                $scope.practiceName = ActivePatient.getActivePractice().name;
 
                 console.log('APc: ' + JSON.stringify(ActivePatient.getActivePractice(), null, 4));
 
@@ -1731,6 +2201,7 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             /*
             // Create new practice
             var practice = new PracticesService({
+                _id: '5639a8f129e356c349ff1934',
                 name: 'Acme Animal Care',
                 address: '123 Street Rd, Nowhere, FL 33333',
                 practiceId: 'fakePracticeId'
@@ -1783,10 +2254,9 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
         };
 
 
-        // Maintian table header size on window resize
+        // Maintian table header size on window resize, binding to window extends outside of this controller
         var window = angular.element($window);
         window.bind('resize', function () {
-            console.log('resize');
             $('.headerTableContainer').height($('.patientListTableHead').height());
         });
 

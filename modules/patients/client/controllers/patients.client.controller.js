@@ -16,33 +16,7 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
 
         $scope.activePatient = ActivePatient.getActivePatient();
 
-        var progressForms = $scope.activePatient.progressForms;
-        var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        var idealWeights = [100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5];
-        var monthsShown = [];
-        var weightsShown = [];
-        var idealWeightsShown = [];
-
         var kgToLb = 2.2046; // kg * 2.2046 = lb
-
-        monthsShown.push(months[monthStarted-1]);
-        weightsShown.push($scope.activePatient.startWeight);
-        idealWeightsShown.push(idealWeights[0]);
-
-        for(var i = 0; i < progressForms.length; i++) {
-          monthsShown.push(months[Number(progressForms[i].dateCreated.substring(5,7))-1]);
-          weightsShown.push(progressForms[i].weight * kgToLb);
-          idealWeightsShown.push(idealWeights[i+1] * kgToLb);
-        }
-
-        $scope.labelsLine = monthsShown;
-        $scope.colorsLine = ['#6399CC', '#505050'];
-        $scope.seriesLine = ['Current Weight', 'Ideal Weight'];
-        $scope.dataLine = [
-            weightsShown,
-            idealWeightsShown
-        ];
 
         $scope.weight = $scope.activePatient.startWeight * kgToLb;
         if($scope.activePatient.progressForms.length) {
@@ -76,12 +50,56 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         $scope.imageURL = 'modules/patients/img/' + $scope.trimauxilSKU() + '.png';
 
         $scope.idealWeight = function () {
-            var currWeight = $scope.activePatient.startWeight;
+            var currWeight = $scope.activePatient.startWeight * kgToLb;
             var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
             var idealWeight = currWeight * (100 - bodyFat) / 100 / 0.8;
 
             return (idealWeight).toFixed(2);
         };
+
+        // Line Graph
+        var progressForms = $scope.activePatient.progressForms;
+        var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var monthsShown = [];
+        var weightsShown = [];
+        var trendOne = [];
+        var trendTwo = [];
+        var lastMonthShown = 0;
+        var percentLoss1 = 0.95;
+        var percentLoss2 = 0.90;
+
+        monthsShown.push(months[monthStarted-1]);
+        weightsShown.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+        trendOne.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+        trendTwo.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+
+        for(var i = 0; i < progressForms.length; i++) {
+          monthsShown.push(months[(Number(progressForms[i].dateCreated.substring(5,7))-1)%12]);
+          weightsShown.push((progressForms[i].weight * kgToLb).toFixed(2));
+          trendOne.push((progressForms[i].weight * kgToLb).toFixed(2));
+          trendTwo.push((progressForms[i].weight * kgToLb).toFixed(2));
+          if(i == progressForms.length-1) {
+            lastMonthShown = Number(progressForms[i].dateCreated.substring(5,7));
+          }
+        }
+
+        var i = 0;
+        while(trendOne[trendOne.length-1] * percentLoss1 > $scope.idealWeight()) {
+          monthsShown.push(months[(lastMonthShown+i)%12]);
+          trendOne.push((trendOne[trendOne.length-1] * percentLoss1 * kgToLb).toFixed(2));
+          trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2 * kgToLb).toFixed(2));
+          i++;
+        }
+
+        $scope.labelsLine = monthsShown;
+        $scope.colorsLine = ['#6399CC', '#505050','#757575'];
+        $scope.seriesLine = ['Current Weight', '5% Loss','10% Loss'];
+        $scope.dataLine = [
+            weightsShown,
+            trendOne,
+            trendTwo
+        ];
 
         // Weight Lost vs. Pounds To Go Doughnut Graph
         $scope.labelsDoughnut = ['Total Weight Lost', 'Pounds To Go'];

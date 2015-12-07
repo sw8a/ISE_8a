@@ -24,6 +24,7 @@ exports.signup = function (req, res) {
 
   // Init Variables
   var user = new User(req.body);
+  console.log(user);
   var message = null;
 
   // Add missing user fields
@@ -33,6 +34,9 @@ exports.signup = function (req, res) {
   // Then save the user
   user.save(function (err) {
     if (err) {
+      console.log('error');
+      console.log(message);
+      console.log(err);
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
 
@@ -131,6 +135,7 @@ exports.oauthCallback = function (strategy) {
  * Helper function to save or update a OAuth user profile
  */
 exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
+  console.log('in save OAuth');
   if (!req.user) {
     // Define a search query fields
     var searchMainProviderIdentifierField = 'providerData.' + providerUserProfile.providerIdentifierField;
@@ -159,14 +164,14 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
 
           User.findUniqueUsername(possibleUsername, null, function (availableUsername) {
             user = new User({
-              firstName: providerUserProfile.firstName,
-              lastName: providerUserProfile.lastName,
-              username: availableUsername,
-              displayName: providerUserProfile.displayName,
-              email: providerUserProfile.email,
-              profileImageURL: providerUserProfile.profileImageURL,
-              provider: providerUserProfile.provider,
-              providerData: providerUserProfile.providerData
+              //firstName: providerUserProfile.firstName,
+              //lastName: providerUserProfile.lastName,
+              username: availableUsername//,
+              //displayName: providerUserProfile.displayName,
+              //email: providerUserProfile.email,
+              //profileImageURL: providerUserProfile.profileImageURL,
+              //provider: providerUserProfile.provider,
+              //providerData: providerUserProfile.providerData
             });
 
             // And save the user

@@ -83,7 +83,6 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             if(error) {
                 $scope.signUpError = $sce.trustAsHtml($scope.signUpError);
-                console.log($scope.signUpError);
                 return;
             }
             else {
@@ -97,13 +96,16 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                     });
 
                     practice.$save(function (practiceResponse) {
-                        $scope.credentials = {
+                        $scope.signUpCredentials = {
                             username: $scope.signUp.username,
                             password: $scope.signUp.password,
                             roles: 'user',
-                            docId: practiceResponse._id
+                            practiceDocId: practiceResponse._id
                         };
-                        $http.post('/api/auth/signup', $scope.credentials).success(function(response) {
+
+                        console.log($scope.signUpCredentials);
+
+                        $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
                             console.log(response);
                             // If successful we assign the response to the global user model
                             //$scope.authentication.user = response;
@@ -116,12 +118,12 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                     });
                 }
                 else {
-                    $scope.credentials = {
+                    $scope.signUpCredentials = {
                         username: $scope.signUp.username,
                         password: $scope.signUp.password,
                         roles: 'admin'
                     };
-                    $http.post('/api/auth/signup', $scope.credentials).success(function(response) {
+                    $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
                         console.log(response);
                         // If successful we assign the response to the global user model
                         //$scope.authentication.user = response;

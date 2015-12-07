@@ -87,10 +87,23 @@ var UserSchema = new Schema({
     }],
     default: ['user']
   },
-  docId: {
-    type: Schema.ObjectId//,
-    //ref: 'Patient'
-  }//,
+
+  practiceDocId: {
+    type: Schema.ObjectId,
+    ref: 'Practice'
+  },
+
+  auxtheraDocId: {
+    type: Schema.ObjectId,
+    ref: 'Auxthera'
+  },
+
+  patientDocId: {
+    type: Schema.ObjectId,
+    ref: 'Patient'
+  }
+
+  //,
   // updated: {
   //   type: Date
   // },

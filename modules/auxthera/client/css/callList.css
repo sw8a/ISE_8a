@@ -1,16 +1,12 @@
-.heading{
-
+.heading {
 	text-align: center;
 	font-family: "Trajan Pro";
 	color: #1E5687;
-
 }
 
-.TableComponents{
-
+.TableComponents {
     width: 70%;
     margin: 0 auto
-
 }
 
 .heavy-top-buffer {

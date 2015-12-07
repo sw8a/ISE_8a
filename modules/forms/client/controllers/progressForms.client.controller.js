@@ -85,10 +85,6 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             
 
             // Add fields changed to Progress Form service
-            console.log('const wt');
-            console.log($scope.constProgForm[index].weight.weightKg);
-            console.log('new wt');
-            console.log($scope.activePatient.progressForms[index].weightKg-0);
             if($scope.constProgForm[index].weight.weightKg !== $scope.activePatient.progressForms[index].weightKg-0) {
                 oldData.weight = $scope.constProgForm[index].weight.weightKg;
                 changedData.weight = $scope.activePatient.progressForms[index].weightKg-0;

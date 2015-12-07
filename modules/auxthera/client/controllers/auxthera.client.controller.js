@@ -20,8 +20,6 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         $scope.practiceSignup.practiceId = '';
         $scope.practiceSignup.email = '';
 
-        $scope.newAuxthera = false;
-
         $scope.signUp.username = '';
         $scope.signUp.password = '';
 

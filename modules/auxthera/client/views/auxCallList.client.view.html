@@ -1,81 +1,37 @@
+<div data-ng-controller="auxtheraController">
+
 <div class="callList">
     <div class="heading">
-	   <h1> Patient Call List </h1>
-	</div>
+       <h1> Patient Call List </h1>
+    </div>
 
-    <div class="TableComponents heavy-top-buffer">
+    <div class="container TableComponents heavy-top-buffer">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Patient Number</th>
+                    <th class="col-md-5 col-sm-5">Patient Number</th>
 
-                    <th>Vet Visited</th>
+                    <th class="col-md-3 col-sm-3">Vet Visited</th>
 
-                    <th>Last Contact</th>
+                    <th class="col-md-3 col-sm-3">Last Contact</th>
 
-                    <th>Completed</th>
+                    <th class="col-md-1 col-sm-1">Completed</th>
                 </tr>
             </thead>
+        </table>
 
+
+    <div class="container TableComponents">
+        <table class="table table-bordered">
             <tbody>
-                <tr>
-                    <td>
-                        <a href="#">1000-233</a>
-                    </td>
+                <tr ng-repeat="patient in patientCallList">
+                    <td class="col-md-5 col-sm-5"> {{ patient.patientId }} </td>
 
-                    <td>Vet 1</td>
+                    <td class="col-md-3 col-sm-3">>{{ patient.vetId }}</td>
 
-                    <td>10/23/2014</td>
+                    <td class="col-md-3 col-sm-3"> {{ patient.lastContact }} </td>
 
-                    <td><input type="checkbox" name="query_myTextEditBox"></td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#">1000-285</a>
-                    </td>
-
-                    <td>Vet 2</td>
-
-                    <td>07/26/2015</td>
-
-                    <td><input type="checkbox" name="query_myTextEditBox"></td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#">1000-386</a>
-                    </td>
-
-                    <td>Vet 3</td>
-
-                    <td>05/24/2014</td>
-
-                    <td><input type="checkbox" name="query_myTextEditBox"></td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#">1000-488</a>
-                    </td>
-
-                    <td>Vet 2</td>
-
-                    <td>07/13/2014</td>
-
-                    <td><input type="checkbox" name="query_myTextEditBox"></td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#">1000-562</a>
-                    </td>
-
-                    <td>Vet 1</td>
-
-                    <td>05/24/2015</td>
-
-                    <td><input type="checkbox" name="query_myTextEditBox"></td>
+                    <td class="col-md-1 col-sm-3">><button ng-click="remove(patient)" class="btn btn-primary" type="button">Clear Entry</button>
                 </tr>
             </tbody>
         </table>

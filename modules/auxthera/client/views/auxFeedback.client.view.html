@@ -1,59 +1,73 @@
-<div class="feedbackPage">
-	<div class="heading">
-	   <h1> Feedback </h1>
-	</div>
+<div data-ng-controller="auxtheraController">
 
-	<div class="container " "newFeedback">
-		<h3> New Feedback </h3>
-            <div class="col-md-6">
-                <textarea rows="10" cols="50">
-                    New feedback will appear here.
-                </textarea>
-            </div>
-            <div class="col-md-3" "feedbackInfo">
-                <p> Feedback recieved from: <br>
-                    Organization #1 <br>
-                    10/24/2015
-                </p>
-            </div>
-            <div class="col-md-3">
-                <p> Mark as read
-                <br>
-                <input type="checkbox" name="query_myTextEditBox"></p>
-            </div>
+<div class="feedbackWrapper">
+    <div class="heading">
+       <h1> Feedback </h1>
     </div>
 
-    <hr>
+    <div class="feedbackList" ng-hide="threadActive">
+        <div class="container TableComponents heavy-top-buffer" ng-show="feedback">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-md-5">Practice</th>
 
-    <div class="container" "oldFeedback">
-        <h3> Past Feedback </h3>
-        <div class="col-md-6">
-            <textarea rows="10" cols="50">
-                Older feedback will appear here.
-            </textarea>
-            <br><br>
-            <textarea rows="10" cols="50">
-                Even older feedback will appear here.
-            </textarea>
+                        <th class="col-md-3">Date Sent</th>
+
+                        <th class="col-md-3">Date of Initial Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="thread in feedback | limitTo: limitVar" ng-click="threadActive = true; currThread = thread">
+                        <td class="col-md-5"> {{ thread.practice }} </td>
+
+                        <td class="col-md-3">>{{ thread.messages.dateCreated }}</td>
+
+                        <td class="col-md-3"> {{ thread.dateCreated }} </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="col-md-3" "feedbackInfo">
-            <p> Feedback recieved from: <br>
-                    Organization #1 <br>
-                    10/24/2015
-            </p>
-        </div>
-        <div class="col-md-3">
-            <p> Hide
-            <br>
-            <input type="checkbox" name="query_myTextEditBox"></p>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <button style="pull-right" ng-click="limitVar=limitVar+5" type="button" class="btn btn-default">Show More</button> 
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <button ng-click="limitVar = feedbackList.length" type="button" class="btn btn-default">Show All</button> 
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <button ng-click="threadActive = true" type="button" class="btn btn-default">Demo Thread</button>
+            </div>
         </div>
     </div>
 
-    <div class="showMore">
-        <h3> <a href="#"> Show More </a></h3>
+    <div class="messageList" ng-show="threadActive">
+        <h1> Feedback thread with <!--{{ currThread.practice }}--> Practice starting on <!--{{currThread.dateCreated}}-->10/24/2015</h1>
+
+        <div class="threadView top-buffer panel panel-primary panel-body">
+            <div ng-repeat="email in emails" ng-style="{'margin-left': 10*$index+'px'}">
+                <p> Message sent: {{ currThread.messages.dateCreated }}</p><br>
+                <p>{{ currThread.message }}</p>
+            </div>
+        </div>
+
+        <button ng-click="newMessage=true" type="button" class="btn btn-default">Reply to Latest Message</button>
+        <div class="reply" ng-show="newMessage">
+            <div class="form-group">
+                <label for="reply">Write your reply here:</label>
+                <textarea class="form-control" rows="7" ng-model="currThread.messages.message" id="reply"></textarea>
+                <button type="submit" class="btn btn-default" ng-click="newMessage=undefined">Send</button>
+            </div>
+        </div>
+
+        <div class="returnToList">
+            <button ng-click="threadActive = undefined; currThread = {}" type="button" class="btn btn-default">Return to Feedback List</button>
+        </div>
     </div>
+
+
 </div>
-
 
 			
 

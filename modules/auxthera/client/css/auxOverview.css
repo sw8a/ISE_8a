@@ -1,11 +1,17 @@
-.heading {
+.overviewPage{
+
+	margin-left: 302px;
+}
+
+.heading{
+	
 	text-align: center;
 	font-family: "Trajan Pro";
 	color: #1E5687;
 }
 
-.info {
-	text-align: center;
+.info{
+
 	color: #1E5687;
 }
 

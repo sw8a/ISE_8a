@@ -140,6 +140,12 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
         $scope.signUpError = '';
 
+        $scope.threadActive = false;
+        $scope.currThread = {};
+        $scope.limitVar = 5;
+        $scope.foodHidden = false;
+        $scope.breedHidden = false;
+        $scope.newMessage = false;
 
         // Get an eventual error defined in the URL query string:
         //$scope.error = $location.search().err;
@@ -250,8 +256,20 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                 }
             }    
         };
+
+
+
+        $scope.sendMessage = function(){
+
+            var message = $scope.messages.message;
+            var sentBy = 'auxthera';
+            var read = false;
+            var important = false;
+        }
     }
 ]);
+
+
 'use strict';
 
 

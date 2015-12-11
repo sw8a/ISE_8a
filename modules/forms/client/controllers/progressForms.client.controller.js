@@ -1,15 +1,18 @@
 'use strict';
 
-angular.module('forms').controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
+angular.module('forms',['ui.bootstrap']).controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
     function($scope, $location, Authentication, ProgressFormsService, ActivePatient, PatientsService) {
 
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        $scope.oneAtTime = true;    // To allow one form to open at a time
-        $scope.enterFood = false;   // Use to give user the options to enter food info
-        $scope.feedAdjustFlag = false;  // Flag use to override feeding adjustment in new form 
-        $scope.constProgForm = [];  // Empty array to store progress form before it is changed
-        
+        $scope.oneAtTime = true;                                        // To allow one form to open at a time
+        $scope.enterFood = false;                                       // Use to give user the options to enter food info
+        $scope.feedAdjustFlag = false;                                  // Flag use to override feeding adjustment in new form 
+        $scope.constProgForm = [];                                      // Empty array to store progress form before it is changed
+        $scope.dateCreated = new Date();                                // Today's date for new forms
+        $scope.selectedFood = '';                                       // Use for user's food selection
+        $scope.foodNames = ['Ravioli', 'Cheese', 'Corn', 'Apple'];
+
         // Fields for use in automatic conversion when entering weight in New progress form
         $scope.weight = {
             lb: '',
@@ -21,8 +24,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             $location.path('/');
         }
 
-        // Check if forms should be locked. Return true or false
-        // Based on 60 threshold of today's date and the exit form date completion
+        // Purpose:     Check if all visit forms shoulc be locked from edititing
+        //              based on 60 days after exit form has been completed
+        // Paramters:   None
+        // Return:      Bool
         $scope.formsLockedFromEditing = function() {
             var pat = ActivePatient.getActivePatient();
             if(pat.exitForm !== undefined) {
@@ -35,83 +40,6 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return false;
         };
 
-        $scope.initPatient = function() {
-            $scope.activePatient = ActivePatient.getActivePatient();
-            console.log('APt: ' + $scope.activePatient);
-
-            $scope.activePatient = ActivePatient.getActivePatient();
-            //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-            if(!ActivePatient.activePatientSet()) {
-                $location.path('/'); 
-                //setTimeout(function(){ $location.path('/overview'); }, 100);
-            }
-
-            $scope.formsLocked = $scope.formsLockedFromEditing();   // Are forms allowed to be edited?
-
-            // Flag to prevent the user from adding a form if one is already entered
-            $scope.todayFormSubmitFlag = false;
-            if($scope.activePatient.progressForms === undefined || $scope.activePatient.progressForms.length === 0) {
-                $scope.todayFormSubmitFlag = false;
-            }
-            else{
-                var today = new Date();
-                var lstForm = $scope.toDate($scope.activePatient.progressForms[$scope.activePatient.progressForms.length-1].dateCreated);
-                if(today.getFullYear() === lstForm.getFullYear()) {
-                    if(today.getMonth() === lstForm.getMonth()) {
-                        if(today.getDate() === lstForm.getDate()) {
-                            $scope.todayFormSubmitFlag = true;
-                        }
-                    }
-                }
-            }
-
-            // Add index as part of the object to overcome the issue of using $index with ng-repeat
-            var i;
-            for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
-                // Add necessary index and necessary flag to each progress form object
-                $scope.activePatient.progressForms[i].index = i;
-                $scope.activePatient.progressForms[i].edit = false;
-                if($scope.activePatient.progressForms[i].overrideCupsPerFeeding === undefined &&
-                    $scope.activePatient.progressForms[i].vetIdOverrideCPF === undefined) {
-                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = false;
-                }
-                else {
-                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
-                }
-                $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
-                $scope.activePatient.progressForms[i].foodChangedFlag = false;
-
-                // For weight editing features in Adding new form
-                $scope.activePatient.progressForms[i].weightKg = $scope.activePatient.progressForms[i].weight;
-                $scope.activePatient.progressForms[i].weightLb = $scope.kgToLb($scope.activePatient.progressForms[i].weight);
-
-
-                // Copy all the progress forms before user makes any modifications to them
-                $scope.constProgForm[i] = new Object({
-                    index:i,
-                    edit: false,
-                    weight:{
-                        weigthKg:$scope.activePatient.progressForms[i].weight,
-                        weightLb:$scope.kgToLb($scope.activePatient.progressForms[i].weight)
-                    },
-                    trimauxilUse:$scope.activePatient.progressForms[i].trimauxilUse,
-                    feedAdjustmentFlag: $scope.activePatient.progressForms[i].feedAdjustmentFlag,
-                    overrideCupsPerFeeding: $scope.activePatient.progressForms[i].overrideCupsPerFeeding,
-                    vetIdOverrideCPF: $scope.activePatient.progressForms[i].vetIdOverrideCPF,
-                    foodChanged:$scope.activePatient.progressForms[i].foodChanged,
-                    kcalPerCup: 0,
-                    kcalPerKg: 0,
-                    comments: $scope.activePatient.progressForms[i].comments,
-                    techID: $scope.activePatient.progressForms[i].techID,
-                    vetID: $scope.activePatient.progressForms[i].vetID,
-                    dateCreated: $scope.activePatient.progressForms[i].dateCreated
-                });
-
-                console.log($scope.activePatient.progressForms[i].weight);
-            }
-        };
-
-        $scope.initPatient();
 
         // Create new progress form
         $scope.createProgressForm = function() {
@@ -129,6 +57,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
                 comments: this.comments,
                 techId: this.techId,
                 vetId: this.vetId,
+                dateCreated: this.dateCreated,
                 patient: ActivePatient.getActivePatient()._id
             });
 
@@ -162,9 +91,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             
 
             // Add fields changed to Progress Form service
-            if($scope.constProgForm[index].weightKg !== $scope.activePatient.progressForms[index].weight) {
+            if($scope.constProgForm[index].weight.weightKg !== $scope.activePatient.progressForms[index].weightKg-0) {
                 oldData.weight = $scope.constProgForm[index].weight.weightKg;
-                changedData.weight = $scope.activePatient.progressForms[index].weight;
+                changedData.weight = $scope.activePatient.progressForms[index].weightKg-0;
+                $scope.activePatient.progressForms[index].weight = changedData.weight;
                 formChanged = true;
                 //this.activePatient.progressForms[index].weight = this.activePatient.progressForms[index].weightKg;
             }
@@ -196,10 +126,6 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             }
             // Comments edited
             if($scope.constProgForm[index].comments !== $scope.activePatient.progressForms[index].comments) {
-                console.log('const:');
-                console.log($scope.constProgForm[index].comments);
-                console.log('active:');
-                console.log($scope.activePatient.progressForms[index].comments);
                 oldData.comments = $scope.constProgForm[index].comments;
                 changedData.comments = $scope.activePatient.progressForms[index].comments;
                 formChanged = true;
@@ -250,8 +176,9 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.kgToLb = function(kgWeight) {
             return (kgWeight * 2.2046).toFixed(2);
         };
-        // Get last week weight
-        // This function takes the index of a progress form an return the last weight
+
+        // Purpose: This function takes the index of a progress form 
+        //          and return the weight of the progress form at index - 1
         $scope.getLastWeight = function(index) {
             var pat = ActivePatient.getActivePatient();
             if(pat.progressForms === undefined) {
@@ -276,8 +203,8 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return 0;
         };
 
-        // Compute the weight loss for that day
-        // Param: weight, index of current progress form
+        // Purpose:     Compute the weight loss for that day
+        // Parameters:  Weight, index of current progress form
         $scope.getTodayWeightLoss = function(todayWeight, index) {
             var pat = ActivePatient.getActivePatient();
             // IF no progress EXIST yet
@@ -303,8 +230,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return 0;
         };
 
-        // Function to parse a given string to Date format
-        // Date must be in default format: YYYY-MM-DD ...
+
+        // Purpose:     To parse a given string to Date format
+        // Parameters:  strDate (Must be a string date in JSON format: YYYY-MM-DDT00:00:000Z)
+        // Return:      Date object
         $scope.toDate = function(strDate) {
             var tmp = new Date();
             var year = parseInt(strDate.substring(0,4));
@@ -316,7 +245,10 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return tmp;
         };
 
-        // Function borrowed online to compute number of weeks between two dates
+        // Purpose:     To compute the between 2 given dates
+        // Parameters:  Date String, Date String  
+        // Borrowed:    StackOverflow
+        // Return:      Number of days (Int)
         $scope.getNumDays = function(firstDate, secondDate) {
             var oneDay = 24*60*60*1000;          // hours*minutes*seconds*milliseconds
             var strtDate = $scope.toDate(firstDate);
@@ -324,28 +256,84 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             return Math.round(Math.abs((strtDate.getTime() - endDate.getTime())/(oneDay)));
         };
 
-        // Compute the average weight loss
-        // Average does not take into account the current date entered today
-        $scope.getAvgWeightLossPerWeek = function() {
-            var res = 0;
-            var pat = ActivePatient.getActivePatient();
-            if (pat.progressForms.length === 0) {
-                return 0;
-            } else {
-                var strtDate = pat.progressForms[0].dateCreated;
-                var endDate = pat.progressForms[pat.progressForms.length - 1].dateCreated;
-                var numWeeks = $scope.getNumDays(strtDate, endDate) / 7;
-                var weightLoss = (pat.progressForms[0].weight - pat.progressForms[pat.progressForms.length - 1].weight);
-                if (numWeeks === 0) { res = (weightLoss / pat.startWeight) / 1; }
-                else { res = (weightLoss / pat.startWeight) / numWeeks; }
-                return res.toFixed(2);
-            }
-        };
 
-        $scope.getPercentWeightLoss = function() {
-            console.log('Kinderley');
-            console.log(this.index);
-            console.log(this.weight.kg);
+        // Purpose:     Compute the average weight loss per week of a dog
+        // Parameters:  Today's weight and the index of the progress form.
+        // Description: This function is used by new form and past progress forms.
+        //              An index of -1 means it is from New Progress form. Any other index
+        //              means that call is from past progress forms
+        // Average does not take into account the current date entered today
+        $scope.getAvgWeightLossPerWeek = function(todayWeight, index) {
+            var tmp;
+            var res = 0;
+            var strtDate;
+            var endDate;
+            var numWeeks;
+            var pat = ActivePatient.getActivePatient();
+            if(todayWeight === undefined) { return 0; }
+
+            // Compute other total percent weight loss per visit
+            // % Weight loss per visit = [(Previous weight - Current Weight) / Previous Weight] * 100
+            // Average % Weight Loss = (% Weight Loss per visit) / (Days since last weight/7)
+
+            // Case A: No progress form yet, call is coming from first progress form
+            if( (pat.progressForms === undefined) || (pat.progressForms.length === 0) ){
+                tmp = ( ((pat.startWeight - todayWeight) * 100) / pat.startWeight).toFixed(2);
+                strtDate = pat.dateCreated;                                                     // Date of last weight
+                endDate = $scope.dateCreated.toJSON();
+                numWeeks = $scope.getNumDays(strtDate, endDate) / 7;
+
+                // IF a week has not passed yet
+                if(numWeeks < 1) {
+                    res = 0;
+                }
+                else{
+                    res = (tmp / numWeeks).toFixed(2);
+                }
+            }
+            
+            // Case B: Progress forms exist
+            else {
+
+                // Case 1: Calling from new progress form
+                if(index === -1) {
+                    strtDate = pat.progressForms[pat.progressForms.length - 1].dateCreated;             // Date of last weight
+                    endDate = $scope.dateCreated.toJSON();
+                    numWeeks = $scope.getNumDays(strtDate, endDate) / 7;                                // Number of weeks from last progress forms
+                    // In the first week, there should not be any average loss yet. According to the given formula
+                    if(numWeeks < 1) {                                             
+                        res = 0;
+                    }
+                    else {
+                        tmp = ( ((pat.progressForms[pat.progressForms.length-1].weight - todayWeight) * 100) / pat.progressForms[pat.progressForms.length-1].weight);
+                        res = (tmp / numWeeks).toFixed(2);
+                    }                                                    
+                }
+                // Case 2: Calling from past progress form
+                else {
+                    if(index === 0){
+                        tmp = ( ((pat.startWeight - pat.progressForms[0].weight) * 100) / pat.startWeight);
+                        strtDate = pat.dateCreated;                                                     // Date of last weight
+                        endDate = pat.progressForms[index].dateCreated;                                 // Date of current weight
+                        numWeeks = $scope.getNumDays(strtDate, endDate) / 7;
+                    }
+                    else {
+                        tmp = ( ((pat.progressForms[index-1].weight - pat.progressForms[index].weight) * 100) / pat.progressForms[index-1].weight);
+                        strtDate = pat.progressForms[index-1].dateCreated;                              // Date of last weight
+                        endDate = pat.progressForms[index].dateCreated;                                 // Date of current weight
+                        numWeeks = $scope.getNumDays(strtDate, endDate) / 7;
+                    }
+
+                    // IF a week has not passed yet
+                    if(numWeeks < 1) {
+                        res = 0;
+                    }
+                    else{
+                        res = (tmp / numWeeks).toFixed(2);
+                    }
+                }
+            }
+            return res;
         };
 
         // Return the trimauxil dose base on today's weight
@@ -396,5 +384,93 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             this.activePatient.progressForms[index].vetID = $scope.constProgForm[index].vetID;
             this.activePatient.progressForms[index].dateCreated = $scope.constProgForm[index].dateCreated;
         };
+
+        $scope.initPatient = function() {
+            $scope.activePatient = ActivePatient.getActivePatient();
+            console.log('APt: ' + $scope.activePatient);
+
+            $scope.activePatient = ActivePatient.getActivePatient();
+            //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+            if(!ActivePatient.activePatientSet()) {
+                $location.path('/'); 
+                //setTimeout(function(){ $location.path('/overview'); }, 100);
+            }
+            $scope.formsLocked = $scope.formsLockedFromEditing();       // Are forms allowed to be edited?
+
+
+            // Set Default next visit and next call date
+            $scope.nextVisit = new Date();
+            $scope.nextCall = new Date();
+            var tmp = 7;
+            $scope.nextCall.setDate($scope.nextCall.getDate() + tmp);   // Call 7 days from today
+            tmp = 14;
+            $scope.nextVisit.setDate($scope.nextVisit.getDate() + tmp); // Call 14 days from today      
+
+
+            // Flag to prevent the user from adding a form if one is already entered
+            $scope.todayFormSubmitFlag = false;
+            if($scope.activePatient.progressForms === undefined || $scope.activePatient.progressForms.length === 0) {
+                $scope.todayFormSubmitFlag = false;
+            }
+            else{
+                var today = new Date();
+                var lstForm = $scope.toDate($scope.activePatient.progressForms[$scope.activePatient.progressForms.length-1].dateCreated);
+                if(today.getFullYear() === lstForm.getFullYear()) {
+                    if(today.getMonth() === lstForm.getMonth()) {
+                        if(today.getDate() === lstForm.getDate()) {
+                            $scope.todayFormSubmitFlag = true;
+                        }
+                    }
+                }
+            }
+
+            // Add index as part of the object to overcome the issue of using $index with ng-repeat
+            var i;
+            for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
+                // Add necessary index and necessary flag to each progress form object
+                $scope.activePatient.progressForms[i].index = i;
+                $scope.activePatient.progressForms[i].edit = false;
+                if($scope.activePatient.progressForms[i].overrideCupsPerFeeding === undefined &&
+                    $scope.activePatient.progressForms[i].vetIdOverrideCPF === undefined) {
+                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = false;
+                    $scope.activePatient.progressForms[i].feedAdjustment = false;
+                }
+                else {
+                    $scope.activePatient.progressForms[i].feedAdjustmentFlag = true;
+                    $scope.activePatient.progressForms[i].feedAdjustment = false;
+                }
+                $scope.activePatient.progressForms[i].foodChangedFlag = false;
+
+                // For weight editing features in Adding new form
+                $scope.activePatient.progressForms[i].weightKg = $scope.activePatient.progressForms[i].weight;
+                $scope.activePatient.progressForms[i].weightLb = $scope.kgToLb($scope.activePatient.progressForms[i].weight);
+
+
+                // Copy all the progress forms before user makes any modifications to them
+                $scope.constProgForm[i] = new Object({
+                    index:i,
+                    edit: false,
+                    weight:{
+                        weightKg:$scope.activePatient.progressForms[i].weight,
+                        weightLb:$scope.kgToLb($scope.activePatient.progressForms[i].weight)
+                    },
+                    trimauxilUse:$scope.activePatient.progressForms[i].trimauxilUse,
+                    feedAdjustmentFlag: $scope.activePatient.progressForms[i].feedAdjustmentFlag,
+                    overrideCupsPerFeeding: $scope.activePatient.progressForms[i].overrideCupsPerFeeding,
+                    vetIdOverrideCPF: $scope.activePatient.progressForms[i].vetIdOverrideCPF,
+                    foodChanged:$scope.activePatient.progressForms[i].foodChanged,
+                    kcalPerCup: 0,
+                    kcalPerKg: 0,
+                    comments: $scope.activePatient.progressForms[i].comments,
+                    techID: $scope.activePatient.progressForms[i].techID,
+                    vetID: $scope.activePatient.progressForms[i].vetID,
+                    dateCreated: $scope.activePatient.progressForms[i].dateCreated
+                });
+
+                console.log($scope.activePatient.progressForms[i].weight);
+            }
+        };
+
+        $scope.initPatient();
     }
 ]);

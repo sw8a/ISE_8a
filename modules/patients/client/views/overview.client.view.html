@@ -10,7 +10,7 @@
                     Client Name:   {{activePatient.petOwner.firstName}} {{activePatient.petOwner.lastName}}<br/>
                     Last Appointment:   {{activePatient.progressForms[activePatient.progressForms.length - 1].dateCreated | date:'MM/dd/yyyy'}}<br/>
                     Next Appointment:   10/29/15<br/>
-                    Starting Weight:   {{activePatient.startWeight}} lbs
+                    Starting Weight:   {{kgToLb(activePatient.startWeight)}} lbs
                 </p>
             </div>
 
@@ -37,6 +37,7 @@
 
         <div class="floatLeft">
             <h2>{{activePatient.firstName}}'s Weight Loss Summary</h2>
+
             <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ (activePatient.startWeight * 2.2046).toFixed(2) }} lbs<br/>
                 Current Weight: &nbsp &nbsp &nbsp &nbsp {{ weight.toFixed(2) }} lbs<br/>
                 Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ idealWeight() }} lbs<br/>

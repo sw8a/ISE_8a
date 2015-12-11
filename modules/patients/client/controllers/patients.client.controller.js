@@ -59,6 +59,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
 
         // Returns a dog's ideal weight based on their start weight and start BCS
         $scope.idealWeight = function () {
+
             // Weight is in kg
             var currWeight = $scope.activePatient.startWeight;
             var bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat

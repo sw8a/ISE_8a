@@ -13,27 +13,30 @@
             </tr>
         </thead>
         <tbody close-others="oneAtTime" id="accordion">
-            <tr class="accordion-group" is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
-                <div class="accordion-heading">
+            <tr is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
+                <div>
                     <td class="col-sm-5"> {{ patient.patientId }} </td>
                     <td class="col-sm-3"> {{ patient.vetId }}</td>
                     <td class="col-sm-3"> {{ patient.lastContact }} </td>
                     <td class="col-sm-1"><button ng-click="remove(patient)" class="btn btn-primary" type="button">Clear Entry</button></td>
                 </div>
-                <div class="accordion-body">
+                <div ng-show="true">
+                    Hi I am an example
                 </div>
             </tr>
-
-            <!-- <accordion close-others="oneAtTime">
-                <accordion-group is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
-                    <accordion-heading>
-                        ID: {{ patient.patientId }}
-                    </accordion-heading>
-                    <accordion-body>
-                        Last Contact: {{ patient.lastContact }} 
-                    </accordion-body>
-                </accordion-group>
-            </accordion> -->
         </tbody>
     </table>
+
+    <!-- <div class="custom">
+        <accordion id="accordion" close-others="oneAtATime">
+            <accordion-group is-open="patient.isOpen" ng-repeat="patient in patientCallList">
+                <accordion-heading class="custom-heading">
+                    Heading
+                </accordion-heading>
+                <accordion-body class="custom-body">
+                    Body
+                </accordion-body>
+            </accordion-group>
+        </accordion>
+    </div> -->
 </div>

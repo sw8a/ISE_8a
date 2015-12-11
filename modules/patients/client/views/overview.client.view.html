@@ -40,7 +40,7 @@
             <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ (activePatient.startWeight * 2.2046).toFixed(2) }} lbs<br/>
                 Current Weight: &nbsp &nbsp &nbsp &nbsp {{ weight.toFixed(2) }} lbs<br/>
                 Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ idealWeight() }} lbs<br/>
-                Total Weight Lost: &nbsp &nbsp {{ (activePatient.startWeight*2.2046-weight).toFixed(2) }} lbs<br/>
+                Total Weight Lost: &nbsp &nbsp {{ totalWeightLost }} lbs<br/>
                 Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ poundsToGo }} lbs<br/>
             </p>
         </div>

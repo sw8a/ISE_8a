@@ -124,14 +124,19 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
             trendTwo
         ];
 
-        $scope.poundsToGo = ($scope.weight-($scope.idealWeight() * kgToLb)).toFixed(2);
-        // If the patient has lost more weight than needed, poundsToGo = 0
-        if((($scope.weight-($scope.idealWeight() * kgToLb)).toFixed(1)) < 0) {
+        $scope.poundsToGo = ($scope.weight-$scope.idealWeight()).toFixed(2);
+        $scope.totalWeightLost = (($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(2);
+        // If the dog has lost more weight than needed, poundsToGo = 0
+        if($scope.poundsToGo < 0) {
           $scope.poundsToGo = 0;
+        }
+        // If the dog has gained weight, totalWeightLost = 0
+        if($scope.totalWeightLost < 0) {
+            $scope.totalWeightLost = 0;
         }
         // Weight Lost vs. Pounds To Go Doughnut Graph
         $scope.labelsDoughnut = ['Total Weight Lost', 'Pounds To Go'];
-        $scope.dataDoughnut = [(($scope.activePatient.startWeight * kgToLb) - $scope.weight).toFixed(2), $scope.poundsToGo];
+        $scope.dataDoughnut = [$scope.totalWeightLost, $scope.poundsToGo];
         $scope.colorsDoughnut = ['#6399CC', '#505050'];
     }
 ]);

@@ -13,7 +13,10 @@
 .heavy-top-buffer {
     margin-top: 100px;
 }
+.accordion-custom-heading {
+	padding-left: auto;
+}
 
-.custom-heading {
-	background-color: yellow;
+accordion-heading.custom-heading {
+	background-color: black !important;
 }

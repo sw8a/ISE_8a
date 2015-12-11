@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody close-others="oneAtTime" id="accordion">
-            <tr is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
+            <!-- <tr is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
                 <div>
                     <td class="col-sm-5"> {{ patient.patientId }} </td>
                     <td class="col-sm-3"> {{ patient.vetId }}</td>
@@ -23,7 +23,7 @@
                 <div ng-show="true">
                     Hi I am an example
                 </div>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
 
@@ -39,4 +39,20 @@
             </accordion-group>
         </accordion>
     </div> -->
+
+    <div id="custom">
+        <accordion close-others"oneAtTime">
+            <accordion-group is-open="patient.isOpen" ng-repeat="patient in patientCallList">
+                <accordion-heading class="custom-heading">
+                    <div class="accordion-custom-heading">
+                        Place the table in here
+                    </div>
+                </accordion-heading>
+                <accordion-body>
+                    This is a body
+                </accordion-body>
+            </accordion-group>
+        </accordion>
+    </div>
+
 </div>

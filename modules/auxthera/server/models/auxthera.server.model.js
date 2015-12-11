@@ -12,7 +12,12 @@ var AuxtheraSchema = new Schema({
     feedback: [{
         type: Schema.ObjectId,
         ref: 'Feedback'
-    }]
+    }],
+
+    adminTasks: {
+        type: Schema.ObjectId,
+        ref: 'AuxAdminTasks'
+    }
 
 },
 { collection: 'auxthera' });
@@ -27,7 +32,12 @@ var AuxAdminTasksSchema = new Schema({
     breeds: [{
         type: String,
         trim: true
-    }]
+    }],
+
+    auxtheraId: {
+        type: Schema.ObjectId,
+        ref: 'Auxthera'
+    }
 
 },
 { collection: 'aux_admin_tasks' });
@@ -66,17 +76,17 @@ var FeedbackSchema = new Schema({
         }
     }],
 
-    patient: {
+    patientId: {
         type: Schema.ObjectId,
         ref: 'Patient'
     },
     
-    practice: {
+    practiceId: {
         type: Schema.ObjectId,
         ref: 'Practice'
     },
 
-    company: {
+    auxtheraId: {
         type: Schema.ObjectId,
         ref: 'Auxthera'
     }
@@ -120,8 +130,8 @@ var DogFoodsSchema = new Schema({
 
 
 
-
 mongoose.model('Auxthera', AuxtheraSchema);
+mongoose.model('AuxAdminTasks', AuxAdminTasksSchema);
 mongoose.model('Feedback', FeedbackSchema);
 mongoose.model('DogBreeds', DogBreedsSchema);
 mongoose.model('DogFood', DogBreedsSchema);

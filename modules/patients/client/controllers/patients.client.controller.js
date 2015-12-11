@@ -86,8 +86,8 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
 
         monthsShown.push(months[monthStarted-1]);
         weightsShown.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
-        trendOne.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
-        trendTwo.push(($scope.activePatient.startWeight * kgToLb).toFixed(2));
+        trendOne.push(($scope.activePatient.startWeight).toFixed(2));
+        trendTwo.push(($scope.activePatient.startWeight).toFixed(2));
 
         var i = 0;
         for(i = 0; i < progressForms.length; i++) {

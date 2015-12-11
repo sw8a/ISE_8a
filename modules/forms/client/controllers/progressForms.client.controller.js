@@ -24,8 +24,10 @@ angular.module('forms',['ui.bootstrap']).controller('progressFormsController', [
             $location.path('/');
         }
 
-        // Check if forms should be locked. Return true or false
-        // Based on 60 threshold of today's date and the exit form date completion
+        // Purpose:     Check if all visit forms shoulc be locked from edititing
+        //              based on 60 days after exit form has been completed
+        // Paramters:   None
+        // Return:      Bool
         $scope.formsLockedFromEditing = function() {
             var pat = ActivePatient.getActivePatient();
             if(pat.exitForm !== undefined) {
@@ -174,8 +176,9 @@ angular.module('forms',['ui.bootstrap']).controller('progressFormsController', [
         $scope.kgToLb = function(kgWeight) {
             return (kgWeight * 2.2046).toFixed(2);
         };
-        // Get last week weight
-        // This function takes the index of a progress form an return the last weight
+
+        // Purpose: This function takes the index of a progress form 
+        //          and return the weight of the progress form at index - 1
         $scope.getLastWeight = function(index) {
             var pat = ActivePatient.getActivePatient();
             if(pat.progressForms === undefined) {
@@ -200,8 +203,8 @@ angular.module('forms',['ui.bootstrap']).controller('progressFormsController', [
             return 0;
         };
 
-        // Compute the weight loss for that day
-        // Param: weight, index of current progress form
+        // Purpose:     Compute the weight loss for that day
+        // Parameters:  Weight, index of current progress form
         $scope.getTodayWeightLoss = function(todayWeight, index) {
             var pat = ActivePatient.getActivePatient();
             // IF no progress EXIST yet

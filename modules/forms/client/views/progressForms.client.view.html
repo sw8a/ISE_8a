@@ -230,10 +230,10 @@
                             <div class="row form-inline">
                                 <label class="col-sm-4 control-label">Weight</label>
                                 <div class="col-xs-6 col-sm-3 input-group">
-                                    <input data-ng-model="form.weightLb" data-ng-change="form.weightKg = lbToKg(form.weightLb)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? kgToLb(form.weight) : 'Enter weight'}}" ><em class="input-group-addon">lb</em>
+                                    <input data-ng-model="form.weightLb" data-ng-change="form.weightKg = lbToKg(form.weightLb)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? kgToLb(form.weight) : 'Enter weight'}}" data-ng-required="form.edit"><em class="input-group-addon">lb</em>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-offset-1 input-group">
-                                   <input data-ng-model="form.weightKg" data-ng-change="form.weightLb = kgToLb(form.weightKg)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.weight : 'Enter weight'}}"><em class="input-group-addon">kg</em>
+                                   <input data-ng-model="form.weightKg" data-ng-change="form.weightLb = kgToLb(form.weightKg)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.weight : 'Enter weight'}}" data-ng-required="form.edit"><em class="input-group-addon">kg</em>
                                 </div>
                             </div>
                             <!-- Last Weight -->
@@ -269,9 +269,9 @@
                                 <!-- Trimauxil Use -->
                                 <label class="col-sm-4 control-label">Trimauxil Use</label><br/>
                                 <div class="col-sm-8" >
-                                    <input ng-disabled="!form.edit" data-ng-model="form.trimauxilUse" type="radio" name="trimauxilUse" value="Overuse"> Overuse (ran out > 2 days)<br/>
-                                    <input ng-disabled="!form.edit" data-ng-model="form.trimauxilUse" type="radio" name="trimauxilUse" value="Just Right"> Just Right (+/- 2 doses)<br/>
-                                    <input ng-disabled="!form.edit" data-ng-model="form.trimauxilUse" type="radio" name="trimauxilUse" value="Underuse"> Underuse (>2 doses remaining)<br/>
+                                    <input ng-disabled="!form.edit" data-ng-model="form.trimauxilUse" type="radio" name="trimauxilUse" value="Overuse" data-ng-required="form.edit"> Overuse (ran out > 2 days)<br/>
+                                    <input ng-disabled="!form.edit" data-ng-model="form.trimauxilUse" type="radio" name="trimauxilUse" value="Just Right" data-ng-required="form.edit"> Just Right (+/- 2 doses)<br/>
+                                    <input ng-disabled="!form.edit" data-ng-model="form.trimauxilUse" type="radio" name="trimauxilUse" value="Underuse" data-ng-required="form.edit"> Underuse (>2 doses remaining)<br/>
                                 </div>
                             </div>
                             <!-- Trimauxil Dose -->
@@ -297,10 +297,10 @@
                                         <small ng-hide="form.edit" class="pull-right control-label">New feeding adjustment</small>
                                     </div>
                                     <div class="col-sm-3 input-group">
-                                        <input data-ng-model="form.overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text"ng-disabled="!form.edit" data-ng-required="!form.feedAdjustmentFlag"><em class="input-group-addon">cups/meal</em>
+                                        <input data-ng-model="form.overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text"ng-disabled="!form.edit" data-ng-required="form.edit && form.feedAdjustmentFlag"><em class="input-group-addon">cups/meal</em>
                                     </div>
                                     <div class="col-sm-5 pull-right">
-                                        <input data-ng-model="form.vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" ng-disabled="!form.edit" data-ng-required="!form.feedAdjustmentFlag">
+                                        <input data-ng-model="form.vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" ng-disabled="!form.edit" data-ng-required="form.edit && form.feedAdjustmentFlag">
                                     </div>
                                 </div>
                             </div>
@@ -347,14 +347,14 @@
                             <div class="form-group">
                                 <label class="col-xs-12 col-sm-3">Tech ID</label>
                                 <div class="col-xs-12 col-sm-9">
-                                    <input data-ng-model="form.techId" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.techId : 'Enter Tech ID'}}">
+                                    <input data-ng-model="form.techId" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.techId : 'Enter Tech ID'}}" data-ng-required="form.edit">
                                 </div>
                             </div>
                             <!-- Vet Initial -->
                             <div class="form-group">
                                 <label class="col-xs-12 col-sm-3">Vet ID</label>
                                 <div class="col-xs-12 col-sm-9">
-                                    <input data-ng-model="form.vetId" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.vetId : 'Enter Vet ID'}}">
+                                    <input data-ng-model="form.vetId" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.vetId : 'Enter Vet ID'}}" data-ng-required="form.edit">
                                 </div>
                             </div>
                         </div>

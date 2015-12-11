@@ -1,39 +1,39 @@
-<div data-ng-controller="auxtheraController">
-
-<div class="callList">
-    <div class="heading">
+<div data-ng-controller="auxtheraController" class="auxthera-container" data-ng-init="initCallList()">
+    <div class="row heading">
        <h1> Patient Call List </h1>
     </div>
 
-    <div class="container TableComponents heavy-top-buffer">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="col-md-5 col-sm-5">Patient Number</th>
+    <table class="container TableComponents heavy-top-buffer table table-bordered">
+        <thead>
+            <tr>
+                <th class="col-sm-5">Patient Number</th>
+                <th class="col-sm-3">Vet Visited</th>
+                <th class="col-sm-3">Last Contact</th>
+                <th class="col-sm-1">Completed</th>
+            </tr>
+        </thead>
+        <tbody close-others="oneAtTime" id="accordion">
+            <tr class="accordion-group" is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
+                <div class="accordion-heading">
+                    <td class="col-sm-5"> {{ patient.patientId }} </td>
+                    <td class="col-sm-3"> {{ patient.vetId }}</td>
+                    <td class="col-sm-3"> {{ patient.lastContact }} </td>
+                    <td class="col-sm-1"><button ng-click="remove(patient)" class="btn btn-primary" type="button">Clear Entry</button></td>
+                </div>
+                <div class="accordion-body">
+                </div>
+            </tr>
 
-                    <th class="col-md-3 col-sm-3">Vet Visited</th>
-
-                    <th class="col-md-3 col-sm-3">Last Contact</th>
-
-                    <th class="col-md-1 col-sm-1">Completed</th>
-                </tr>
-            </thead>
-        </table>
-
-
-    <div class="container TableComponents">
-        <table class="table table-bordered">
-            <tbody>
-                <tr ng-repeat="patient in patientCallList">
-                    <td class="col-md-5 col-sm-5"> {{ patient.patientId }} </td>
-
-                    <td class="col-md-3 col-sm-3">>{{ patient.vetId }}</td>
-
-                    <td class="col-md-3 col-sm-3"> {{ patient.lastContact }} </td>
-
-                    <td class="col-md-1 col-sm-3">><button ng-click="remove(patient)" class="btn btn-primary" type="button">Clear Entry</button>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+            <!-- <accordion close-others="oneAtTime">
+                <accordion-group is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
+                    <accordion-heading>
+                        ID: {{ patient.patientId }}
+                    </accordion-heading>
+                    <accordion-body>
+                        Last Contact: {{ patient.lastContact }} 
+                    </accordion-body>
+                </accordion-group>
+            </accordion> -->
+        </tbody>
+    </table>
 </div>

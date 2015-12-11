@@ -32,6 +32,36 @@ exports.getAuxthera = function (req, res) {
     res.json(req.auxthera);
 };
 
+exports.updateAuxthera = function (req, res) {
+    var auxthera = req.body;
+
+    var changedData = auxthera.changedData;
+    var auxtheraId = auxthera._id;
+    delete auxthera.changedData;
+    delete auxthera._id;
+
+    Auxthera.findByIdAndUpdate(
+        auxtheraId,
+        {
+            $push: { 'changedData': changedData },
+            $set: auxthera
+        },
+        {
+            safe: true,
+            new: true
+        },
+        function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.json(auxthera);
+            }
+        }
+    );
+};
+
 
 exports.auxtheraById = function (req, res, next, id) {
     
@@ -41,7 +71,7 @@ exports.auxtheraById = function (req, res, next, id) {
         });
     }
 
-    Auxthera.findById(id, function (err, foundAuxthera) {
+    Auxthera.findById(id).populate('adminTasks feedback').exec( function (err, foundAuxthera) {
         if (err) {
             return next(err);
         } 
@@ -50,8 +80,35 @@ exports.auxtheraById = function (req, res, next, id) {
                 message: 'No auxthera found'
             });
         }
-        req.auxthera = foundAuxthera;
-        next();
+
+        var options = {
+            path: 'adminTasks.dogFoods',
+            model: 'DogFood'
+        };/*[{
+            path: 'adminTasks.dogFoods',
+            model: 'DogFood'
+        },
+        {
+            path: 'feedback.practiceId',
+            model: 'Practices'
+        },
+        {
+            path: 'feedback.patientId',
+            model: 'Patients'
+        }];*/
+
+        Auxthera.populate(foundAuxthera, options, function (err, populatedAuxthera) {
+            if (err) {
+                return next(err);
+            } 
+            else if (!populatedAuxthera) {
+                return res.status(404).send({
+                    message: 'Auxthera population error'
+                });
+            }
+            req.auxthera = foundAuxthera;
+            next();
+        });
     });
 };
 
@@ -74,6 +131,36 @@ exports.saveNewAuxAdminTasks = function (req, res) {
 
 exports.getAuxAdminTasks = function (req, res) {
     res.json(req.auxAdminTasks);
+};
+
+exports.updateAuxAdminTasks = function (req, res) {
+    var auxAdminTasks = req.body;
+
+    var changedData = auxAdminTasks.changedData;
+    var auxAdminTasksId = auxAdminTasks._id;
+    delete auxAdminTasks.changedData;
+    delete auxAdminTasks._id;
+
+    AuxAdminTasks.findByIdAndUpdate(
+        auxAdminTasksId,
+        {
+            $push: { 'changedData': changedData },
+            $set: auxAdminTasks
+        },
+        {
+            safe: true,
+            new: true
+        },
+        function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.json(auxAdminTasks);
+            }
+        }
+    );
 };
 
 
@@ -120,6 +207,36 @@ exports.getFeedback = function (req, res) {
     res.json(req.feedback);
 };
 
+exports.updateFeedback = function (req, res) {
+    var feedback = req.body;
+
+    var changedData = feedback.changedData;
+    var feedbackId = feedback._id;
+    delete feedback.changedData;
+    delete feedback._id;
+
+    Feedback.findByIdAndUpdate(
+        feedbackId,
+        {
+            $push: { 'changedData': changedData },
+            $set: feedback
+        },
+        {
+            safe: true,
+            new: true
+        },
+        function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.json(feedback);
+            }
+        }
+    );
+};
+
 
 exports.feedbackById = function (req, res, next, id) {
     
@@ -164,6 +281,36 @@ exports.getDogBreeds = function (req, res) {
     res.json(req.dogBreeds);
 };
 
+exports.updateDogBreeds = function (req, res) {
+    var dogBreeds = req.body;
+
+    var changedData = dogBreeds.changedData;
+    var dogBreedsId = dogBreeds._id;
+    delete dogBreeds.changedData;
+    delete dogBreeds._id;
+
+    DogBreeds.findByIdAndUpdate(
+        dogBreedsId,
+        {
+            $push: { 'changedData': changedData },
+            $set: dogBreeds
+        },
+        {
+            safe: true,
+            new: true
+        },
+        function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.json(dogBreeds);
+            }
+        }
+    );
+};
+
 
 exports.dogBreedsById = function (req, res, next, id) {
     
@@ -206,6 +353,36 @@ exports.saveNewDogFood = function (req, res) {
 
 exports.getDogFood = function (req, res) {
     res.json(req.dogFood);
+};
+
+exports.updateDogFood = function (req, res) {
+    var dogFood = req.body;
+
+    var changedData = dogFood.changedData;
+    var dogFoodId = dogFood._id;
+    delete dogFood.changedData;
+    delete dogFood._id;
+
+    DogFood.findByIdAndUpdate(
+        dogFoodId,
+        {
+            $push: { 'changedData': changedData },
+            $set: dogFood
+        },
+        {
+            safe: true,
+            new: true
+        },
+        function(err) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.json(dogFood);
+            }
+        }
+    );
 };
 
 

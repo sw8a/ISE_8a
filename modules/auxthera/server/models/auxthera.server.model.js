@@ -32,7 +32,12 @@ var AuxAdminTasksSchema = new Schema({
     breeds: [{
         type: String,
         trim: true
-    }]
+    }],
+
+    auxtheraId: {
+        type: Schema.ObjectId,
+        ref: 'Auxthera'
+    }
 
 },
 { collection: 'aux_admin_tasks' });
@@ -71,17 +76,17 @@ var FeedbackSchema = new Schema({
         }
     }],
 
-    patient: {
+    patientId: {
         type: Schema.ObjectId,
         ref: 'Patient'
     },
     
-    practice: {
+    practiceId: {
         type: Schema.ObjectId,
         ref: 'Practice'
     },
 
-    company: {
+    auxtheraId: {
         type: Schema.ObjectId,
         ref: 'Auxthera'
     }

@@ -3,8 +3,8 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'FeedbackService','$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
-    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService','$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -29,9 +29,11 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
 
         // Get an eventual error defined in the URL query string:
-        //$scope.error = $location.search().err;
+        // $scope.error = $location.search().err;
+
 
         $scope.signUp = function() {
+            // Form validation
             var error = false;
             if($scope.accountType === 'practice') {
                 if($scope.practiceSignup.name === '' || $scope.practiceSignup.name === undefined) {
@@ -81,9 +83,9 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                 else {
                     $scope.signUpError += 'Password required<br />';
                 }  
-            }
+            } // End form validation
 
-            if(error) {
+            if(error) { // if form invalid
                 $scope.signUpError = $sce.trustAsHtml($scope.signUpError);
                 return;
             }
@@ -120,7 +122,7 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                     });
                 }
                 else {
-
+                    // Creates Auxthera account
                     $scope.signUpCredentials = {
                         username: $scope.signUp.username,
                         password: $scope.signUp.password,
@@ -129,34 +131,57 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
                     if($scope.newAuxthera) {
                         // Creates a new Auxthera account with its own feedback object
-                        var auxthera = new AuxtheraService({
-                            
-                        });
+                        var auxthera = new AuxtheraService();
 
-                        auxthera.$save(function (practiceResponse) {
+                        auxthera.$save(function (auxtheraResponse) {
+                            var auxAdminTasks = new AuxAdminTasksService({
+                                auxtheraId: auxtheraResponse._id
+                            });
 
+                            auxAdminTasks.$save(function (auxAdminTasksResponse) {
+                                auxthera = new AuxtheraService({
+                                    _id: auxtheraResponse._id,
+                                    adminTasks: auxAdminTasksResponse._id
+                                });
+
+                                auxthera.$update(function (auxtheraUpdateResponse) {
+
+                                    // Clear form? Reload?
+
+                                });
+                            });
+
+                            $scope.signUpCredentials.auxtheraDocId = auxtheraResponse._id;
+
+                            $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
+                                console.log(response);
+                                // If successful we assign the response to the global user model
+                                // $scope.authentication.user = response;
+                                // refresh the page, the admin may want to create another user
+                                $state.reload();
+                            }).error(function(response) {
+                                $scope.error = response.message;
+                            });
                         });
 
 
                     }
                     
                     else {
-                        $scope.signUpCredentials = {
-                            _id: ActiveAuxthera.getActiveAuxthera()._id,
-                        };
+                        // Creates new login credentials for current Auxthera account
+                        $scope.signUpCredentials.auxtheraDocId = ActiveAuxthera.getActiveAuxthera()._id;
+
+                        $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
+                            console.log(response);
+                            // If successful we assign the response to the global user model
+                            // $scope.authentication.user = response;
+                            // refresh the page, the admin may want to create another user
+                            $state.reload();
+                        }).error(function(response) {
+                            $scope.error = response.message;
+                        });
 
                     }
-
-                    
-                    $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
-                        console.log(response);
-                        // If successful we assign the response to the global user model
-                        // $scope.authentication.user = response;
-                        // refresh the page, the admin may want to create another user
-                        $state.reload();
-                    }).error(function(response) {
-                        $scope.error = response.message;
-                    });
                 }
             }    
         };

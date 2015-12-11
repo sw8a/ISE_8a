@@ -34,20 +34,20 @@ module.exports = function(app) {
 
     // Dog Breeds routes
     app.route('/api/auxthera/dogBreeds')
-        .post(auxthera.saveNewAuxAdminTasks);
+        .post(auxthera.saveNewDogBreeds);
 
     app.route('/api/auxthera/dogBreeds/:dogBreedsId')
         .get(auxthera.getDogBreeds)
-        .post(auxthera.saveDogBreeds)
+        .post(auxthera.saveNewDogBreeds)
         .put(auxthera.updateDogBreeds);
 
     // Dog Food routes
     app.route('/api/auxthera/dogFood')
-        .post(auxthera.saveNewAuxAdminTasks);
+        .post(auxthera.saveNewDogFood);
 
     app.route('/api/auxthera/dogFood/:dogFoodId')
         .get(auxthera.getDogFood)
-        .post(auxthera.saveDogFood)
+        .post(auxthera.saveNewDogFood)
         .put(auxthera.updateDogFood);
 
 

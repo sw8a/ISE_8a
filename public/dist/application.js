@@ -140,6 +140,12 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
         $scope.signUpError = '';
 
+        $scope.threadActive = false;
+        $scope.currThread = {};
+        $scope.limitVar = 5;
+        $scope.foodHidden = false;
+        $scope.breedHidden = false;
+        $scope.newMessage = false;
 
         // Get an eventual error defined in the URL query string:
         //$scope.error = $location.search().err;
@@ -250,8 +256,20 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                 }
             }    
         };
+
+
+
+        $scope.sendMessage = function(){
+
+            var message = $scope.messages.message;
+            var sentBy = 'auxthera';
+            var read = false;
+            var important = false;
+        }
     }
 ]);
+
+
 'use strict';
 
 
@@ -1908,8 +1926,8 @@ angular.module('patients', ['chart.js'/*, 'ngStorage'*/]).controller('patientsCo
         i = 0;
         while(trendOne[trendOne.length - 1] * percentLoss1 > $scope.idealWeight()) {
             monthsShown.push(months[(lastMonthShown+i)%12]);
-            trendOne.push((trendOne[trendOne.length-1] * percentLoss1 * kgToLb).toFixed(2));
-            trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2 * kgToLb).toFixed(2));
+            trendOne.push((trendOne[trendOne.length-1] * percentLoss1).toFixed(2));
+            trendTwo.push((trendTwo[trendTwo.length-1] * percentLoss2).toFixed(2));
             i++;
         }
 

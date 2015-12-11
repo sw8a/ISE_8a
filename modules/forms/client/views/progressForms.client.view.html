@@ -36,6 +36,13 @@
                         <!-- Actual form-->
                         <div class="row">
                             <div class="col-sm-7">
+                                <!-- Visit Date -->
+                                <div class="row form-group">
+                                    <label class="col-sm-4 control-label">Visit Date</label>
+                                    <div class="col-sm-7 input-group">
+                                        <input data-ng-model="dateCreated" type="date" class="form-control" required>
+                                    </div>
+                                </div>
                                 <!-- Today's Weight -->
                                 <div class="row form-inline">
                                     <label class="col-sm-4 control-label">Today's Weight</label>
@@ -71,7 +78,7 @@
                                     <label class="col-sm-4 control-label">% Weight Loss / week</label>
                                     <div class="col-sm-8">
                                         <!--To be computed using angularJs-->
-                                        <span class="static-data">{{getAvgWeightLossPerWeek()}} <em>%</em></span>
+                                        <span class="static-data">{{getAvgWeightLossPerWeek(weight.kg, -1)}} <em>%</em></span>
                                     </div>
                                 </div>
                                 <!-- Trimauxil Use && Weight Loss Appropriate-->
@@ -129,7 +136,7 @@
                                             <small class="pull-right control-label">Enter the food name</small>
                                         </div>
                                         <div class="col-sm-7 input-group">
-                                            <input data-ng-model="foodCalPerCup" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
+                                            <input data-ng-model="selectedFood" typeahead="food for food in foodNames | filter:$viewValue | limitTo:8" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
                                         </div>
                                     </div>
                                     <div class="row form-group form-inline">
@@ -144,7 +151,21 @@
                             </div>
                             <!-- Columns containing Comments and approval -->
                             <div class="col-sm-5">
-                                <!-- Trimauxil Dose -->
+                                <!-- Next Visit -->
+                                <div class="form-group">
+                                    <label class="col-sm-5">Next Visit</label>
+                                    <div class="col-sm-7">
+                                        <input data-ng-model="nextVisit" type="date" class="form-control" id="date" required>
+                                    </div>
+                                </div>
+                                <!-- Next Call -->
+                                <div class="form-group">
+                                    <label class="col-sm-5">Next Call</label>
+                                    <div class="col-sm-7">
+                                        <input data-ng-model="nextCall" type="date" class="form-control" id="date" required>
+                                    </div>
+                                </div>
+                                <!-- comments -->
                                 <div class="form-group">
                                     <label class="col-xs-12" for="comments">Comments</label>
                                     <div class="col-xs-12">
@@ -191,7 +212,7 @@
                         &nbsp; Last visit: <em>{{form.dateCreated | date:mediumDate}}</em>
                     </div>
                     <div class="cols-xs-0 hidden-xs col-sm-3 text-left">Weight: <em>{{form.weight}}kg</em></div>
-                    <div class="cols-xs-0 hidden-xs col-sm-3 text-center">Weight loss/week: <em>{{getAvgWeightLossPerWeek()}}%</em></div>
+                    <div class="cols-xs-0 hidden-xs col-sm-3 text-left">Weight loss/week: <em>{{getAvgWeightLossPerWeek(form.weight, form.index)}}%</em></div>
                     <div class="cols-xs-3 hidden-xs col-sm-2">
                         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': form.isOpen, 'glyphicon-chevron-right': !form.isOpen}"></i>
                     </div>
@@ -240,7 +261,7 @@
                                 <label class="col-sm-4 control-label">% Weight Loss / week</label>
                                 <div class="col-sm-8">
                                     <!--To be computed using angularJs-->
-                                    <span class="static-data">{{getAvgWeightLossPerWeek()}} <em>%</em></span>
+                                    <span class="static-data">{{getAvgWeightLossPerWeek(form.weight, form.index)}} <em>%</em></span>
                                 </div>
                             </div>
                             <!-- Trimauxil Use && Weight Loss Appropriate-->
@@ -264,8 +285,8 @@
                             <div class="row form-inline">
                                 <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
                                 <div class="col-sm-8">
-                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustmentFlag" ng-disabled="!form.edit" type="radio" data-ng-change="form.feedAdjustmentFlag = true" value="true"> yes</label>
-                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustmentFlag" data-ng-change="form.feedAdjustmentFlag = false" ng-disabled="!form.edit" type="radio" value="false"> no</label>
+                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustment" ng-disabled="!form.edit" type="radio" data-ng-change="form.feedAdjustmentFlag = true" value="true"> yes</label>
+                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustment" data-ng-change="form.feedAdjustmentFlag = false" ng-disabled="!form.edit" type="radio" value="false"> no</label>
                                 </div>
                             </div>
                             <!-- Feeding adjustment needed Extended form -->
@@ -300,7 +321,7 @@
                                         <small ng-hide="form.edit" class="pull-right control-label">Food Name</small>
                                     </div>
                                     <div class="col-sm-7 input-group">
-                                        <input data-ng-model="form.foodName" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text">
+                                        <input data-ng-model="form.foodName" typeahead="food for food in foodNames | filter:$viewValue | limitTo:8" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text">
                                     </div>
                                 </div>
                                 <div class="row form-group form-inline">

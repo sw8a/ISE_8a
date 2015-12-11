@@ -20,7 +20,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
 
-        if($scope.firstName) {
+        if(ActivePatient.activePatientSet()) {
             $scope.disableInput = true;
             $scope.vetApproval = true;
 
@@ -35,6 +35,8 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
             $scope.birthDate = new Date($scope.activePatient.birthDate);
             $scope.startWeight = $scope.activePatient.startWeight;
+            $scope.startWeightLb = ($scope.activePatient.startWeight * 2.2046).toFixed(2)-0;
+
             $scope.sex = $scope.activePatient.sex;
             $scope.fixed = $scope.activePatient.fixed;
             $scope.breed = $scope.activePatient.breed;

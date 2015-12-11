@@ -3,8 +3,8 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'FeedbackService','$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
-    function($scope, $state, $http, $window, Authentication, AuxtheraService, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'FeedbackService','$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -121,30 +121,37 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                 }
                 else {
 
-                    var auxthera = new AuxtheraService({
-
-                    });
-
-                    auxthera.$save(function (practiceResponse) {
-                        $scope.signUpCredentials = {
-                            username: $scope.signUp.username,
-                            password: $scope.signUp.password,
-                            roles: 'user',
-                            practiceDocId: practiceResponse._id
-                        };
-
-                    });
-
-
                     $scope.signUpCredentials = {
                         username: $scope.signUp.username,
                         password: $scope.signUp.password,
                         roles: 'admin'
                     };
+
+                    if($scope.newAuxthera) {
+                        // Creates a new Auxthera account with its own feedback object
+                        var auxthera = new AuxtheraService({
+                            
+                        });
+
+                        auxthera.$save(function (practiceResponse) {
+
+                        });
+
+
+                    }
+                    
+                    else {
+                        $scope.signUpCredentials = {
+                            _id: ActiveAuxthera.getActiveAuxthera()._id,
+                        };
+
+                    }
+
+                    
                     $http.post('/api/auth/signup', $scope.signUpCredentials).success(function(response) {
                         console.log(response);
                         // If successful we assign the response to the global user model
-                        //$scope.authentication.user = response;
+                        // $scope.authentication.user = response;
                         // refresh the page, the admin may want to create another user
                         $state.reload();
                     }).error(function(response) {

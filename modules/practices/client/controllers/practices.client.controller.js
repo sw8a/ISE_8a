@@ -16,7 +16,12 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
 
         $scope.activePatientsList = [];
         $scope.activePatientsFiltered = [];
-        $scope.keysToSearch = ['patientId', 'firstName'];
+
+        $scope.inactivePatientsList = [];
+        $scope.inactivePatientsFiltered = [];
+
+        $scope.keysToSearch = ['patientId', 'firstName', 'dateCreated'];
+        $scope.petOwnerKeysToSearch = ['lastName', 'firstName', 'phoneNumber'];
         $scope.sortBy = '';
 
         $scope.search = '';
@@ -95,9 +100,13 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
                     if (practiceResponse.patients[i].exitForm === undefined) {
                         $scope.activePatientsList.push(practiceResponse.patients[i]);
                     }
+                    else {
+                        $scope.inactivePatientsList.push(practiceResponse.patients[i]);
+                    }
                 }
 
                 $scope.activePatientsFiltered = $scope.activePatientsList;
+                $scope.inactivePatientsFiltered = $scope.inactivePatientsList;
 
                 // Initialize scroll bar
                 $('.tableContainer').mCustomScrollbar({
@@ -142,20 +151,42 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             */
         };
 
-        $scope.searchChange = function() {
-            $scope.activePatientsFiltered = $scope.activePatientsList;
-            $scope.activePatientsFiltered = $scope.activePatientsFiltered.filter(searchFilter);
+        $scope.searchChange = function(page) {
+            if(page === 'active') {
+                $scope.activePatientsFiltered = $scope.activePatientsList;
+                $scope.activePatientsFiltered = $scope.activePatientsFiltered.filter(searchFilter);
+            }
+            else if(page === 'inactive') {
+                $scope.inactivePatientsFiltered = $scope.inactivePatientsList;
+                $scope.inactivePatientsFiltered = $scope.inactivePatientsFiltered.filter(searchFilter);   
+            }
             $('.headerTableContainer').height($('.patientListTableHead').height());
         };
 
         function searchFilter(item) {
-            for (var i = 0; i < $scope.keysToSearch.length; i++) {
+            // Counld add multi word search, eg 'firstName lastName', split at space, change true returns to increment a count, if count == number of words, return true.
+
+            var i;
+            for (i = 0; i < $scope.keysToSearch.length; i++) {
                 if (item.hasOwnProperty($scope.keysToSearch[i])) {
                     if (item[$scope.keysToSearch[i]].toLowerCase().indexOf($scope.search.toLowerCase()) > -1) {
                         return true;
                     }
                 }
             }
+
+            // Search pet owner fields
+            if(item.hasOwnProperty('petOwner') && item.petOwner !== null && item.petOwner !== undefined) {
+                var itemPetOwner = item.petOwner;
+                for(i = 0; i < $scope.petOwnerKeysToSearch.length; i++) {
+                    if (itemPetOwner.hasOwnProperty($scope.petOwnerKeysToSearch[i])) {
+                        if (itemPetOwner[$scope.petOwnerKeysToSearch[i]].toLowerCase().indexOf($scope.search.toLowerCase()) > -1) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
 
             return false;
         }

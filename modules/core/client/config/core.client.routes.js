@@ -123,6 +123,18 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                     roles: ['user']
                 }
             })
+            .state('inactivePatientList', {
+                url: '/inactivePatientList',
+                views: {
+                    'content': {
+                        templateUrl: 'modules/practices/views/inactivePatientList.client.view.html'
+                    }
+                },
+                data: {
+                    roles: ['user']
+                }
+            })
+
 
             // begin adding new states from users routes folder
             .state('settings', {

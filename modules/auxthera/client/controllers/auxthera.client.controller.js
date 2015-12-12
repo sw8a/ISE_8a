@@ -3,7 +3,7 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService','$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+angular.module('auxthera',['ui.bootstrap']).controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService','$location', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
     function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
@@ -200,7 +200,37 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
             var sentBy = 'auxthera';
             var read = false;
             var important = false;
-        }
+        };
+
+
+        // Initialize the list of patients to call
+        $scope.initCallList = function() {
+            // Sample JSON arrary added by Kinderley to test that the program is working properly
+            $scope.patientCallList = [
+                {index: 0,
+                 patientId: '0000',
+                 vetId:'KG',
+                 lastContact:'May 5, 2015',
+                 isOpen: false},
+                {index: 1,
+                 patientId: '0001',
+                 vetId:'KG',
+                 lastContact:'May 6, 2015',
+                 isOpen: false}
+            ];
+        };
+
+        $scope.dateCreated = new Date();
+        $scope.getActiveCall = function(index){
+            $scope.patientCallList[index].isOpen = !$scope.patientCallList[index].isOpen;
+            if($scope.patientCallList[index].isOpen === true) {
+                for(var i = 0; i !== $scope.patientCallList.length; ++i) {
+                    if(i !== index) {
+                        $scope.patientCallList[i].isOpen = false;
+                    }
+                }
+            }
+        };
     }
 ]);
 

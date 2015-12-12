@@ -220,8 +220,7 @@ angular.module('auxthera',['ui.bootstrap']).controller('auxtheraController', ['$
             ];
         };
 
-        $scope.test = false;
-        $scope.oneAtTime = true;
+        $scope.dateCreated = new Date();
         $scope.getActiveCall = function(index){
             $scope.patientCallList[index].isOpen = !$scope.patientCallList[index].isOpen;
             if($scope.patientCallList[index].isOpen === true) {

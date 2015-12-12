@@ -4,22 +4,19 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
     function($scope, Authentication, $location, $stateParams, EnrollmentFormsService, PatientsService, PracticesService, PetOwnersService, ActivePatient) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
-        console.log($scope.authentication);
+
         if (!$scope.authentication.user) {
             $location.path('/');
-            console.log($scope.authentication);
         }
 
         $scope.activePatient = ActivePatient.getActivePatient();
 
+        // User can select for the weight to be dispkayed in kg or lb
         $scope.practiceInfo = {
             preferredUnit: 'kg'
         };
 
-        
-
-        console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-
+        // Get the values from the form to be sent to the database
         if(ActivePatient.activePatientSet()) {
             $scope.disableInput = true;
             $scope.vetApproval = true;
@@ -57,18 +54,20 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.editActive = false;
 
-        console.log('birthDate: ' + $scope.birthDate);
-
+        // This function allows the form to be edited
         $scope.editForm = function() {
             $scope.disableInput = false;
             $scope.editActive = true;
             $scope.vetApproval = true;
         };
+
+        // This function prevents the form from being edited
         $scope.cancelEdit = function() {
             $scope.disableInput = true;
             $scope.editActive = false;
         };
 
+        // Save changes that were made in the form
         $scope.saveEdit = function() {
             var changedDataPatient = {
                 _id: $scope.activePatient._id
@@ -88,12 +87,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             var oldDataOwner = {};
             var ownerChanged = false;
 
-
-            /*if(new Date($scope.dateCreated) != new Date($scope.activePatient.enrollmentForm.dateCreated)) {
-                changedDataForm.dateCreated = new Date($scope.dateCreated);
-                oldDataForm.dateCreated = new Date($scope.activePatient.enrollmentForm.dateCreated);
-                formChanged = true;
-            }*/
             if($scope.patientId !== $scope.activePatient.patientId) {
                 changedDataPatient.patientId = $scope.patientId;
                 oldDataPatient.patientId = $scope.activePatient.patientId;
@@ -131,11 +124,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 ownerChanged = true;
             }
 
-            /*if(new Date($scope.birthDate) != new Date($scope.activePatient.birthDate)) {
-                changedDataPatient.birthDate = new Date($scope.birthDate);
-                oldDataPatient.birthDate = new Date($scope.activePatient.birthDate);
-                patientChanged = true;
-            }*/
             if($scope.startWeight !== $scope.activePatient.startWeight) {
                 changedDataPatient.startWeight = $scope.startWeight;
                 oldDataPatient.startWeight = $scope.activePatient.startWeight;
@@ -223,8 +211,9 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             ActivePatient.setPatientNeedsUpdate();
         };
 
+        // Calculate today's date as a Date object. Set todayDate date to today.
         var today = new Date();
-        var month = today.getMonth(); //months from 1-12
+        var month = today.getMonth();
         var day = today.getDate();
         var year = today.getFullYear();
         today = new Date(year, month, day);
@@ -234,6 +223,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             $scope.activePatient = ActivePatient.getActivePatient();
         };
 
+        // Create the enrollment form by sending the form values to the database
         $scope.createEnrollmentForm = function() {
 
             var patient = new PatientsService({
@@ -284,9 +274,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
                 petOwner.$save(function(petOwnerResponse) {
                     enrollmentForm.$save(function(enrollmentFormResponse) {
-                        // executed after save
-                        //patientResponse.enrollmentForm = enrollmentFormResponse._id;
-                        //patientResponse.formSave = true;
                         patient = new PatientsService({
                             _id: patientResponse._id,
                             enrollmentForm: enrollmentFormResponse._id,
@@ -298,29 +285,26 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                             var patient = new PatientsService({
                                 _id: patientAddFormResponse._id
                             });
-                            /*
-                            $scope.getPatientPromise = patient.$get(function(patientResponse) {
-                                ActivePatient.setActivePatient(patientResponse);
-                            });*/
+
                             ActivePatient.updateActivePatient();
 
                             // Wait until the active patient has been updated. Current setup is not ideal
-                            setTimeout(function(){ 
+                            setTimeout(function(){
                                 if(ActivePatient.getActivePatient().firstName) {
-                                    $location.path('/overview'); 
+                                    $location.path('/overview');
                                 }
                                 else {
                                     setTimeout(function(){ $location.path('/overview'); }, 100);
                                 }
                             }, 100);
-                            
+
                         });
                     });
                 });
             });
         };
 
-        // Do they want some prepopulated values?
+        // Set patient info
         $scope.patientInfo = {
             DOB: new Date(2013, 9, 22)
         };
@@ -336,11 +320,12 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             }
         };
 
+        // Calculate the patient's ideal weight based on Trimauxil formula
         $scope.patientInfo.idealWeight = function () {
             var currWeight;
             var bodyFat;
             var idealWeight;
-            
+
             if($scope.disableInput) {
                 currWeight = $scope.activePatient.startWeight;
                 bodyFat = $scope.activePatient.bcs * 5; // Assumes each BCS equals 5% body fat
@@ -357,6 +342,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             }
         };
 
+        // Calculates the ideal cups per feeding (based on Trimauxil formula)
         $scope.patientInfo.cupsPerFeeding = function () {
             var dailykCalIdealWeight = 600; // Use Recommended Daily Caloric Intake for Ideal Weight Chart
             var kCalPerCup = 150; // Eventually need to find on food database
@@ -367,6 +353,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             return cupsPerFeeding.toFixed(2);
         };
 
+        // Calculates the difference, in years, between two dates
         $scope.yearDifference = function (date) {
             var curDate = new Date(),
                 now     = {

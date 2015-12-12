@@ -38,11 +38,11 @@
         <div class="floatLeft">
             <h2>{{activePatient.firstName}}'s Weight Loss Summary</h2>
 
-            <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ kgToLb(activePatient.startWeight) }} lbs<br/>
-                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ weight.toFixed(1) }} lbs<br/>
-                Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ kgToLb(idealWeight()) }} lbs<br/>
-                Total Weight Lost: &nbsp &nbsp {{ (kgToLb(activePatient.startWeight) - weight).toFixed(1) }} lbs<br/>
-                Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ (weight - kgToLb(idealWeight())).toFixed(1) }} lbs<br/>
+            <p>Starting Weight: &nbsp &nbsp &nbsp &nbsp {{ (activePatient.startWeight * 2.2046).toFixed(2) }} lbs<br/>
+                Current Weight: &nbsp &nbsp &nbsp &nbsp {{ weight.toFixed(2) }} lbs<br/>
+                Goal Weight: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp {{ idealWeight() }} lbs<br/>
+                Total Weight Lost: &nbsp &nbsp {{ totalWeightLost }} lbs<br/>
+                Pounds to Go: &nbsp &nbsp &nbsp &nbsp &nbsp {{ poundsToGo }} lbs<br/>
             </p>
         </div>
 

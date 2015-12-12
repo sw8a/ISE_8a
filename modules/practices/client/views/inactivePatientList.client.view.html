@@ -13,7 +13,7 @@
     </div>
 
     <div class="row">
-        <h1 class="text-center">{{practiceName}}'s Active Patient List</h1>
+        <h1 class="text-center">{{practiceName}}'s Inactive Patient List</h1>
     </div>
 
     <div class="vetPatientListTableComponents">
@@ -23,11 +23,11 @@
                 
                 <div class="input-group">
                     <!-- Search input -->
-                    <input type="text" data-ng-model="search" ng-change="searchChange('active')" default="''" class="form-control" placeholder="Search">
+                    <input type="text" data-ng-model="search" ng-change="searchChange('inactive')" default="''" class="form-control" placeholder="Search">
 
                     <!-- Clear search input -->
                     <span class="input-group-btn">
-                        <button class="btn btn-default" ng-click="search=''; searchChange('active')">
+                        <button class="btn btn-default" ng-click="search=''; searchChange('inactive')">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
                     </span>
@@ -89,7 +89,7 @@
 
                 <tbody>
 
-                    <tr ng-repeat="patient in activePatientsFiltered">   
+                    <tr ng-repeat="patient in inactivePatientsFiltered">   
                         <td class="column15 col-md-2 hiddenTable">{{ patient.patientId }}</td>
 
                         <td class="column15 col-md-2 hiddenTable">{{ patient.firstName }}</td>
@@ -114,7 +114,7 @@
             <table class="table table-bordered patientListTable">
                 <tbody>
 
-                    <tr ng-repeat="patient in activePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
+                    <tr ng-repeat="patient in inactivePatientsFiltered | orderBy:[sortBy,'nextAppointment_WHICH_DOESNT_EXIST_YET']" ng-click="selectPatient(patient)" class="patientTableRow">
                         
                         <td class="column15 col-md-2">{{ patient.patientId }}</td>
 

@@ -58,7 +58,6 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
             },
 
             activePatientSet: function() {
-                console.log(activePatient);
                 if(activePatient._id === undefined) {
                     return false;
                 }

@@ -40,19 +40,30 @@
         </accordion>
     </div> -->
 
-    <div id="custom">
-        <accordion close-others"oneAtTime">
-            <accordion-group is-open="patient.isOpen" ng-repeat="patient in patientCallList">
-                <accordion-heading class="custom-heading">
-                    <div class="accordion-custom-heading">
-                        Place the table in here
+    <div class="custom-panel">
+        <div class="panel-group">
+            <div class="panel panel-default" ng-repeat="patient in patientCallList">
+                <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">
+                    <span>
+                        Heading: {{patient.patientId}}
+                    </span>
+                </div>
+                <div collapse="!patient.isOpen">
+                    <div class="panel-body">
+                        <!-- Call Log forms -->
+                        <form>
+                            
+                        </form>
                     </div>
-                </accordion-heading>
-                <accordion-body>
-                    This is a body
-                </accordion-body>
-            </accordion-group>
-        </accordion>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- Code borrowed from bootply "Angular ng-repeat with expanding delails row ..." -->
+    <!-- <div class="container">
+        <div class="row" ng-repeat-start="patient in patientCallList">
+
+        </div>
+    </div> -->
 
 </div>

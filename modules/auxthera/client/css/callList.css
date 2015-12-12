@@ -5,7 +5,7 @@
 }
 
 .TableComponents {
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
     padding-left: 310px;
 }
@@ -13,10 +13,21 @@
 .heavy-top-buffer {
     margin-top: 100px;
 }
-.accordion-custom-heading {
-	padding-left: auto;
-}
 
-accordion-heading.custom-heading {
-	background-color: black !important;
+.custom-panel .panel {
+	background-color: #fff;
+	border-radius: 0 !important;
+	margin-bottom: 0 !important;
+}
+.custom-panel .panel-group {
+	margin-bottom: 0;
+}
+.custom-panel .panel-group .panel + .panel {
+ 	margin-top: 0;
+}
+.custom-panel .panel-heading {
+	padding: 8px;
+	border-top: none;
+	border-left: none;
+	border-right: none;
 }

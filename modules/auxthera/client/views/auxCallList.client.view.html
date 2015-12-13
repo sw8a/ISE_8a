@@ -27,13 +27,46 @@
         </tbody>
     </table> -->
 
+ 
     <div class="custom-panel">
+        <!-- Table Heading -->
+        <div class="panel-group">
+            <div class="callList-table-heading">
+                <div class="panel-heading">
+                    <h3 class="panel-title pull-right text-right">
+                        Completed
+                    </h3>
+                    <h3 class="panel-title pull-right">
+                        Last Completed
+                    </h3>
+                    <h3 class="panel-title pull-right">
+                        Vet Visited
+                    </h3>
+                    <h3 class="panel-title pull-right">
+                        Patient Number
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Elements -->
         <div class="panel-group">
             <div class="panel panel-default" ng-repeat="patient in patientCallList">
-                <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">
-                    <span>
-                        Heading: {{patient.patientId}}
-                    </span>
+                <div class="callList-table-row">
+                    <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">   
+                        <h3 class="panel-title pull-right text-right" ng-click="remove(patient.index)">
+                            Clear Entry
+                        </h3>
+                        <h3 class="panel-title pull-left">
+                            {{patient.patientId}}
+                        </h3>
+                        <h3 class="panel-title pull-left">
+                            {{patient.vetId}}
+                        </h3>
+                        <h3 class="panel-title">
+                            {{patient.lastContact}}
+                        </h3>
+                    </div>
                 </div>
                 <div collapse="!patient.isOpen">
                     <!-- Call Log forms -->

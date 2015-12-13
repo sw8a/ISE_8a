@@ -231,6 +231,10 @@ angular.module('auxthera',['ui.bootstrap']).controller('auxtheraController', ['$
                 }
             }
         };
+
+        $scope.remove = function(index) {
+            console.log('Remove successfully called');
+        };
     }
 ]);
 

@@ -2,38 +2,46 @@
     <div class="row heading">
        <h1> Patient Call List </h1>
     </div>
-
-    <!-- <table class="container TableComponents heavy-top-buffer table table-bordered">
-        <thead>
-            <tr>
-                <th class="col-sm-5">Patient Number</th>
-                <th class="col-sm-3">Vet Visited</th>
-                <th class="col-sm-3">Last Contact</th>
-                <th class="col-sm-1">Completed</th>
-            </tr>
-        </thead>
-        <tbody close-others="oneAtTime" id="accordion">
-            <tr is-open="patient.isOpen" data-ng-repeat="patient in patientCallList">
-                <div>
-                    <td class="col-sm-5"> {{ patient.patientId }} </td>
-                    <td class="col-sm-3"> {{ patient.vetId }}</td>
-                    <td class="col-sm-3"> {{ patient.lastContact }} </td>
-                    <td class="col-sm-1"><button ng-click="remove(patient)" class="btn btn-primary" type="button">Clear Entry</button></td>
-                </div>
-                <div ng-show="true">
-                    Hi I am an example
-                </div>
-            </tr>
-        </tbody>
-    </table> -->
-
+ 
     <div class="custom-panel">
+        <!-- Table Heading -->
+        <div class="panel-group">
+            <div class="callList-table-heading">
+                <div class="panel-heading">
+                    <h3 class="panel-title pull-right text-right">
+                        Completed
+                    </h3>
+                    <h3 class="panel-title pull-right">
+                        Last Completed
+                    </h3>
+                    <h3 class="panel-title pull-right">
+                        Vet Visited
+                    </h3>
+                    <h3 class="panel-title pull-right">
+                        Patient Number
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Elements -->
         <div class="panel-group">
             <div class="panel panel-default" ng-repeat="patient in patientCallList">
-                <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">
-                    <span>
-                        Heading: {{patient.patientId}}
-                    </span>
+                <div class="callList-table-row">
+                    <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">   
+                        <h3 class="panel-title pull-right text-right" ng-click="remove(patient.index)">
+                            Clear Entry
+                        </h3>
+                        <h3 class="panel-title pull-left">
+                            {{patient.patientId}}
+                        </h3>
+                        <h3 class="panel-title pull-left">
+                            {{patient.vetId}}
+                        </h3>
+                        <h3 class="panel-title">
+                            {{patient.lastContact}}
+                        </h3>
+                    </div>
                 </div>
                 <div collapse="!patient.isOpen">
                     <!-- Call Log forms -->

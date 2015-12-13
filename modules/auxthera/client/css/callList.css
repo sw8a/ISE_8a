@@ -18,6 +18,7 @@
 .custom-panel {
 	padding-left: 5%;
 	padding-right: 5%;
+	padding-top: 3%;
 }
 .custom-panel .panel {
 	background-color: #fff;
@@ -25,7 +26,7 @@
 	margin-bottom: 0 !important;
 }
 .custom-panel .panel-group {
-	margin-bottom: 0;
+	margin-bottom: 20px;
 }
 .custom-panel .panel-group .panel + .panel {
  	margin-top: 0;
@@ -35,4 +36,28 @@
 	border-top: none;
 	border-left: none;
 	border-right: none;
+}
+.custom-panel .callList-table-heading {
+	background-color: inherit;
+}
+.custom-panel .callList-table-heading .panel-heading {
+    padding: 8px;
+    margin-bottom: 2px;
+}
+.custom-panel .callList-table-heading .panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 25%;
+    padding-top: 0;
+
+}
+.custom-panel .panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 25%;
+    padding-top: 0;
 }

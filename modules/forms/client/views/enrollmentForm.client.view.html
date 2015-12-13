@@ -6,49 +6,55 @@
 
   <form data-ng-submit="createEnrollmentForm()" name="myForm" class="form-horizontal col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
     <div class="form-group">
-      <label for="date">Date</label>
-      <input data-ng-model="dateCreated" type="date" class="form-control" id="date" ng-disabled="disableInput" required>
-    </div>
-
-    <div class="form-group">
-      <label for="petName">Pet First Name</label>
-      <input data-ng-model="firstName" type="text" class="form-control" name="petName" id="petName" placeholder="Pet Name" ng-disabled="disableInput" required>
-      <span class="alert alert-danger alertMessage" ng-show="myForm.petName.$error.required && myForm.petName.$dirty">Pet name is required!</span>
-    </div>
-
-    <div class="form-group">
-      <label for="patientID">Patient ID</label>
-      <input data-ng-model="patientId" type="text" class="form-control" name="patientID" id="patientID" placeholder="Patient ID" ng-disabled="disableInput" required>
-      <span class="alert alert-danger alertMessage" ng-show="myForm.patientID.$error.required && myForm.patientID.$dirty">Patient ID is required!</span>
-    </div>
-
-    <div class="form-group">
-      <div class="col-md-2 clientInfo">
-        Client Info:
+      <div class="col-md-4">
+        <label for="patientID">Patient ID</label>
+        <input data-ng-model="patientId" type="text" class="form-control" name="patientID" id="patientID" placeholder="Patient ID" ng-disabled="disableInput" required>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.patientID.$error.required && myForm.patientID.$dirty">Patient ID is required!</span>
       </div>
 
-      <div class="col-md-2">
-        <label for="clientLastName">Last</label>
+      <div class="col-md-4">
+        <label for="petName">Pet First Name</label>
+        <input data-ng-model="firstName" type="text" class="form-control" name="petName" id="petName" placeholder="Pet Name" ng-disabled="disableInput" required>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.petName.$error.required && myForm.petName.$dirty">Pet name is required!</span>
+      </div>
+
+      <div class="col-md-4">
+        <label for="date">Date</label>
+        <input data-ng-model="dateCreated" type="date" class="form-control" id="date" ng-disabled="disableInput" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4">
+        <label for="clientLastName">Client last name</label>
         <input data-ng-model="clientLastName" type="text" class="form-control" name="clientLastName" id="clientLastName" placeholder="Last" ng-disabled="disableInput" required>
         <span class="alert alert-danger alertMessage" ng-show="myForm.clientLastName.$error.required && myForm.clientLastName.$dirty">Name is required!</span>
       </div>
 
-      <div class="col-md-2">
-        <label for="clientFirstName">First</label>
+      <div class="col-md-4">
+        <label for="clientFirstName">Client first name</label>
         <input data-ng-model="clientFirstName" type="text" class="form-control" name="clientFirstName" id="clientFirstName" placeholder="First" ng-disabled="disableInput" required>
         <span class="alert alert-danger alertMessage" ng-show="myForm.clientFirstName.$error.required && myForm.clientFirstName.$dirty">Name is required!</span>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <label for="clientTelephone">Telephone</label>
         <input data-ng-model="clientTelephone" type="tel" pattern="[0-9]{10}" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" required>
         <span class="alert alert-danger alertMessage" ng-show="myForm.clientTelephone.$error.required && myForm.clientTelephone.$dirty">Tel. is required!</span>
       </div>
+    </div>
 
-      <div class="col-md-3">
-        <label for="clientEmail">Email</label>
+    <div class="form-group">
+      <div class="col-md-6">
+        <label for="clientEmail">Client email</label>
         <input data-ng-model="clientEmail" type="email" class="form-control" name="clientEmail" id="clientEmail" placeholder="Email" ng-disabled="disableInput" required>
         <span class="alert alert-danger alertMessage" ng-show="myForm.clientEmail.$error.required && myForm.clientEmail.$dirty">Email is required!</span>
+      </div>
+
+      <div class="col-md-6">
+        <label for="clientEmail">Confirm email</label>
+        <input data-ng-model="clientEmailConfirm" ng-match="clientEmail" type="email" class="form-control" name="clientEmail" id="clientEmail" placeholder="Email" ng-disabled="disableInput" required>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.clientEmailConfirm.$error.match && myForm.clientEmail.$dirty">Emails have to match</span>
       </div>
     </div>
 

@@ -11,11 +11,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.activePatient = ActivePatient.getActivePatient();
 
-        // User can select for the weight to be dispkayed in kg or lb
-        $scope.practiceInfo = {
-            preferredUnit: 'kg'
-        };
-
         // Get the values from the form to be sent to the database
         if(ActivePatient.activePatientSet()) {
             $scope.disableInput = true;

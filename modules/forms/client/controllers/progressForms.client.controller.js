@@ -426,7 +426,7 @@ angular.module('forms',['ui.bootstrap']).controller('progressFormsController', [
 
             // Add index as part of the object to overcome the issue of using $index with ng-repeat
             var i;
-            for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
+            for(var i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
                 // Add necessary index and necessary flag to each progress form object
                 $scope.activePatient.progressForms[i].index = i;
                 $scope.activePatient.progressForms[i].edit = false;

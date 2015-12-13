@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('forms',['ui.bootstrap']).controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
+angular.module('forms').controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
     function($scope, $location, Authentication, ProgressFormsService, ActivePatient, PatientsService) {
 
         // This provides Authentication context.

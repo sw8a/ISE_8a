@@ -2,7 +2,7 @@
     <!-- Information about selected patient -->
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="text-info">[{{activePatient.patientId}}] Visit Form</h1>
+            <h1 class="text-info">{{activePatient.firstName}}'s Visit Form</h1>
         </div>
         <div class="col-xs-12 col-sm-8">
             <h5>Client: {{activePatient.petOwner.lastName}}, {{activePatient.petOwner.firstName}}</h5>
@@ -211,7 +211,7 @@
                         <i data-ng-hide="formsLocked" ng-class="{'glyphicon glyphicon-ok text-success' : !form.edit, 'glyphicon glyphicon-pencil text-danger': form.edit}"></i>
                         &nbsp; Last visit: <em>{{form.dateCreated | date:mediumDate}}</em>
                     </div>
-                    <div class="cols-xs-0 hidden-xs col-sm-3 text-left">Weight: <em>{{form.weight}}kg</em></div>
+                    <div class="cols-xs-0 hidden-xs col-sm-3 text-left">Weight: <em>{{form.weight}}kg ({{kgToLb(form.weight)}} lbs)</em></div>
                     <div class="cols-xs-0 hidden-xs col-sm-3 text-left">Weight loss/week: <em>{{getAvgWeightLossPerWeek(form.weight, form.index)}}%</em></div>
                     <div class="cols-xs-3 hidden-xs col-sm-2">
                         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': form.isOpen, 'glyphicon-chevron-right': !form.isOpen}"></i>
@@ -228,32 +228,26 @@
                         <div class="col-sm-7">
                             <!-- Today's Weight -->
                             <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Weight</label>
+                                <label class="col-sm-4 control-label">Today's Weight</label>
                                 <div class="col-xs-6 col-sm-3 input-group">
-                                    <input data-ng-model="form.weightLb" data-ng-change="form.weightKg = lbToKg(form.weightLb)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? kgToLb(form.weight) : 'Enter weight'}}" data-ng-required="form.edit"><em class="input-group-addon">lb</em>
+                                   <input data-ng-model="form.weightKg" data-ng-change="form.weightLb = kgToLb(form.weightKg)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.weight : 'Enter weight'}}" data-ng-required="form.edit"><em class="input-group-addon">kg</em>
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-sm-offset-1 input-group">
-                                   <input data-ng-model="form.weightKg" data-ng-change="form.weightLb = kgToLb(form.weightKg)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? form.weight : 'Enter weight'}}" data-ng-required="form.edit"><em class="input-group-addon">kg</em>
+                                    <input data-ng-model="form.weightLb" data-ng-change="form.weightKg = lbToKg(form.weightLb)" ng-readonly="!form.edit" class="form-control" id="focusedInput" type="text" placeholder="{{!form.edit ? kgToLb(form.weight) : 'Enter weight'}}" data-ng-required="form.edit"><em class="input-group-addon">lb</em>
                                 </div>
                             </div>
                             <!-- Last Weight -->
                             <div class="row form-inline">
                                 <label class="col-sm-4 control-label">Last Weight</label>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{kgToLb(getLastWeight(form.index))}} <em>lb</em></span>
-                                </div>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{getLastWeight(form.index) | number:2}} <em>kg</em></span>
+                                <div class="col-sm-8 input-group">
+                                    <span class="static-data">{{getLastWeight(form.index) | number:2}} kg  ({{kgToLb(getLastWeight(form.index))}} lbs)</span>
                                 </div>
                             </div>
                             <!-- Today Weight Loss -->
                             <div class="row form-inline">
                                 <label class="col-sm-4 control-label">Today Weight Loss</label>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{kgToLb(getTodayWeightLoss(weight.kg, form.index))}} <em>lb</em></span>
-                                </div>
-                                <div class="col-sm-4">
-                                    <span class="static-data">{{getTodayWeightLoss(weight.kg, form.index) | number:2}} <em>kg</em></span>
+                                <div class="col-sm-8 input-group">
+                                    <span class="static-data">{{getTodayWeightLoss(weight.kg, form.index) | number:2}} kg  ({{kgToLb(getTodayWeightLoss(weight.kg, form.index))}} lbs)</span>
                                 </div>
                             </div>
                             <!-- Avg Weight Loss -->
@@ -279,29 +273,6 @@
                                 <label class="col-sm-4 control-label">Trimauxil Dose</label>
                                 <div class="col-sm-8">
                                     <span class="static-data">{{getTrimauxilDose(form.weightKg)}}</span>
-                                </div>
-                            </div>
-                            <!-- Feeding adjustment needed -->
-                            <div class="row form-inline">
-                                <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
-                                <div class="col-sm-8">
-                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustment" ng-disabled="!form.edit" type="radio" data-ng-change="form.feedAdjustmentFlag = true" value="true"> yes</label>
-                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustment" data-ng-change="form.feedAdjustmentFlag = false" ng-disabled="!form.edit" type="radio" value="false"> no</label>
-                                </div>
-                            </div>
-                            <!-- Feeding adjustment needed Extended form -->
-                            <div ng-hide="!form.feedAdjustmentFlag">
-                                <div class="row form-group form-inline">
-                                    <div class="col-sm-4">
-                                        <small ng-hide="!form.edit" class="pull-right control-label">Enter number of cups per meal</small>
-                                        <small ng-hide="form.edit" class="pull-right control-label">New feeding adjustment</small>
-                                    </div>
-                                    <div class="col-sm-3 input-group">
-                                        <input data-ng-model="form.overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text"ng-disabled="!form.edit" data-ng-required="form.edit && form.feedAdjustmentFlag"><em class="input-group-addon">cups/meal</em>
-                                    </div>
-                                    <div class="col-sm-5 pull-right">
-                                        <input data-ng-model="form.vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" ng-disabled="!form.edit" data-ng-required="form.edit && form.feedAdjustmentFlag">
-                                    </div>
                                 </div>
                             </div>
                             <!-- Food Changed -->
@@ -330,6 +301,29 @@
                                     </div>
                                     <div class="col-sm-3 col-sm-offset-1 input-group">
                                         <input data-ng-model="form.foodKCalPerKg" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/kg</em>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Feeding adjustment needed -->
+                            <div class="row form-inline">
+                                <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustment" ng-disabled="!form.edit" type="radio" data-ng-change="form.feedAdjustmentFlag = true" value="true"> yes</label>
+                                    <label class="radio-inline"><input data-ng-model="form.feedAdjustment" data-ng-change="form.feedAdjustmentFlag = false" ng-disabled="!form.edit" type="radio" value="false"> no</label>
+                                </div>
+                            </div>
+                            <!-- Feeding adjustment needed Extended form -->
+                            <div ng-hide="!form.feedAdjustmentFlag">
+                                <div class="row form-group form-inline">
+                                    <div class="col-sm-4">
+                                        <small ng-hide="!form.edit" class="pull-right control-label">Enter number of cups per meal</small>
+                                        <small ng-hide="form.edit" class="pull-right control-label">New feeding adjustment</small>
+                                    </div>
+                                    <div class="col-sm-3 input-group">
+                                        <input data-ng-model="form.overrideCupsPerFeeding" class="form-control" id="focusedInput" type="text"ng-disabled="!form.edit" data-ng-required="form.edit && form.feedAdjustmentFlag"><em class="input-group-addon">cups/meal</em>
+                                    </div>
+                                    <div class="col-sm-5 pull-right">
+                                        <input data-ng-model="form.vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" ng-disabled="!form.edit" data-ng-required="form.edit && form.feedAdjustmentFlag">
                                     </div>
                                 </div>
                             </div>

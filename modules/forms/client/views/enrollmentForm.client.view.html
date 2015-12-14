@@ -53,53 +53,46 @@
 
       <div class="col-md-6">
         <label for="clientEmail">Confirm email</label>
-        <input data-ng-model="clientEmailConfirm" ng-match="clientEmail" type="email" class="form-control" name="clientEmail" id="clientEmail" placeholder="Email" ng-disabled="disableInput" required>
-        <span class="alert alert-danger alertMessage" ng-show="myForm.clientEmailConfirm.$error.match && myForm.clientEmail.$dirty">Emails have to match</span>
-      </div>
-    </div>
-
-    <h3 class="text-center">Signalment</h3>
-
-    <div class="form-group">
-      <label for="dob">DOB</label>
-      <input data-ng-model="birthDate" type="date" class="form-control" id="dob" ng-disabled="disableInput" required>
-      <label for="age">Age:</label>
-      <span>{{patientInfo.age()}}</span>
-    </div>
-
-    <div class="form-group text-center">
-      <div class="col-md-6 columns">
-        <label>Sex</label> <br/>
-        <label class="radio-inline">
-          <input data-ng-model="sex" type="radio" name="sex" value="M" ng-checked="sex == 'M'" ng-disabled="disableInput" required>Male
-        </label>
-        <label class="radio-inline">
-          <input data-ng-model="sex" type="radio" name="sex" value="F" ng-checked="sex == 'F'" ng-disabled="disableInput" required>Female
-        </label>
-      </div>
-
-      <div class="col-md-6 columns">
-        <label>Castrated?</label> <br/>
-        <label class="radio-inline">
-          <input data-ng-model="fixed" type="radio" name="castrated" value="true" ng-checked="fixed != undefined && fixed" ng-disabled="disableInput" required>Castrated
-        </label>
-        <label class="radio-inline">
-          <input data-ng-model="fixed" type="radio" name="castrated" value="false" ng-checked="fixed != undefined && !fixed" ng-disabled="disableInput" required>Intact
-        </label>
+        <input data-ng-model="clientEmailConfirm" type="email" class="form-control" name="clientEmail" id="clientEmail" placeholder="Email" ng-disabled="disableInput" required>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.clientEmailConfirm !=== myForm.clientEmail">Emails have to match</span>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="breed">Breed</label>
-      <input data-ng-model="breed" type="text" class="form-control" name="breed" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed" ng-disabled="disableInput" required>
-      <span class="alert alert-danger alertMessage" ng-show="myForm.breed.$error.required && myForm.breed.$dirty">Breed is required!</span>
+      <div class="col-md-8">
+        <label for="dob">DOB</label>
+        <input data-ng-model="birthDate" type="date" class="form-control" id="dob" ng-disabled="disableInput" required>
+      </div>
+
+      <div class="col-md-4">
+        <label for="age">Age:</label>
+        <span>{{patientInfo.age()}}</span>
+      </div>
     </div>
 
-    <h3 class="text-center">Current Diet</h3>
+    <div class="form-group">
+      <div class="col-md-8">
+        <label for="breed">Breed</label>
+        <input data-ng-model="breed" type="text" class="form-control" name="breed" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed" ng-disabled="disableInput" required>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.breed.$error.required && myForm.breed.$dirty">Breed is required!</span>
+      </div>
+
+      <div class="col-md-2">
+        <br/>
+        <input data-ng-model="fixed" type="radio" name="castrated" value="true" ng-checked="fixed != undefined && fixed" ng-disabled="disableInput" required> Castrated <br/>
+        <input data-ng-model="fixed" type="radio" name="castrated" value="false" ng-checked="fixed != undefined && !fixed" ng-disabled="disableInput" required> Intact
+      </div>
+
+      <div class="col-md-2">
+        <br/>
+        <input data-ng-model="sex" type="radio" name="sex" value="M" ng-checked="sex == 'M'" ng-disabled="disableInput" required> Male <br/>
+        <input data-ng-model="sex" type="radio" name="sex" value="F" ng-checked="sex == 'F'" ng-disabled="disableInput" required> Female
+      </div>
+    </div>
 
     <!-- food not linked to anything yet -->
     <div class="form-group">
-      <label for="brand">Brand</label>
+      <label for="brand">Current Diet: Food Brand</label>
       <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" ng-disabled="disableInput" required>
       <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required && myForm.brand.$dirty">Brand is required!</span>
     </div>

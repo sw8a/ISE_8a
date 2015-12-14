@@ -120,17 +120,21 @@
 
     <div class="row">
       <label for="currentMedications">Current Medications/Supplements:</label><br>
-      <div class="col-md-3">
+
+      <div class="col-md-2">
         <input type="checkbox" name="currentMedications" value="None" checked> None
       </div>
-      <div class="col-md-3">
-        <input type="checkbox" name="currentMedications" value="A"> A
+      <div class="col-md-2">
+        <input type="checkbox" name="currentMedications" value="antibiotics"> antibiotics
       </div>
-      <div class="col-md-3">
-        <input type="checkbox" name="currentMedications" value="B"> B
+      <div class="col-md-2">
+        <input type="checkbox" name="currentMedications" value="steroids"> steroids
       </div>
-      <div class="col-md-3">
-        <input type="checkbox" name="currentMedications" value="C"> C
+      <div class="col-md-2">
+        <input type="checkbox" name="currentMedications" value="NSAIDs"> NSAIDs
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Glucosamine-Chondroitin "> Glucosamine-Chondroitin
       </div>
       <div class="col-md-11">
         <input type="checkbox" class="pull-left" name="currentMedications" value="other"> <span class="col-md-2 pull-left">Other</span>
@@ -138,9 +142,53 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="significantMedicalHistory">Significant Medical History:</label>
-      <textarea data-ng-model="medicalHistory" class="form-control" id="significantMedicalHistory" rows="2" ng-disabled="disableInput"></textarea>
+    <div class="row">
+      <label for="significantMedicalHistory">Significant Medical History:</label><br>
+
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Osteoarthritis"> Osteoarthritis
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Diabetes mellitus"> Diabetes mellitus
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Hypertension"> Hypertension
+      </div>
+
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Degenerative joint disease"> Degenerative joint disease
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Hypothyroidism"> Hypothyroidism
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Kidney disease"> Kidney disease
+      </div>
+
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Heart disease"> Heart disease
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Hyperadrenocorticism"> Hyperadrenocorticism
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="GI disorder"> GI disorder
+      </div>
+
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Insulinoma"> Insulinoma
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Other cancer"> Other cancer
+      </div>
+      <div class="col-md-4">
+        <input type="checkbox" name="currentMedications" value="Other endocrine disorder"> Other endocrine disorder
+      </div>
+
+      <div class="col-md-11">
+        <input type="checkbox" class="pull-left" name="currentMedications" value="other"> <span class="col-md-2 pull-left">Other</span>
+        <input type="text" class="col-md-9 pull-left" name="currentMedicationsOther" value="">
+      </div>
     </div>
 
     <div class="row">
@@ -148,11 +196,9 @@
       <div class="col-md-4">
         <input type="checkbox" name="peFindings" value="None" checked> None
       </div>
-      <div class="col-md-4">
-        <input type="checkbox" name="peFindings" value="A"> A
-      </div>
-      <div class="col-md-4">
-        <input type="checkbox" name="peFindings" value="B"> B
+      <div class="col-md-11">
+        <input type="checkbox" class="pull-left" name="significantPEFindings" value="other"> <span class="col-md-2 pull-left">Other</span>
+        <input type="text" class="col-md-9 pull-left" name="significantPEFindingsOther" value="">
       </div>
     </div>
 

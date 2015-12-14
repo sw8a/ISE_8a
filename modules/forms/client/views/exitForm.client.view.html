@@ -47,8 +47,6 @@
 
     </div>
 
-    <h3 class="text-center">Results</h3>
-
     <div class="form-group">
       <div class="row">
         <div class="col-md-12 columns">
@@ -91,10 +89,10 @@
       </div>
     </div>
 
-    <h3 class="text-center">Maintenance Diet Instructions</h3>
+    <h3 class="text-center">Exit Form</h3>
 
     <div class="form-group">
-      <label for="brand">Brand</label>
+      <label for="brand">Maintenance Diet Brand</label>
       <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" required>
       <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required  && myForm.brand.$dirty">Brand is required!</span>
     </div>
@@ -158,8 +156,6 @@
     <div class="form-group">
       <label class="col-md-3" for="technician">Technician: </label>
       <input data-ng-model="techId" class="col-md-3" type="text" id="technician" ng-disabled="disableInput">
-      <label class="col-md-3" for="veterinarian">Veterinarian: </label>
-      <input data-ng-model="vetId" class="col-md-3" type="text" id="veterinarian" ng-disabled="disableInput">
     </div>
 
     <div class="form-group text-center">

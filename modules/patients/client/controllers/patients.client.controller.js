@@ -83,8 +83,8 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         var trendOne = [];
         var trendTwo = [];
         var lastMonthShown = 0;
-        var percentLoss1 = 0.95;
-        var percentLoss2 = 0.90;
+        var percentLoss1 = 0.99;
+        var percentLoss2 = 0.98;
 
         // Add the initial month to monthsShown, and the initial weight to weightsShown, trendOne, and trendTwo
         monthsShown.push(months[monthStarted-1]); // Subtract 1 as the months go from 0-11 rather than 1-12 in the months array.
@@ -118,7 +118,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         $scope.labelsLine = monthsShown;
         $scope.colorsLine = ['#6399CC', '#505050','#757575'];
         // 5% loss and 10% loss headings have to be changed if percentLoss1 and/or percentLoss2 are changed
-        $scope.seriesLine = ['Current Weight', '5% Loss','10% Loss'];
+        $scope.seriesLine = ['Current Weight', '1% Loss','2% Loss'];
         $scope.dataLine = [
             weightsShown,
             trendOne,

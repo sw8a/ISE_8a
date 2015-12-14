@@ -55,7 +55,19 @@
         <label for="confirmEmail">Confirm email</label>
         <input data-ng-model="confirmEmail" type="email" class="form-control" name="confirmEmail" id="confirmEmail" placeholder="Email" ng-disabled="disableInput" ng-change="checkEmail()" required>
         <span class="alert alert-danger alertMessage" ng-show="myForm.confirmEmail.$dirty && myForm.confirmEmail.$error.dontMatch">Emails have to match</span>
+        <br>
       </div>
+
+      <div class="col-md-8">
+        A “use and compliance” follow up call has been explained to (and agreed by) client:
+      </div>
+      <div class="col-md-2">
+        <input data-ng-model="followUpCall" type="radio" name="followUpCall" value="true" ng-checked="followUpCall != undefined && followUpCall" ng-disabled="disableInput" required> Yes
+      </div>
+      <div class="col-md-2">
+        <input data-ng-model="followUpCall" type="radio" name="followUpCall" value="false" ng-checked="followUpCall != undefined && followUpCall" ng-disabled="disableInput" required> No
+      </div>
+
     </div>
 
     <div class="form-group">

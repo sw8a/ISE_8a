@@ -23,6 +23,11 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         // 1 kg = 2.2046 lb
         var kgToLb = 2.2046;
 
+        // Given a weight in kg return the weight in lbs
+        $scope.kgToLb = function(kgWeight) {
+          return (kgWeight * 2.2046).toFixed(2);
+        };
+
         // The dog's current weight (either the start weight or the latest weight if there are progress forms available)
         $scope.weight = $scope.activePatient.startWeight * kgToLb;
         if($scope.activePatient.progressForms.length) {
@@ -72,7 +77,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         // Line Graph Variables
         // An array with all of the dog's progress forms
         var progressForms = $scope.activePatient.progressForms;
-        
+
         // The month the dog started treatment - pulled from the enrollment form
         var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
         var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -87,8 +92,8 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         var trendOne = [];
         var trendTwo = [];
         var lastMonthShown = 0;
-        var percentLoss1 = 0.95;
-        var percentLoss2 = 0.90;
+        var percentLoss1 = 0.99;
+        var percentLoss2 = 0.98;
 
         // Add the initial month to monthsShown, and the initial weight to weightsShown, trendOne, and trendTwo
         monthsShown.push(months[monthStarted-1]); // Subtract 1 as the months go from 0-11 rather than 1-12 in the months array.
@@ -122,7 +127,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         $scope.labelsLine = monthsShown;
         $scope.colorsLine = ['#6399CC', '#505050','#757575'];
         // 5% loss and 10% loss headings have to be changed if percentLoss1 and/or percentLoss2 are changed
-        $scope.seriesLine = ['Current Weight', '5% Loss','10% Loss'];
+        $scope.seriesLine = ['Current Weight', '1% Loss','2% Loss'];
         $scope.dataLine = [
             weightsShown,
             trendOne,

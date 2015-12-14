@@ -37,6 +37,32 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         // Get an eventual error defined in the URL query string:
         // $scope.error = $location.search().err;
 
+        $scope.initPractice = function() {
+            // Get the auxthera database document Id from the user credentials and load it
+            var auxthera;
+            if($scope.authentication.user.auxtheraDocId !== undefined) {
+                auxthera = new AuxtheraService({
+                    _id: $scope.authentication.user.auxtheraDocId
+                });
+
+                auxthera.$get(function(auxtheraResponse) {
+
+                    ActiveAuxthera.setActiveAuxthera(auxtheraResponse);
+
+                    $scope.patients = auxtheraResponse.patients;
+                    $scope.auxtheraName = ActiveAuxthera.getActiveAuxthera().name;
+
+                    return;
+                });
+            }
+            // Else should be replaced with redirect to signin for real use
+            else {
+                return;
+            }  
+        };   
+
+            
+
 
         $scope.signUp = function() {
             // Form validation

@@ -50,12 +50,17 @@
 	background-color:#F4F4F4;
 	color:#1A4B68;
 	padding: 15px;
-	height: 200px;
+	height: 300px;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
 
-.floatRight {
-	float: right;
+.dChartSize {
+	height: 400px;
+	width: 300px;
+}
+
+.dChartPosition {
+	margin-left: 250px;
 }

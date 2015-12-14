@@ -7,10 +7,18 @@
               <img src="modules/core/img/brand/trimauxil-logo-horizontal.svg" class="sidebarLogoImg">
           </li>
 
+          <li>
+              <a ui-sref="vetHomepage">
+                  <button class="dashButton">
+                      <span class="glyphicon glyphicon-list dashGlyph" aria-hidden="true"></span> Active Patient List
+                  </button>
+              </a>
+          </li>
+
           <li ng-class="{active: isActive('/overview')}">
               <a ui-sref="overview">
                   <button class="dashButton">
-                      <span class="glyphicon glyphicon-home dashGlyph" aria-hidden="true"></span>Home
+                      <span class="glyphicon glyphicon-home dashGlyph" aria-hidden="true"></span>Progress Tracker
                   </button>
               </a>
           </li>
@@ -43,14 +51,6 @@
               <a ui-sref="exitForm">
                   <button class="dashButton">
                       <span class="glyphicon glyphicon-send dashGlyph" aria-hidden="true"></span> Exit Form
-                  </button>
-              </a>
-          </li>
-
-          <li>
-              <a ui-sref="vetHomepage">
-                  <button class="dashButton">
-                      <span class="glyphicon glyphicon-list dashGlyph" aria-hidden="true"></span> Active Patient List
                   </button>
               </a>
           </li>

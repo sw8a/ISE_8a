@@ -378,15 +378,8 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             return (kgWeight * 2.2046).toFixed(2);
         };
 
-        // var window = angular.element($window);
-
-        // window.load(function() {
-        //     console.log('phone mask');
-        //     var phones = [{ 'mask': '(###) ###-####'}, { 'mask': '(###) ###-##############'}];
-        //     $('#clientTelephone').inputmask({ 
-        //         mask: phones, 
-        //         greedy: false, 
-        //         definitions: { '#': { validator: '[0-9]', cardinality: 1}} });
-        // });
+        $scope.checkEmail = function () {
+          $scope.myForm.confirmEmail.$error.dontMatch = $scope.clientEmail !== $scope.confirmEmail;
+        };
     }
 ]);

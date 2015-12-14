@@ -5,12 +5,12 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
+        // If the user is not logged in, redirect
         if (!$scope.authentication.user) {
             $location.path('/');
         }
 
         $scope.activePatient = ActivePatient.getActivePatient();
-        //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
         $scope.phoneMask = '999-999-9999';
 
         // Get the values from the form to be sent to the database

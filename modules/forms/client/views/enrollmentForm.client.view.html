@@ -52,9 +52,9 @@
       </div>
 
       <div class="col-md-6">
-        <label for="clientEmail">Confirm email</label>
-        <input data-ng-model="clientEmailConfirm" type="email" class="form-control" name="clientEmail" id="clientEmail" placeholder="Email" ng-disabled="disableInput" required>
-        <span class="alert alert-danger alertMessage" ng-show="myForm.clientEmailConfirm !=== myForm.clientEmail">Emails have to match</span>
+        <label for="confirmEmail">Confirm email</label>
+        <input data-ng-model="confirmEmail" type="email" class="form-control" name="confirmEmail" id="confirmEmail" placeholder="Email" ng-disabled="disableInput" ng-change="checkEmail()" required>
+        <span class="alert alert-danger alertMessage" ng-show="myForm.confirmEmail.$dirty && myForm.confirmEmail.$error.dontMatch">Emails have to match</span>
       </div>
     </div>
 

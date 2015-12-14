@@ -12,6 +12,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.activePatient = ActivePatient.getActivePatient();
         //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
         $scope.phoneMask = '999-999-9999';
+        $scope.dogBreeds = ['Doberman','Dachshund', 'Poodle'];          // List of dog breeds already in database
 
         // Get the values from the form to be sent to the database
         if(ActivePatient.activePatientSet()) {

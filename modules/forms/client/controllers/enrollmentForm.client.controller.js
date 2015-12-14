@@ -375,5 +375,9 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.kgToLb = function(kgWeight) {
             return (kgWeight * 2.2046).toFixed(2);
         };
+
+        $scope.checkEmail = function () {
+          $scope.myForm.confirmEmail.$error.dontMatch = $scope.clientEmail !== $scope.confirmEmail;
+        };
     }
 ]);

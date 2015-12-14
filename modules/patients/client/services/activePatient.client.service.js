@@ -29,10 +29,12 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
                     
                     patient.$get(function( updateActivePatientResponse ) {
                         activePatient = updateActivePatientResponse;
+                        //console.log('APt: ' + JSON.stringify(activePatient, null, 4));
                         return activePatient;
                     });
                 }
                 else {
+                    //console.log('APt: ' + JSON.stringify(activePatient, null, 4));
                     return activePatient;
                 }
             },
@@ -58,7 +60,7 @@ angular.module('patients').service('ActivePatient', ['PatientsService', 'Practic
             },
 
             activePatientSet: function() {
-                if(activePatient._id === undefined) {
+                if(activePatient._id === undefined || activePatient._id === null) {
                     return false;
                 }
                 else {

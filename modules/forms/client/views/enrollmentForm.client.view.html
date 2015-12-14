@@ -41,7 +41,7 @@
 
       <div class="col-md-3">
         <label for="clientTelephone">Telephone</label>
-        <input data-ng-model="clientTelephone" type="tel" pattern="[0-9]{10}" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" required>
+        <input data-ng-model="clientTelephone" type="text" ui-mask="{{phoneMask}}" pattern="[0-9]{10}" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" ui-mask-placeholder ui-mask-placeholder-char="_" required>
         <span class="alert alert-danger alertMessage" ng-show="myForm.clientTelephone.$error.required && myForm.clientTelephone.$dirty">Tel. is required!</span>
       </div>
 

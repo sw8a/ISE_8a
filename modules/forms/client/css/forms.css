@@ -1,44 +1,54 @@
-.eForms {
-	padding-left: 250px;
+.formContentWrapper {
+    padding-left: 300px;
+    width: 100%;
 }
 
-.fForms {
-	padding-left: 150px;
+.formWrapper {
+    margin: 0 auto;
+    width: 100%;
 }
 
 .pForms {
-  padding-left: 310px;
+    padding-left: 310px;
 }
+
 .editButton {
 	margin: 0 45%;
 }
+
 .kglb {
 	margin-left: 25%;
 }
+
 .alertMessage {
 	position: relative;
 	padding: 5px;
 	top: 10px;
 }
+
 .alertMessageExit {
 	position: relative;
 	padding: 5px;
 	top: 10px;
 	left: 75%;
 }
+
 .clientInfo {
 	display: inline-block;
-  max-width: 100%;
-  margin-top: 28px;
+    max-width: 100%;
+    margin-top: 28px;
 	margin-left: -15px;
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .negativeLeftMargin {
 	margin-left: -20px;
 }
+
 p {
 	text-align: left;
 }
+
 input {
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -49,11 +59,13 @@ textarea {
 	resize: vertical;
     word-wrap: break-word;
 }
+
 input {
 	background-color: #FAFAFA;
 }
+
 input[disabled]{
 	background-color: #eee;
-  opacity: 1;
+    opacity: 1;
 	cursor: not-allowed;
 }

@@ -23,6 +23,11 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         // 1 kg = 2.2046 lb
         var kgToLb = 2.2046;
 
+        // Given a weight in kg return the weight in lbs
+        $scope.kgToLb = function(kgWeight) {
+          return (kgWeight * 2.2046).toFixed(2);
+        };
+
         // The dog's current weight (either the start weight or the latest weight if there are progress forms available)
         $scope.weight = $scope.activePatient.startWeight * kgToLb;
         if($scope.activePatient.progressForms.length) {
@@ -72,7 +77,7 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         // Line Graph Variables
         // An array with all of the dog's progress forms
         var progressForms = $scope.activePatient.progressForms;
-        
+
         // The month the dog started treatment - pulled from the enrollment form
         var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
         var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

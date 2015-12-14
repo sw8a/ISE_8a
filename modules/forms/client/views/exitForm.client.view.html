@@ -3,67 +3,49 @@
         <div class="page-header">
             <h1 class="text-center">Final Visit (Exit Form)</h1>
         </div>
-        <div class="col-md-12 kglb">
-            <div class="col-md-2">
-                Preferred Unit:
-            </div>
-            <label class="radio-inline col-md-1">
-            <input type="radio" name="kgOrlb" data-ng-model="practiceInfo.preferredUnit" value="kg">kg
-            </label>
-            <label class="radio-inline col-md-1">
-            <input type="radio" name="kgOrlb" data-ng-model="practiceInfo.preferredUnit" value="lb">lb
-            </label>
-        </div>
+
         <form data-ng-submit="createExitForm()" name="myForm" class="form-horizontal col-md-12 col-xs-12">
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label for="date">Ending Date</label>
                     <input type="date" class="form-control" id="date" ng-model="endingDate" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <label for="endingReason">Reason for ending program</label><br />
-                    <label class="radio-inline col-md-3">
-                    <input type="radio" name="endingReason" data-ng-model="endingReason" value="Reached ideal weight">Reached ideal weight
-                    </label>
-                    <label class="radio-inline col-md-4">
-                    <input type="radio" name="endingReason" data-ng-model="endingReason" value="Switching vet practice">Switching Vet Practice
-                    </label>
-                    <label class="radio-inline col-md-4">
-                    <input type="radio" name="endingReason" data-ng-model="patientInfo.endingReason" value="Reached exclusion criteria">Reached exclusion criteria
-                    </label>
-                </div>
-                <div class="col-md-12">
-                    <label class="radio-inline col-md-1 pull-left">
-                    <input type="radio" name="endingReason" data-ng-model="patientInfo.endingReason" value="Other">Other
-                    </label>
-                    <div class="col-md-7 col-xs-8 pull-left">
-                        <input class="radio-inline form-control" type="text" id="reasonForEnding" placeholder="Reason" data-ng-model="patientInfo.endingReasonOther">
-                    </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-12 columns">
-                        <label class="col-md-3">Start Weight ({{practiceInfo.preferredUnit}}): </label>
+                        <label class="col-md-3">Start Weight (lb): </label>
                         <div class="col-md-3">
-                            <span>{{patientInfo.startWeight()}}</span>
+                            <span>{{ kgToLb(activePatient.startWeight) }}</span>
                         </div>
-                        <label class="col-md-3" for="finalWeight">Final Weight ({{practiceInfo.preferredUnit}}): </label>
+                        <label class="col-md-3" for="finalWeight">Final Weight (lb): </label>
                         <div class="col-md-3">
-                            <input class="form-control" type="number" step="any" name="finalWeight" id="finalWeight" min="0" max="300" data-ng-model="finalWeight" required>
+                            <input class="form-control" data-ng-model="finalWeightLB" data-ng-change="finalWeight = lbToKg(finalWeightLB)-0" type="number" step="any" name="finalWeight" id="finalWeight" min="0" max="300" required>
                         </div>
-                        <span class="alert alert-danger alertMessageExit" ng-show="myForm.finalWeight.$error.required  && myForm.finalWeight.$dirty">Final weight is required!</span>
+                    </div>
+
+                    <br><br>
+
+                    <div class="col-md-12 columns">
+                        <label class="col-md-3">Start Weight (kg): </label>
+                        <div class="col-md-3">
+                            <span>{{ activePatient.startWeight }}</span>
+                        </div>
+                        <label class="col-md-3" for="finalWeight">Final Weight (kg): </label>
+                        <div class="col-md-3">
+                            <input class="form-control" data-ng-model="finalWeight" data-ng-change="finalWeightLB = kgToLb(finalWeight)-0" type="number" step="any" name="finalWeight" id="finalWeight" min="0" max="300" required>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-12 columns">
-                        <label class="col-md-4">Weight Loss Total ({{practiceInfo.preferredUnit}}): </label>
-                        <span class="col-md-2">{{patientInfo.weightLossTotal()}}</span>
+                        <label class="col-md-4">Weight Loss Total (lb): </label>
+                        <span class="col-md-2">{{ patientInfo.weightLossTotal('lb') }}</span>
+                        <label class="col-md-4">Weight Loss Total (kg): </label>
+                        <span class="col-md-2">{{ patientInfo.weightLossTotal('kg') }}</span>
                     </div>
                 </div>
             </div>
@@ -82,7 +64,46 @@
                     </div>
                 </div>
             </div>
+            
+            <h4 class="text-center">BCS Descriptions</h4>
+
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <h4 class="text-center">6</h4>
+                    <img src="http://placehold.it/350x150" class="img-responsive">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra augue congue lorem dictum, vel ultrices justo faucibus.
+                        Praesent sed sem sed nulla consectetur aliquet. Suspendisse ornare lorem hendrerit, gravida ipsum ut, posuere eros. Nunc sed elementum tortor.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-center">7</h4>
+                    <img src="http://placehold.it/350x150" class="img-responsive">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra augue congue lorem dictum, vel ultrices justo faucibus.
+                        Praesent sed sem sed nulla consectetur aliquet. Suspendisse ornare lorem hendrerit, gravida ipsum ut, posuere eros. Nunc sed elementum tortor.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-center">8</h4>
+                    <img src="http://placehold.it/350x150" class="img-responsive">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra augue congue lorem dictum, vel ultrices justo faucibus.
+                        Praesent sed sem sed nulla consectetur aliquet. Suspendisse ornare lorem hendrerit, gravida ipsum ut, posuere eros. Nunc sed elementum tortor.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-center">9</h4>
+                    <img src="http://placehold.it/350x150" class="img-responsive">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra augue congue lorem dictum, vel ultrices justo faucibus.
+                        Praesent sed sem sed nulla consectetur aliquet. Suspendisse ornare lorem hendrerit, gravida ipsum ut, posuere eros. Nunc sed elementum tortor.
+                    </p>
+                </div>
+            </div>
+
             <h3 class="text-center">Exit Form</h3>
+
             <div class="form-group">
                 <div class="col-md-12">
                     <label for="brand">Maintenance Diet Brand</label>
@@ -90,6 +111,7 @@
                     <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required  && myForm.brand.$dirty">Brand is required!</span>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="row col-md-12">
                     <label class="col-md-2 col-xs-10" for="foodAmount">Amount: </label>
@@ -101,7 +123,32 @@
                 <span class="alert alert-danger alertMessage" ng-show="myForm.foodAmount.$error.required  && myForm.foodAmount.$dirty">Food amount is required!</span>
                 <span class="alert alert-danger alertMessageExit" ng-show="myForm.perDay.$error.required  && myForm.perDay.$dirty">Per day is required!</span>
             </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label for="endingReason">Reason for ending program</label><br />
+                    <label class="radio-inline col-md-3">
+                    <input type="radio" name="endingReason" data-ng-model="endingReason" value="Reached ideal weight">Reached ideal weight
+                    </label>
+                    <label class="radio-inline col-md-4">
+                    <input type="radio" name="endingReason" data-ng-model="endingReason" value="Switching vet practice">Switching Vet Practice
+                    </label>
+                    <label class="radio-inline col-md-4">
+                    <input type="radio" name="endingReason" data-ng-model="patientInfo.endingReason" value="Reached exclusion criteria">Reached exclusion criteria
+                    </label>
+                </div>
+                <div class="col-md-12">
+                    <label class="radio-inline col-md-1 pull-left">
+                    <input type="radio" name="endingReason" data-ng-model="patientInfo.endingReason" value="Other">Other
+                    </label>
+                    <div class="col-md-11 pull-left">
+                        <input class="radio-inline form-control" type="text" id="reasonForEnding" placeholder="Reason" data-ng-model="patientInfo.endingReasonOther">
+                    </div>
+                </div>
+            </div>
+
             <h3 class="text-center">Questions for Pet Owner</h3>
+
             <div class="form-group">
                 <div class="col-md-12">
                     <label for="personName">Name of person completing questions</label>
@@ -111,7 +158,7 @@
             <div class="form-group">
                 <div class="col-md-12 columns">
                     <label>1. How easy was it to administer the Trimauxil Treatment Program to your dog?</label><br />
-                    <label class="radio-inline col-md-offset-1"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Very challenging">Very challenging</label>
+                    <label class="radio-inline col-md-offset-3"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Very challenging">Very challenging</label>
                     <label class="radio-inline"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Somewhat challenging">Somewhat challenging</label>
                     <label class="radio-inline"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Somewhat easy">Somewhat easy</label>
                     <label class="radio-inline"><input type="radio" name="q1" data-ng-model="ownerQuestions.easyToAdminister" value="Easy">Easy</label>
@@ -120,12 +167,18 @@
             <div class="form-group">
                 <div class="col-md-12 columns">
                     <label>2. How easily did your dog adjust to the addition of Trimauxil to their diet?</label><br />
-                    <label class="radio-inline col-md-offset-3"><input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="Never adjusted">Never adjusted</label>
-                    <label class="radio-inline"><input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="Took a couple of weeks">Took a couple of weeks</label>
-                </div>
-                <div class="col-md-12 columns">
-                    <label class="radio-inline col-md-offset-3"><input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="After a few days">After a few days</label>
-                    <label class="radio-inline"><input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="Seemed comfortable immediately">Seemed comfortable immediately</label>
+                    <div class="col-md-2">
+                      <input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="Never adjusted"> Never adjusted
+                    </div>
+                    <div class="col-md-3">
+                      <input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="Took a couple of weeks"> Took a couple of weeks
+                    </div>
+                    <div class="col-md-2">
+                      <input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="After a few days"> After a few days
+                    </div>
+                    <div class="col-md-4">
+                      <input type="radio" name="q2" data-ng-model="ownerQuestions.easyAdjustment" value="Seemed comfortable immediately"> Seemed comfortable immediately
+                    </div>
                 </div>
             </div>
             <div class="form-group">

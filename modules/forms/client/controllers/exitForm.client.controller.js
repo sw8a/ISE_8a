@@ -7,12 +7,6 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
 
     $scope.activePatient = ActivePatient.getActivePatient();
 
-    // User can select for the weight to be dispkayed in kg or lb
-    $scope.practiceInfo = {
-        preferredUnit: 'kg'
-    };
-
-    console.log($scope.authentication);
     if (!$scope.authentication.user) {
         $location.path('/');
     }
@@ -67,27 +61,27 @@ angular.module('forms').controller('exitFormController', ['$scope', 'Authenticat
       startBCS: $scope.activePatient.bcs
     };
 
-    // Return the dog's start weight in kg or lb depending on the user's choice.
-    $scope.patientInfo.startWeight = function() {
-      if($scope.practiceInfo.preferredUnit === 'kg') {
-        return $scope.activePatient.startWeight;
-      }
-      else {
-        return ($scope.activePatient.startWeight * 2.20462).toFixed(2);
-      }
-    };
-
     // Calculate the dog's weight loss based on the start weight and the final weight. Return the weight in kg or lb depending on the user choice.
-    $scope.patientInfo.weightLossTotal = function () {
+    $scope.patientInfo.weightLossTotal = function (unit) {
         var startWeight = $scope.activePatient.startWeight;
         var finalWeight = $scope.finalWeight;
+        var finalWeightLB = $scope.finalWeightLB;
 
-        if($scope.practiceInfo.preferredUnit === 'kg') {
+        if(unit === 'kg') {
           return (startWeight - finalWeight).toFixed(2);
         }
         else {
-          return ((startWeight * 2.20462 - finalWeight)).toFixed(2);
+          return ((startWeight * 2.20462) - finalWeightLB).toFixed(2);
         }
+    };
+
+    // Convert a kg weight to lb
+    $scope.kgToLb = function(kgWeight) {
+        return (kgWeight * 2.2046).toFixed(2);
+    };
+    // Convert a lb weight to kg
+    $scope.lbToKg = function(lbWeight) {
+        return (lbWeight / 2.2046).toFixed(2);
     };
   }
 ]);

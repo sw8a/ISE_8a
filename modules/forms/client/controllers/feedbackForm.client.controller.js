@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('forms').controller('feedbackFormController', ['$scope', 'Authentication', '$location', '$stateParams', 'ExitFormsService', 'PatientsService','ActivePatient',
-  function ($scope, Authentication, $location, $stateParams, ExitFormsService, PatientsService,ActivePatient) {
+  function ($scope, Authentication, $location, $stateParams, ExitFormsService, PatientsService, ActivePatient) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
 

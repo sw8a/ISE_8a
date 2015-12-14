@@ -474,3 +474,20 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.initPatient();
     }
 ]);
+
+angular.module('forms').filter('phoneFormat', function($filter) {
+    // Assumes number in the format of XXX-XXX-XXXX
+    return function (phoneNumber) {
+        if (phoneNumber === null || phoneNumber === undefined) {
+            return '';
+        }
+
+        else {
+            var last4 = phoneNumber.substring(6, phoneNumber.length);
+            var mid3 = phoneNumber.substring(3, 6);
+            var first3 = phoneNumber.substring(0, 3);
+            return (first3 + '-' + mid3 + '-' + last4);
+        }
+    };
+
+});

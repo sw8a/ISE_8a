@@ -72,13 +72,17 @@ angular.module('patients', ['chart.js']).controller('patientsController', ['$sco
         // Line Graph Variables
         // An array with all of the dog's progress forms
         var progressForms = $scope.activePatient.progressForms;
+        
         // The month the dog started treatment - pulled from the enrollment form
         var monthStarted = Number($scope.activePatient.dateCreated.substring(5,7));
         var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
         // The months shown on the line graph
         var monthsShown = [];
+
         // The dog's recorded weights (start weight and weights pulled from progress forms) that will be shown on the line graph
         var weightsShown = [];
+
         // The two trendlines that will be shown on the line graph. Based on percentLoss1 and percentLoss2.
         var trendOne = [];
         var trendTwo = [];

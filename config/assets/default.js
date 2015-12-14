@@ -14,7 +14,6 @@ module.exports = {
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-animate/angular-animate.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',
-        'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
         'public/lib/jquery/dist/jquery.min.js',
@@ -23,7 +22,16 @@ module.exports = {
         'public/lib/angular-chart.js/angular-chart.js',
         'public/lib/jquery/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js',
         'public/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
-        'public/lib/ngstorage/ngStorage.min.js'
+        'public/lib/ngstorage/ngStorage.min.js',
+        'public/lib/angular-ui-utils/index.js',
+        'public/lib/angular-ui-event/dist/event.min.js',
+        'public/lib/angular-ui-indeterminate/dist/indeterminate.min.js',
+        'public/lib/angular-ui-mask/dist/mask.min.js',
+        'public/lib/angular-ui-scroll/dist/ui-scroll.min.js',
+        'public/lib/angular-ui-scrollpoint/dist/scrollpoint.min.js',
+        'public/lib/angular-ui-uploader/dist/uploader.min.js',
+        'public/lib/angular-ui-validate/dist/validate.min.js'
+
         
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

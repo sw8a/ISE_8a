@@ -122,7 +122,7 @@
 
                         <td class="column15 col-md-2">{{ patient.petOwner.lastName }}, {{ patient.petOwner.firstName }}</td>
 
-                        <td class="column15 col-md-2">{{ patient.petOwner.phoneNumber }}</td>
+                        <td class="column15 col-md-2">{{ patient.petOwner.phoneNumber | phoneFormat }}</td>
                         
                         <td class="column15 col-md-2">{{ patient.dateCreated | dateFormat }}</td>
 

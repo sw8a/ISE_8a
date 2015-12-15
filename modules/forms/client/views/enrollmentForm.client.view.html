@@ -96,7 +96,7 @@
             <div class="form-group">
                 <div class="col-md-12">
                     <label for="brand">Current Diet: Food Brand</label>
-                    <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" ng-disabled="disableInput" required>
+                    <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" ng-disabled="disableInput" typeahead="food for food in dogFoodNames | filter:$viewValue | limitTo:8" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required && myForm.brand.$dirty">Brand is required!</span>
                 </div>
             </div>

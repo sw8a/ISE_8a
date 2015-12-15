@@ -73,17 +73,21 @@ MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid 
 * The server port number can be changed in config/env/default.js.
 
 ## Credits
-* Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
-* The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
-* [Bootstrap](http://getbootstrap.com/)
-* [AngularJS](https://angularjs.org/)
-* [jQuery](https://jquery.com/)
-* [AngularUI](https://angular-ui.github.io/)
-* [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
-* [malihu custom scrollbar plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)
-* [Chart.js](http://www.chartjs.org/)
-* [angular-chart.js](http://jtblin.github.io/angular-chart.js/)
-* [Mongoose](https://github.com/Automattic/mongoose)
+* Libraries/Plugins:
+  * Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
+  * The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
+  * [Bootstrap](http://getbootstrap.com/)
+  * [AngularJS](https://angularjs.org/)
+  * [jQuery](https://jquery.com/)
+  * [AngularUI](https://angular-ui.github.io/)
+  * [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
+  * [malihu custom scrollbar plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)
+  * [Chart.js](http://www.chartjs.org/)
+  * [angular-chart.js](http://jtblin.github.io/angular-chart.js/)
+  * [Mongoose](https://github.com/Automattic/mongoose)
+* Code Snippets:
+  * [Bootstrap Sidebar](http://startbootstrap.com/template-overviews/simple-sidebar/)
+  * [Angular Form Validation](http://product.moveline.com/angular-validation-part-1-form-basics.html)
 
 ## License
 (The MIT License)

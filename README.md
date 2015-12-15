@@ -41,7 +41,7 @@ MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid 
   ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Login.png)
 
   * Vet Homepage (Active Patient List - Landing page):
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Patient%20List.png)
+  ![](modules/core/client/img/demo-images/Patient%20List.png)
 
   * Progress Tracker:
   ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Progress%20Tracker%201.png)

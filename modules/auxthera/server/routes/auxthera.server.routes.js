@@ -45,7 +45,8 @@ module.exports = function(app) {
 */
     // Dog Food routes
     app.route('/api/auxthera/dogFood')
-        .post(auxthera.saveNewDogFood);
+        .post(auxthera.saveNewDogFood)
+        .get(auxthera.getAllDogFoods);
 
     app.route('/api/auxthera/dogFood/:dogFoodId')
         .get(auxthera.getDogFood)

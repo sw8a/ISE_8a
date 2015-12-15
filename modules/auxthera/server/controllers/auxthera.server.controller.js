@@ -370,6 +370,20 @@ exports.getDogFood = function (req, res) {
     res.json(req.dogFood);
 };
 
+exports.getAllDogFoods = function (req, res) {
+    console.log('in getAllDogFoods');
+    DogFood.find().sort('name').exec(function (err, foods) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } 
+        else {
+            res.json(foods);
+        }
+    });
+};
+
 exports.updateDogFood = function (req, res) {
     var dogFood = req.body;
 

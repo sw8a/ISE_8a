@@ -58,7 +58,12 @@ angular.module('auxthera').factory('DogFoodService', ['$resource',
         }, {
             update: {
                 method: 'PUT'
+            },
+            query: {
+                method: 'GET',
+                isArray: true
             }
+
         });
     }
 ]);

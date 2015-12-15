@@ -3,8 +3,8 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService', 'dogFoodsService', 'dogBreedsService', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
-    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, dogFoodsService, dogBreedsService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService', 'DogFoodService', 'DogBreedsService', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, DogFoodService, DogBreedsService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -39,18 +39,69 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
         $scope.initAuxthera = function() {
 
-            // var breeds = new DogBreedsService({
-            //     breeds: ['Doberman', 'Dachshund', 'Poodle']
+            // var food = new DogFoodService({
+            //     name: 'Diamond Puppy',
+            //     kcalPerCup: 438
             // });
 
-            // breeds.$save(function(breedSaveResponse) {
-            //     console.log('breedSave: ' + breedSaveResponse);
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
             // });
 
-            console.log('Get breeds');
-            var breeds = dogBreedsService.loadDogBreeds();
-            console.log(breeds);
+            // food = new DogFoodService({
+            //     name: 'Diamond Original',
+            //     kcalPerCup: 317
+            // });
 
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Diamond Naturals Chicken and Rice',
+            //     kcalPerCup: 368
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Purina Dog Chow Complete Nutrition',
+            //     kcalPerCup: 430
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Purina Brand Mainstay',
+            //     kcalPerCup: 350
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Wysong Vegan',
+            //     kcalPerCup: 375
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            //var foods = new DogFoodService();
+            
+            //console.log(JSON.stringify(DogFoodService.query(), null, 4));
+            var foods = DogFoodService.query(function( getDogFoodsResponse ) {
+                //console.log(getDogFoodsResponse);
+                $scope.dogFoods = getDogFoodsResponse;
+                console.log(JSON.stringify(getDogFoodsResponse, null, 4));
+                console.log($scope.dogFoods[0].name);
+            });
 
             // Get the auxthera database document Id from the user credentials and load it
             var auxthera;

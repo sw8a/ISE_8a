@@ -1,38 +1,40 @@
-<div data-ng-controller="auxtheraController">
-
-<div class="updatePage">
-    <div class="heading">
-       <h1> Auxthera Updates </h1>
+<div data-ng-controller="auxtheraController" class="auxthera-container">
+    <!-- Page Header -->
+    <div class="row info">
+       <h1 class="text-center"> Auxthera Updates </h1>
     </div>
 
-    <!-- Show feed of dog foods not currently in the database -->
-    <h2> New Dog Foods </h2>
-    <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update in aux_admin_tasks" ng-show="aux_admin_tasks.dogFoods.length" ng-hide="foodHidden">
-        <div class="panel-body">
-            <div class="col-md-8 col-sm-8 foodInformation">
-                <p> {{update.name}} </p>
-                <p> {{update.kcalPerCup}} calories per serving </p>
-            </div>
-            <div class="col-md-4 requiredAction">
-                <p> Click to clear entry </p>
-                <button ng-click="foodHidden = true"type="button" class="btn btn-default">Clear</button> 
+    <!-- New food and new dog breeds -->
+    <div class="auxthera-body-wrapper">
+        <!-- Show feed of dog foods not currently in the database -->
+        <h2> New Dog Foods </h2>
+        <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update in aux_admin_tasks" ng-show="aux_admin_tasks.dogFoods.length" ng-hide="foodHidden">
+            <div class="panel-body">
+                <div class="col-md-8 col-sm-8 foodInformation">
+                    <p> {{update.name}} </p>
+                    <p> {{update.kcalPerCup}} calories per serving </p>
+                </div>
+                <div class="col-md-4 requiredAction">
+                    <p> Click to clear entry </p>
+                    <button ng-click="foodHidden = true"type="button" class="btn btn-default">Clear</button> 
+                </div>
             </div>
         </div>
-    </div>
-    <p ng-hide="aux_admin_tasks.dogFoods.length"> No new dog foods! </p>
+        <p ng-hide="aux_admin_tasks.dogFoods.length"> No new dog foods! </p>
 
-    <!-- Show feed of new dog breeds that aren't currently in the database -->
-    <h2> New Dog Breeds </h2>
-    <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update in aux_admin_tasks" ng-show="aux_admin_tasks.breeds.length" ng-hide="breedHidden">
-        <div class="panel-body">
-            <div class="col-md-8 col-sm-8 foodInformation">
-                <p> {{update.breeds}} </p>
-            </div>
-            <div class="col-md-4 col-sm-4 requiredAction">
-                <p> Click to clear entry </p>
-                <button ng-click="breedHidden=true"type="button" class="btn btn-default">Clear</button> 
+        <!-- Show feed of new dog breeds that aren't currently in the database -->
+        <h2> New Dog Breeds </h2>
+        <div class="row feedElement heavy-top-buffer panel panel-primary" ng-repeat="update in aux_admin_tasks" ng-show="aux_admin_tasks.breeds.length" ng-hide="breedHidden">
+            <div class="panel-body">
+                <div class="col-md-8 col-sm-8 foodInformation">
+                    <p> {{update.breeds}} </p>
+                </div>
+                <div class="col-md-4 col-sm-4 requiredAction">
+                    <p> Click to clear entry </p>
+                    <button ng-click="breedHidden=true"type="button" class="btn btn-default">Clear</button> 
+                </div>
             </div>
         </div>
+        <p ng-hide="aux_admin_tasks.breeds.length"> No new dog breeds! </p>
     </div>
-    <p ng-hide="aux_admin_tasks.breeds.length"> No new dog breeds! </p>
 </div>

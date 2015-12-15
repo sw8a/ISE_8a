@@ -1,77 +1,81 @@
 <div data-ng-controller="auxtheraController" class="auxthera-container" data-ng-init="initCallList()">
-    <div class="row heading">
-       <h1> Patient Call List </h1>
+    <!-- Page Header -->
+    <div class="row info">
+       <h1 class="text-center">Patient Call List</h1>
     </div>
  
-    <div class="custom-panel">
-        <!-- Table Heading -->
-        <div class="panel-group">
-            <div class="callList-table-heading">
-                <div class="panel-heading">
-                    <h3 class="panel-title pull-right text-right">
-                        Completed
-                    </h3>
-                    <h3 class="panel-title pull-right">
-                        Last Completed
-                    </h3>
-                    <h3 class="panel-title pull-right">
-                        Vet Visited
-                    </h3>
-                    <h3 class="panel-title pull-right">
-                        Patient Number
-                    </h3>
+    <!-- List of patients to call -->
+    <div class="auxthera-body-wrapper">
+        <div class="custom-panel">
+            <!-- Table Heading -->
+            <div class="panel-group">
+                <div class="callList-table-heading">
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-right text-right">
+                            Completed
+                        </h3>
+                        <h3 class="panel-title pull-right">
+                            Last Completed
+                        </h3>
+                        <h3 class="panel-title pull-right">
+                            Vet Visited
+                        </h3>
+                        <h3 class="panel-title pull-right">
+                            Patient Number
+                        </h3>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Table Elements -->
-        <div class="panel-group">
-            <div class="panel panel-default" ng-repeat="patient in patientCallList">
-                <div class="callList-table-row">
-                    <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">   
-                        <h3 class="panel-title pull-right text-right" ng-click="remove(patient.index)">
-                            Clear Entry
-                        </h3>
-                        <h3 class="panel-title pull-left">
-                            {{patient.patientId}}
-                        </h3>
-                        <h3 class="panel-title pull-left">
-                            {{patient.vetId}}
-                        </h3>
-                        <h3 class="panel-title">
-                            {{patient.lastContact}}
-                        </h3>
+            <!-- Table Elements -->
+            <div class="panel-group">
+                <div class="panel panel-default" ng-repeat="patient in patientCallList">
+                    <div class="callList-table-row">
+                        <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">   
+                            <h3 class="panel-title pull-right text-right" ng-click="remove(patient.index)">
+                                Clear Entry
+                            </h3>
+                            <h3 class="panel-title pull-left">
+                                {{patient.patientId}}
+                            </h3>
+                            <h3 class="panel-title pull-left">
+                                {{patient.vetId}}
+                            </h3>
+                            <h3 class="panel-title">
+                                {{patient.lastContact}}
+                            </h3>
+                        </div>
                     </div>
-                </div>
-                <div collapse="!patient.isOpen">
-                    <!-- Call Log forms -->
-                    <div class="panel-body">
-                        <form>
-                            <!-- Call Date -->
-                            <div class="row form-group">
-                                <label class="col-xs-12 control-label">Call Date</label>
-                                <div class="col-xs-12">
-                                    <input data-ng-model="patient.callDate" type="date" class="form-control" ng-required="patient.isOpen">
+                    <div collapse="!patient.isOpen">
+                        <!-- Call Log forms -->
+                        <div class="panel-body">
+                            <form>
+                                <!-- Call Date -->
+                                <div class="row form-group">
+                                    <label class="col-xs-12 control-label">Call Date</label>
+                                    <div class="col-xs-12">
+                                        <input data-ng-model="patient.callDate" type="date" class="form-control" ng-required="patient.isOpen">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Call Time -->
-                            <div class="row form-group">
-                                <label class="col-xs-12 control-label">Time</label>
-                                <div class="col-xs-12">
-                                    <input data-ng-model="patient.callTime" id="timeCreated" type="datetime" class="form-control" ng-required="patient.isOpen">
+                                <!-- Call Time -->
+                                <div class="row form-group">
+                                    <label class="col-xs-12 control-label">Time</label>
+                                    <div class="col-xs-12">
+                                        <input data-ng-model="patient.callTime" id="timeCreated" type="datetime" class="form-control" ng-required="patient.isOpen">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Call Message -->
-                            <div class="row form-group">
-                                <label class="col-xs-12 control-label">Message</label>
-                                <div class="col-xs-12">
-                                    <textarea data-ng-model="patient.message" type="text" class="form-control" rows="5" ng-required="patient.isOpen"></textarea>
+                                <!-- Call Message -->
+                                <div class="row form-group">
+                                    <label class="col-xs-12 control-label">Message</label>
+                                    <div class="col-xs-12">
+                                        <textarea data-ng-model="patient.message" type="text" class="form-control" rows="5" ng-required="patient.isOpen"></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div> <!-- custom-panel -->
+        </div> <!-- custom-panel -->
+    </div>
 </div>

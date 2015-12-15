@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', '$window', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'PetOwnersService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, $window, EnrollmentFormsService, PatientsService, PracticesService, PetOwnersService, ActivePatient) {
+angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', '$window', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'PetOwnersService', 'DogBreedsService', 'DogFoodService', 'ActivePatient',
+    function($scope, Authentication, $location, $stateParams, $window, EnrollmentFormsService, PatientsService, PracticesService, PetOwnersService, DogBreedsService, DogFoodService, ActivePatient) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
@@ -12,6 +12,10 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.activePatient = ActivePatient.getActivePatient();
         $scope.phoneMask = '999-999-9999';
+        // List of dog breeds already in database
+        $scope.dogBreeds = [];
+        $scope.dogFoods = [];
+        $scope.dogFoodNames = [];          
 
         // Get the values from the form to be sent to the database
         if(ActivePatient.activePatientSet()) {
@@ -218,6 +222,22 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.initPatient = function() {
             $scope.activePatient = ActivePatient.getActivePatient();
+
+            var breeds = new DogBreedsService();
+            
+            breeds.$get(function( getDogBreedsResponse ) {
+                console.log(getDogBreedsResponse);
+                $scope.dogBreeds = getDogBreedsResponse.breeds;
+            });
+
+            var foods = DogFoodService.query(function( getDogFoodsResponse ) {
+                //console.log(getDogFoodsResponse);
+                $scope.dogFoods = getDogFoodsResponse;
+                for(var i = 0; i < $scope.dogFoods.length; i++) {
+                    $scope.dogFoodNames[i] = $scope.dogFoods[i].name;
+                }
+
+            });
         };
 
         // Create the enrollment form by sending the form values to the database

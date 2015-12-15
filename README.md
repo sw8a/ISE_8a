@@ -38,26 +38,26 @@ MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid 
 
 2. Project Screenshots
   * Login Page:
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Login.png)
+  ![](modules/core/client/img/demo-images/Login.png)
 
   * Vet Homepage (Active Patient List - Landing page):
   ![](modules/core/client/img/demo-images/Patient%20List.png)
 
   * Progress Tracker:
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Progress%20Tracker%201.png)
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Progress%20Tracker%202.png)
+  ![](modules/core/client/img/demo-images/Progress%20Tracker%201.png)
+  ![](modules/core/client/img/demo-images/Progress%20Tracker%202.png)
 
   * Enrollment Form:
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Enrollment%20Form.png)
+  ![](modules/core/client/img/demo-images/Enrollment%20Form.png)
 
   * Progress Form:
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Progress%20Form.png)
+  ![](modules/core/client/img/demo-images/Progress%20Form.png)
 
   * Exit Form:
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Exit%20Form.png)
+  ![](modules/core/client/img/demo-images/Exit%20Form.png)
 
   * Contact Us Form:
-  ![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Contact%20Us.png)
+  ![](modules/core/client/img/demo-images/Contact%20Us.png)
 
 ## Instructions for how to run the project locally
 1. Install the [MEAN stack](https://github.com/meanjs/mean)

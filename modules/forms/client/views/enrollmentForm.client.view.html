@@ -77,7 +77,7 @@
             <div class="form-group">
                 <div class="col-md-8">
                     <label for="breed">Breed</label>
-                    <input data-ng-model="breed" type="text" class="form-control" name="breed" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed" ng-disabled="disableInput" required>
+                    <input data-ng-model="breed" type="text" class="form-control" name="breed" id="breed" placeholder="Breed" data-ng-model="patientInfo.breed" typeahead="breed for breed in dogBreeds | filter:$viewValue | limitTo:8" ng-disabled="disableInput" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.breed.$error.required && myForm.breed.$dirty">Breed is required!</span>
                 </div>
                 <div class="col-md-2">

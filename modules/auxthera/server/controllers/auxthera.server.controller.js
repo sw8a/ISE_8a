@@ -278,41 +278,56 @@ exports.saveNewDogBreeds = function (req, res) {
 };
 
 exports.getDogBreeds = function (req, res) {
-    res.json(req.dogBreeds);
+    console.log('in getDogBreeds');
+    DogBreeds.findOne({}, function(err, obj) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(obj);
+        }
+    });
 };
 
 exports.updateDogBreeds = function (req, res) {
     var dogBreeds = req.body;
 
-    var changedData = dogBreeds.changedData;
-    var dogBreedsId = dogBreeds._id;
-    delete dogBreeds.changedData;
-    delete dogBreeds._id;
+    DogBreeds.findOne({}, function(err, obj) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            var dogBreedsId = obj._id;
 
-    DogBreeds.findByIdAndUpdate(
-        dogBreedsId,
-        {
-            $push: { 'changedData': changedData },
-            $set: dogBreeds
-        },
-        {
-            safe: true,
-            new: true
-        },
-        function(err) {
-            if (err) {
-                return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                res.json(dogBreeds);
-            }
+            DogBreeds.findByIdAndUpdate(
+                dogBreedsId,
+                {
+                    $push: { 'breeds': dogBreeds }
+                },
+                {
+                    safe: true,
+                    new: true
+                },
+                function(err) {
+                    if (err) {
+                        return res.status(400).send({
+                            message: errorHandler.getErrorMessage(err)
+                        });
+                    } else {
+                        res.json(dogBreeds);
+                    }
+                }
+            );
         }
-    );
+    });
 };
 
 
 exports.dogBreedsById = function (req, res, next, id) {
+
+    console.log('in dog breeds by Id');
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({

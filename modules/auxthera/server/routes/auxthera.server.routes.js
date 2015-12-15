@@ -6,10 +6,10 @@ var auxthera = require('../controllers/auxthera.server.controller');
 module.exports = function(app) {
 
     // Auxthera routes
-    app.route('/api/auxthera')
+    app.route('/api/auxthera/auxthera')
         .post(auxthera.saveNewAuxthera);
 
-    app.route('/api/auxthera/:auxtheraId')
+    app.route('/api/auxthera/auxthera/:auxtheraId')
         .get(auxthera.getAuxthera)
         .post(auxthera.saveNewAuxthera)
         .put(auxthera.updateAuxthera);
@@ -34,13 +34,15 @@ module.exports = function(app) {
 
     // Dog Breeds routes
     app.route('/api/auxthera/dogBreeds')
-        .post(auxthera.saveNewDogBreeds);
-
+        .post(auxthera.saveNewDogBreeds)
+        .get(auxthera.getDogBreeds)
+        .put(auxthera.updateDogBreeds);
+/*
     app.route('/api/auxthera/dogBreeds/:dogBreedsId')
         .get(auxthera.getDogBreeds)
         .post(auxthera.saveNewDogBreeds)
         .put(auxthera.updateDogBreeds);
-
+*/
     // Dog Food routes
     app.route('/api/auxthera/dogFood')
         .post(auxthera.saveNewDogFood);
@@ -54,6 +56,6 @@ module.exports = function(app) {
     app.param('auxtheraId', auxthera.auxtheraById);
     app.param('feedbackId', auxthera.feedbackById);
     app.param('auxAdminTasksId', auxthera.auxAdminTasksById);
-    app.param('dogBreedsId', auxthera.dogBreedsById);
+    //app.param('dogBreedsId', auxthera.dogBreedsById);
     app.param('dogFoodId', auxthera.dogFoodById);
 };

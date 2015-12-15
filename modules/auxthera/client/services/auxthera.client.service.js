@@ -39,9 +39,9 @@ angular.module('auxthera').factory('AuxAdminTasksService', ['$resource',
 
 angular.module('auxthera').factory('DogBreedsService', ['$resource',
     function ($resource) {
-        return $resource('/api/auxthera/dogBreeds/:dogBreedsId', {
-            dogBreedsId: '@_id'
-        }, {
+        console.log('DogBreedsService');
+        console.log($resource);
+        return $resource('/api/auxthera/dogBreeds', {}, {
             update: {
                 method: 'PUT'
             }
@@ -51,6 +51,8 @@ angular.module('auxthera').factory('DogBreedsService', ['$resource',
 
 angular.module('auxthera').factory('DogFoodService', ['$resource',
     function ($resource) {
+        console.log('DogFoodService');
+        console.log($resource);
         return $resource('/api/auxthera/dogFood/:dogFoodId', {
             dogFoodId: '@_id'
         }, {

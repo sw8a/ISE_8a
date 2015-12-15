@@ -3,8 +3,8 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService','$location', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
-    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService', 'dogFoodsService', 'dogBreedsService', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, dogFoodsService, dogBreedsService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -37,7 +37,21 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         // Get an eventual error defined in the URL query string:
         // $scope.error = $location.search().err;
 
-        $scope.initPractice = function() {
+        $scope.initAuxthera = function() {
+
+            // var breeds = new DogBreedsService({
+            //     breeds: ['Doberman', 'Dachshund', 'Poodle']
+            // });
+
+            // breeds.$save(function(breedSaveResponse) {
+            //     console.log('breedSave: ' + breedSaveResponse);
+            // });
+
+            console.log('Get breeds');
+            var breeds = dogBreedsService.loadDogBreeds();
+            console.log(breeds);
+
+
             // Get the auxthera database document Id from the user credentials and load it
             var auxthera;
             if($scope.authentication.user.auxtheraDocId !== undefined) {

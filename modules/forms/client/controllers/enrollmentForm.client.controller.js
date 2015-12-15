@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', '$window', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'PetOwnersService', 'ActivePatient',
-    function($scope, Authentication, $location, $stateParams, $window, EnrollmentFormsService, PatientsService, PracticesService, PetOwnersService, ActivePatient) {
+angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authentication', '$location', '$stateParams', '$window', 'EnrollmentFormsService', 'PatientsService', 'PracticesService', 'PetOwnersService', 'ActivePatient', 'FoodAndBreedsService',
+    function($scope, Authentication, $location, $stateParams, $window, EnrollmentFormsService, PatientsService, PracticesService, PetOwnersService, ActivePatient, FoodAndBreedsService) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
@@ -12,7 +12,8 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         $scope.activePatient = ActivePatient.getActivePatient();
         //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
         $scope.phoneMask = '999-999-9999';
-        $scope.dogBreeds = ['Doberman','Dachshund', 'Poodle'];          // List of dog breeds already in database
+        // List of dog breeds already in database
+        $scope.dogBreeds = FoodAndBreedsService.getDogBreeds();          
 
         // Get the values from the form to be sent to the database
         if(ActivePatient.activePatientSet()) {

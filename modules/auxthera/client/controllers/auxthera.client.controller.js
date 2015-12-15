@@ -235,6 +235,16 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         $scope.remove = function(index) {
             console.log('Remove successfully called');
         };
+
+        $scope.analytics = function(){
+            console.log('analytics has been called:');
+            $http.get('/api/newPatientsThisMonth').success(function(response) {
+                            console.log(response);
+                        }).error(function(response) {
+                            $scope.error = response.message;
+                        });
+
+        }
     }
 ]);
 

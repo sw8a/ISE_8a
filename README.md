@@ -24,8 +24,8 @@ MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid 
 1. Project Features Implemented
   * User authentication
     * Differing roles for users
-  * Multiple forms serving various purposes (enrollment, progress, exit)
-    * Make use of Bootstrap for a clean layout
+  * Multiple forms serving various purposes (enrollment, progress, exit, contact)
+    * Make use of Bootstrap for a clean layout and user interface
     * Proper validation
     * Connected to the backend to store the form's information
   * Progress tracker page in order to easily visualize the data
@@ -85,7 +85,7 @@ MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid 
   * [Chart.js](http://www.chartjs.org/)
   * [angular-chart.js](http://jtblin.github.io/angular-chart.js/)
   * [Mongoose](https://github.com/Automattic/mongoose)
-* Code Snippets:
+* Code Snippets Used:
   * [Bootstrap Sidebar](http://startbootstrap.com/template-overviews/simple-sidebar/)
   * [Angular Form Validation](http://product.moveline.com/angular-validation-part-1-form-basics.html)
 

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('forms').controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'ActivePatient', 'PatientsService',
-    function($scope, $location, Authentication, ProgressFormsService, ActivePatient, PatientsService) {
+angular.module('forms').controller('progressFormsController', ['$scope', '$location', 'Authentication', 'ProgressFormsService', 'DogFoodService', 'ActivePatient', 'PatientsService',
+    function($scope, $location, Authentication, ProgressFormsService, DogFoodService, ActivePatient, PatientsService) {
 
         // This provides Authentication context.
         $scope.authentication = Authentication;
@@ -11,7 +11,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.constProgForm = [];                                      // Empty array to store progress form before it is changed
         $scope.dateCreated = new Date();                                // Today's date for new forms
         $scope.selectedFood = '';                                       // Use for user's food selection
-        $scope.foodNames = ['Ravioli', 'Cheese', 'Corn', 'Apple'];
+        $scope.dogFoodNames = [];
 
         // Fields for use in automatic conversion when entering weight in New progress form
         $scope.weight = {
@@ -385,6 +385,52 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             this.activePatient.progressForms[index].dateCreated = $scope.constProgForm[index].dateCreated;
         };
 
+
+        // Purpose:     This function retrieve all the information regarding a particular food
+        //              based on the food name. The retrieved information filled out on the form
+        //              kcal/cup and kcal/kg if applicable
+        // Parameters:  String representation of food name
+        // Return:      kcal/cup
+        $scope.getFoodInfo = function(foodName) {
+            var i = $scope.dogFoodNames.indexOf(foodName);
+            // Set scope variable if element is found
+            if(i !== -1) {
+                return $scope.dogFoods[i].kcalPerCup;
+            }
+            return undefined;  // Food is not in database
+        };
+
+        // Purpose:     This function serves as a workaround the issue of bootstrap typeahead
+        //              directive not modeling the bootstrap directive
+        $scope.formatLabel = function(model, pFormId) {
+            console.log('Format Label, model: ' + model);
+            var ans = '';
+            if(model === '') {
+                ans = '';
+            }
+            // If a number is passed, then user select a previously defined function
+            else if(!isNaN(model)) {
+                        ans = $scope.dogFoods[model].name;
+            }
+            else {
+                ans = model;
+            }
+
+            // For call from past edited form and new form
+            console.log('ans: ' + ans);
+            if(pFormId === -1) {
+                $scope.selectedFood = ans;
+                $scope.foodKCalPerCup = $scope.getFoodInfo(ans);
+            }
+            else {
+                $scope.activePatient.progressForms[pFormId].foodName = ans;
+                console.log('$scope.getFoodInfo(ans): ' + $scope.getFoodInfo(ans));
+                $scope.activePatient.progressForms[pFormId].foodKCalPerCup = $scope.getFoodInfo(ans);
+            }
+            return ans;
+        };
+        
+
         $scope.initPatient = function() {
             $scope.activePatient = ActivePatient.getActivePatient();
             console.log('APt: ' + $scope.activePatient);
@@ -424,9 +470,20 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
                 }
             }
 
+            // Retrieve the list of foods that are in the database for food name field
+            var foods = DogFoodService.query(function( getDogFoodsResponse ) {
+                //console.log(getDogFoodsResponse);
+                $scope.dogFoods = getDogFoodsResponse;
+                for(var i = 0; i < $scope.dogFoods.length; i++) {
+                    $scope.dogFoods[i].index = i;
+                    $scope.dogFoodNames[i] = $scope.dogFoods[i].name;
+                }
+
+            });
+
             // Add index as part of the object to overcome the issue of using $index with ng-repeat
             var i;
-            for(var i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
+            for(i = 0; i !== $scope.activePatient.progressForms.length; ++i) {
                 // Add necessary index and necessary flag to each progress form object
                 $scope.activePatient.progressForms[i].index = i;
                 $scope.activePatient.progressForms[i].edit = false;

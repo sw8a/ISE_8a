@@ -3,8 +3,8 @@
 // using these two commented lines as reference for updating this controller from authentication user controller
 //'$scope', '$state', '$http', '$location', '$window', 'Authentication'
 //$scope, $state, $http, $location, $window, Authentication
-angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService','$location', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
-    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
+angular.module('auxthera').controller('auxtheraController', ['$scope', '$state', '$http', '$window', 'Authentication', 'AuxtheraService', 'ActiveAuxthera', 'AuxAdminTasksService', 'FeedbackService', 'DogFoodService', 'DogBreedsService', '$location', '$stateParams', 'ActivePatient', 'PracticesService', '$sce',
+    function($scope, $state, $http, $window, Authentication, AuxtheraService, ActiveAuxthera, AuxAdminTasksService, FeedbackService, DogFoodService, DogBreedsService, $location, $stateParams, ActivePatient, PracticesService, $sce) {
         $scope.authentication = Authentication;
         if (!$scope.authentication.user) {
             $location.path('/');
@@ -36,6 +36,125 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
         // Get an eventual error defined in the URL query string:
         // $scope.error = $location.search().err;
+
+        $scope.initAuxthera = function() {
+
+            // var food = new DogFoodService({
+            //     name: 'Diamond Puppy',
+            //     kcalPerCup: 438
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Diamond Original',
+            //     kcalPerCup: 317
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Diamond Naturals Chicken and Rice',
+            //     kcalPerCup: 368
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Purina Dog Chow Complete Nutrition',
+            //     kcalPerCup: 430
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Purina Brand Mainstay',
+            //     kcalPerCup: 350
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            // food = new DogFoodService({
+            //     name: 'Wysong Vegan',
+            //     kcalPerCup: 375
+            // });
+
+            // food.$save(function(breedSaveResponse) {
+            //     console.log('foodSave: ' + breedSaveResponse);
+            // });
+
+            //var foods = new DogFoodService();
+            
+     //these next few lines implement the analytics
+                 $http.get('/api/totalPatients').success(function(response) {
+                               // console.log(response);
+                                $scope.totalPatients = response;
+                            }).error(function(response) {
+                                $scope.error = response.message;
+                            });
+                $http.get('/api/newPatientsThisMonth').success(function(response) {
+                               // console.log(response);
+                                $scope.newPatientsThisMonth = response;
+                            }).error(function(response) {
+                                $scope.error = response.message;
+                            });
+                $http.get('/api/newPracticesThisMonth').success(function(response) {
+                               // console.log(response);
+                                $scope.newPracticesThisMonth = response;
+                            }).error(function(response) {
+                                $scope.error = response.message;
+                            });
+                $http.get('/api/totalPractices').success(function(response) {
+                               // console.log(response);
+                                $scope.totalPractices = response;
+                            }).error(function(response) {
+                                $scope.error = response.message;
+                            });  
+
+            //console.log(JSON.stringify(DogFoodService.query(), null, 4));
+            var foods = DogFoodService.query(function( getDogFoodsResponse ) {
+                //console.log(getDogFoodsResponse);
+                $scope.dogFoods = getDogFoodsResponse;
+                console.log(JSON.stringify(getDogFoodsResponse, null, 4));
+                console.log($scope.dogFoods[0].name);
+            });
+
+            // Get the auxthera database document Id from the user credentials and load it
+            var auxthera;
+            if($scope.authentication.user.auxtheraDocId !== undefined) {
+                auxthera = new AuxtheraService({
+                    _id: $scope.authentication.user.auxtheraDocId
+                });
+
+                auxthera.$get(function(auxtheraResponse) {
+
+                    ActiveAuxthera.setActiveAuxthera(auxtheraResponse);
+
+                    $scope.patients = auxtheraResponse.patients;
+                    $scope.auxtheraName = ActiveAuxthera.getActiveAuxthera().name;
+
+                    return;
+                });
+            }
+            // Else should be replaced with redirect to signin for real use
+            else {
+                return;
+            }
+
+               
+        };   
+
+            
 
 
         $scope.signUp = function() {
@@ -235,34 +354,6 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         $scope.remove = function(index) {
             console.log('Remove successfully called');
         };
-
-        $scope.analytics = function(){
-           // console.log('analytics has been called:');
-             $http.get('/api/totalPatients').success(function(response) {
-                           // console.log(response);
-                            $scope.totalPatients = response;
-                        }).error(function(response) {
-                            $scope.error = response.message;
-                        });
-            $http.get('/api/newPatientsThisMonth').success(function(response) {
-                           // console.log(response);
-                            $scope.newPatientsThisMonth = response;
-                        }).error(function(response) {
-                            $scope.error = response.message;
-                        });
-            $http.get('/api/newPracticesThisMonth').success(function(response) {
-                           // console.log(response);
-                            $scope.newPracticesThisMonth = response;
-                        }).error(function(response) {
-                            $scope.error = response.message;
-                        });
-            $http.get('/api/totalPractices').success(function(response) {
-                           // console.log(response);
-                            $scope.totalPractices = response;
-                        }).error(function(response) {
-                            $scope.error = response.message;
-                        });            
-        }
     }
 ]);
 

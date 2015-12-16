@@ -134,4 +134,4 @@ mongoose.model('Auxthera', AuxtheraSchema);
 mongoose.model('AuxAdminTasks', AuxAdminTasksSchema);
 mongoose.model('Feedback', FeedbackSchema);
 mongoose.model('DogBreeds', DogBreedsSchema);
-mongoose.model('DogFood', DogBreedsSchema);
+mongoose.model('DogFood', DogFoodsSchema);

@@ -234,6 +234,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 //console.log(getDogFoodsResponse);
                 $scope.dogFoods = getDogFoodsResponse;
                 for(var i = 0; i < $scope.dogFoods.length; i++) {
+                    $scope.dogFoods[i].index = i;
                     $scope.dogFoodNames[i] = $scope.dogFoods[i].name;
                 }
 

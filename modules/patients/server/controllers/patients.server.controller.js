@@ -161,16 +161,18 @@ exports.patientById = function (req, res, next, id) {
     });
 };
 
+
 // Checks how many new patients have been made this month
 exports.newPatientsThisMonth = function (req, res) {
-    //var patient = new Patient(req.body);
+    
    
-   // get the current date, so we can then derive the current month and year
+   // get the current date
      var currentDate = new Date();
+     // from the currentDate we derive the first date of the month by doing the following:
      var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
     //call to db to count the new patients where the 'dateCreated' field is greater than the 'firstDayOfMonth' field
-    // store count in analytics
+    // return the count from the query
     Patient.count( { dateCreated: { $gt: firstDayOfMonth } },
      function(err, count){
         if(err){
@@ -181,9 +183,4 @@ exports.newPatientsThisMonth = function (req, res) {
             res.json(count);
         }
     });
-    //analytics = analytics.toString();
-    //var analytics = 50;
-    //return the number we got from the DB call, all done
-    
-
 };

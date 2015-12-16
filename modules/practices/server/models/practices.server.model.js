@@ -29,6 +29,11 @@ var PracticeSchema = new Schema({
         trim: true
     },
 
+    phoneNumber: {
+        type: String,
+        trim: true
+    },
+
     patients: [{
         type: Schema.ObjectId,
         ref: 'Patient'

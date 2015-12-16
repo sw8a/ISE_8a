@@ -16,6 +16,7 @@ module.exports = function(app) {
 
     // Feedback routes
     app.route('/api/auxthera/feedback')
+        .get(auxthera.getFeedback)
         .post(auxthera.saveNewFeedback);
 
     app.route('/api/auxthera/feedback/:feedbackId')
@@ -55,7 +56,7 @@ module.exports = function(app) {
 
 
     app.param('auxtheraId', auxthera.auxtheraById);
-    app.param('feedbackId', auxthera.feedbackById);
+    //app.param('feedbackId', auxthera.feedbackById);
     app.param('auxAdminTasksId', auxthera.auxAdminTasksById);
     //app.param('dogBreedsId', auxthera.dogBreedsById);
     app.param('dogFoodId', auxthera.dogFoodById);

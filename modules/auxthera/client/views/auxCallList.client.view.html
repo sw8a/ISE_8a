@@ -7,6 +7,7 @@
     <!-- List of patients to call -->
     <div class="auxthera-body-wrapper">
         <div class="custom-panel">
+
             <!-- Table Heading -->
             <div class="panel-group">
                 <div class="callList-table-heading">
@@ -30,6 +31,7 @@
             <!-- Table Elements -->
             <div class="panel-group">
                 <div class="panel panel-default" ng-repeat="patient in patientCallList">
+
                     <div class="callList-table-row">
                         <div class="panel panel-heading" ng-click="getActiveCall(patient.index)">   
                             <h3 class="panel-title pull-right text-right" ng-click="remove(patient.index)">
@@ -46,6 +48,7 @@
                             </h3>
                         </div>
                     </div>
+
                     <div collapse="!patient.isOpen">
                         <!-- Call Log forms -->
                         <div class="panel-body">
@@ -57,6 +60,7 @@
                                         <input data-ng-model="patient.callDate" type="date" class="form-control" ng-required="patient.isOpen">
                                     </div>
                                 </div>
+
                                 <!-- Call Time -->
                                 <div class="row form-group">
                                     <label class="col-xs-12 control-label">Time</label>
@@ -64,6 +68,7 @@
                                         <input data-ng-model="patient.callTime" id="timeCreated" type="datetime" class="form-control" ng-required="patient.isOpen">
                                     </div>
                                 </div>
+
                                 <!-- Call Message -->
                                 <div class="row form-group">
                                     <label class="col-xs-12 control-label">Message</label>
@@ -74,8 +79,10 @@
                             </form>
                         </div>
                     </div>
+
                 </div>
             </div>
+            
         </div> <!-- custom-panel -->
     </div>
 </div>

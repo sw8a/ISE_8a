@@ -191,22 +191,6 @@ angular.module('practices').controller('practicesController', ['$scope', 'Authen
             return false;
         }
 
-
-        $scope.newFeedback = function() {
-
-            var feedback = new FeedbackService({
-                messages: [{ message: this.message }],
-                patient: ActivePatient.getActivePatient()._id,
-                practice: ActivePatient.getActivePractice()._id,
-                company: '5650077a8038b1a6d2e24bac' // user: Admin
-            });
-
-            feedback.$save(function(feedbackResponse) {
-                
-            });
-        };
-
-
         // Maintian table header size on window resize, binding to window extends outside of this controller
         var window = angular.element($window);
         window.bind('resize', function () {

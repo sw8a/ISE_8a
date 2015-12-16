@@ -18,14 +18,14 @@ Dev Branch:
 MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid starting point for [MongoDB](http://www.mongodb.org/), [Node.js](http://www.nodejs.org/), [Express](http://expressjs.com/), and [AngularJS](http://angularjs.org/) based applications. The idea is to solve the common issues with connecting those frameworks, build a robust framework to support daily development needs, and help developers use better practices while working with popular JavaScript components.
 
 ## Link to the deployed page
-[Trimauxil WebApp deployed through Heroku](https://morning-basin-7650.herokuapp.com)
+[Trimauxil WebApp deployed through Heroku](https://trimauxil.herokuapp.com)
 
 ## List of all project features implemented and associated screenshots
 1. Project Features Implemented
   * User authentication
     * Differing roles for users
-  * Multiple forms serving various purposes (enrollment, progress, exit)
-    * Make use of Bootstrap for a clean layout
+  * Multiple forms serving various purposes (enrollment, progress, exit, contact)
+    * Make use of Bootstrap for a clean layout and user interface
     * Proper validation
     * Connected to the backend to store the form's information
   * Progress tracker page in order to easily visualize the data
@@ -73,17 +73,21 @@ MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid 
 * The server port number can be changed in config/env/default.js.
 
 ## Credits
-* Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
-* The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
-* [Bootstrap](http://getbootstrap.com/)
-* [AngularJS](https://angularjs.org/)
-* [jQuery](https://jquery.com/)
-* [AngularUI](https://angular-ui.github.io/)
-* [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
-* [malihu custom scrollbar plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)
-* [Chart.js](http://www.chartjs.org/)
-* [angular-chart.js](http://jtblin.github.io/angular-chart.js/)
-* [Mongoose](https://github.com/Automattic/mongoose)
+* Libraries/Plugins:
+  * Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
+  * The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
+  * [Bootstrap](http://getbootstrap.com/)
+  * [AngularJS](https://angularjs.org/)
+  * [jQuery](https://jquery.com/)
+  * [AngularUI](https://angular-ui.github.io/)
+  * [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
+  * [malihu custom scrollbar plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)
+  * [Chart.js](http://www.chartjs.org/)
+  * [angular-chart.js](http://jtblin.github.io/angular-chart.js/)
+  * [Mongoose](https://github.com/Automattic/mongoose)
+* Code Snippets Used:
+  * [Bootstrap Sidebar](http://startbootstrap.com/template-overviews/simple-sidebar/)
+  * [Angular Form Validation](http://product.moveline.com/angular-validation-part-1-form-basics.html)
 
 ## License
 (The MIT License)

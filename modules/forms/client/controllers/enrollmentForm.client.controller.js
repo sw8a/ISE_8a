@@ -234,6 +234,9 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             
             breeds.$get(function( getDogBreedsResponse ) {
                 $scope.dogBreeds = getDogBreedsResponse.breeds;
+                for(var i = 0; i < $scope.dogBreeds.length; i++) {
+                    $scope.dogBreeds[i].index = i;
+                }
             });
 
             var foods = DogFoodService.query(function( getDogFoodsResponse ) {
@@ -246,6 +249,45 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
             });
         };
+
+
+        // Purpose:     This function retrieve all the information regarding a particular food
+        //              based on the food name. The retrieved information filled out on the form
+        //              kcal/cup and kcal/kg if applicable
+        // Parameters:  String representation of food name
+        // Return:      kcal/cup
+        $scope.getFoodInfo = function(foodName) {
+            var i = $scope.dogFoodNames.indexOf(foodName);
+            // Set scope variable if element is found
+            if(i !== -1) {
+                return $scope.dogFoods[i].kcalPerCup;
+            }
+            return undefined;  // Food is not in database
+        };
+
+        // Purpose:     This function serves as a workaround the issue of bootstrap typeahead
+        //              directive not modeling the bootstrap directive
+        $scope.formatLabel = function(model) {
+            console.log('Format Label, model: ' + model);
+            var ans = '';
+            if(model === '') {
+                ans = '';
+            }
+            // If a number is passed, then user select a previously defined function
+            else if(!isNaN(model)) {
+                        ans = $scope.dogFoods[model].name;
+            }
+            else {
+                ans = model;
+            }
+
+            // For call from past edited form and new form
+            console.log('ans: ' + ans);
+            $scope.foodBrand = ans;
+            $scope.foodkCal = $scope.getFoodInfo(ans);
+            return ans;
+        };
+
 
         // Create the enrollment form by sending the form values to the database
         $scope.createEnrollmentForm = function() {

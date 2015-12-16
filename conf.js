@@ -8,7 +8,7 @@ exports.config = {
   specs: ['modules/core/tests/client/protractorTest.js'],
   //---- To use default browser, delete from 
   capabilities: {
-    browserName: 'firefox'
+    browserName: 'chrome'
   }
   //---- to here
 }

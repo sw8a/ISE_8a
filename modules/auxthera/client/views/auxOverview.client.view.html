@@ -1,4 +1,6 @@
+
 <div class="auxthera-container" data-ng-controller="auxtheraController" data-ng-init="initAuxthera()">
+
 	<!-- Page Header -->
     <div class="row info">
 	   <h1 class="text-center">Overview</h1>
@@ -8,16 +10,18 @@
     <div class="auxthera-body-wrapper">
     	<div class="row info">
         	<div class="panel panel-primary panel-body">
-        		<h3> Current number of dogs in the program: 1050</h3>
-        		<h3 class="top-buffer">Number of dogs who have completed the program: 320</h3>
-        		<h3 class="top-buffer">Average amount of weight lost in kg: 5.5kg</h3>
+        		<h3> Current number of dogs in the program: {{totalPatients}}</h3>
+        		<!-- <h3 class="top-buffer">Number of dogs who have completed the program: 320</h3> -->
+        		<!-- <h3 class="top-buffer">Average amount of weight lost in kg: 5.5kg</h3> -->
         	</div>
         </div>
         <br/>
         <div class="row info">
         	<div class="panel panel-primary panel-body">
-        		<h3> Number of practices partipating in the program: 200</h3>
-        		<h3 class="top-buffer">Vets in 31/50 states</h3>
+                <h3> Number of new patients this month: {{newPatientsThisMonth}}</h3>
+                <h3> Number of new practices this month: {{newPracticesThisMonth}}</h3>
+        		<h3> Number of practices partipating in the program: {{totalPractices}}</h3>
+        		<!-- <h3 class="top-buffer">Vets in 31/50 states</h3> -->
         	</div>
         </div>
     </div>

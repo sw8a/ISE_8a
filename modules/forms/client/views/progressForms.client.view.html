@@ -292,7 +292,7 @@
                                         <small ng-hide="form.edit" class="pull-right control-label">Food Name</small>
                                     </div>
                                     <div class="col-sm-7 input-group">
-                                        <input data-ng-model="form.foodName" typeahead="food for food in foodNames | filter:$viewValue | limitTo:8" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text">
+                                        <input data-ng-model="form.foodName" typeahead="food.index as food.name for food in dogFoods | filter:$viewValue | limitTo:8" typeahead-input-formatter="formatLabel($model, form.index)" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text">
                                     </div>
                                 </div>
                                 <div class="row form-group form-inline">

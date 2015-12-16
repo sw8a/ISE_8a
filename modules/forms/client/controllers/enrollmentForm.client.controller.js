@@ -292,6 +292,27 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         // Create the enrollment form by sending the form values to the database
         $scope.createEnrollmentForm = function() {
 
+            var dogFoodId;
+
+            for(var i = 0; i < $scope.dogFoods.length; i++) {
+                if($scope.foodBrand === $scope.dogFoods[i].name) {
+                    dogFoodId = $scope.dogFoods[i]._id;
+                    break;
+                }
+            }
+
+            if(dogFoodId === undefined || dogFoodId === null) {
+                var food = new DogFoodService({
+                    name: $scope.foodBrand,
+                    kcalPerCup: $scope.foodkCal,
+                    validated: false
+                });
+
+                food.$save(function(breedSaveResponse) {
+                    dogFoodId = breedSaveResponse;
+                });
+            }
+
             var patient = new PatientsService({
                 firstName: this.firstName,
                 patientId: this.patientId,
@@ -301,6 +322,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 breed: this.breed,
                 startWeight: this.startWeight,
                 bcs: this.bcs,
+                food: dogFoodId,
                 practice: ActivePatient.getActivePractice()._id
             });
 

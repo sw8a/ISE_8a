@@ -36,8 +36,8 @@
                 </div>
                 <div class="col-md-4">
                     <label for="clientTelephone">Telephone</label>
-                    <input data-ng-model="clientTelephone" type="text" ui-mask="{{phoneMask}}" pattern="[0-9]{10}" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" ui-mask-placeholder ui-mask-placeholder-char="_" required>
-                    <span class="alert alert-danger alertMessage" ng-show="myForm.clientTelephone.$error.required && myForm.clientTelephone.$dirty">Tel. is required!</span>
+                    <input data-ng-model="clientTelephone" type="text" ui-mask="999-999-9999" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" ui-mask-placeholder ui-mask-placeholder-char="_" novalidate="novalidate" required>
+                    <span class="alert alert-danger alertMessage" ng-show="myForm.clientTelephone.$error.required && myForm.clientTelephone.$dirty">Phone number is required!</span>
                 </div>
             </div>
 
@@ -52,14 +52,17 @@
                     <input data-ng-model="confirmEmail" type="email" class="form-control" name="confirmEmail" id="confirmEmail" placeholder="Email" ng-disabled="disableInput" ng-change="checkEmail()" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.confirmEmail.$dirty && myForm.confirmEmail.$error.dontMatch">Emails have to match</span>
                 </div>
+            </div>
+                
+            <div class="form-group">
                 <div class="col-md-8">
-                  A “use and compliance” follow up call has been explained to (and agreed by) client:
+                  <label for="contactAuthorized">A “use and compliance” follow up call has been explained to (and agreed by) client:</label>
                 </div>
                 <div class="col-md-2">
-                  <input data-ng-model="followUpCall" type="radio" name="followUpCall" value="true" ng-checked="followUpCall != undefined && followUpCall" ng-disabled="disableInput" required> Yes
+                  <input data-ng-model="contactAuthorized" type="radio" name="contactAuthorized" ng-value="true" ng-disabled="disableInput" required> Yes
                 </div>
                 <div class="col-md-2">
-                  <input data-ng-model="followUpCall" type="radio" name="followUpCall" value="false" ng-checked="followUpCall != undefined && followUpCall" ng-disabled="disableInput" required> No
+                  <input data-ng-model="contactAuthorized" type="radio" name="contactAuthorized" ng-value="false" ng-disabled="disableInput" required> No
                 </div>
             </div>
 
@@ -68,7 +71,7 @@
                     <label for="dob">DOB</label>
                     <input data-ng-model="birthDate" type="date" class="form-control" id="dob" ng-disabled="disableInput" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ageCalculation">
                     <label for="age">Age:</label>
                     <span>{{ patientInfo.age() }}</span>
                 </div>
@@ -92,24 +95,28 @@
                 </div>
             </div>
 
-            <!-- food not linked to anything yet -->
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <label for="brand">Current Diet: Food Brand</label>
-                    <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="patientInfo.foodBrand" ng-disabled="disableInput" typeahead="food for food in dogFoodNames | filter:$viewValue | limitTo:8" required>
+                    <input type="text" class="form-control" name="brand" id="brand" placeholder="Brand" data-ng-model="foodBrand" ng-disabled="disableInput" typeahead="food for food in dogFoodNames | filter:$viewValue | limitTo:8" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.brand.$error.required && myForm.brand.$dirty">Brand is required!</span>
+                </div>
+                <div class="col-md-4">
+                    <label for="brand">kCal Per Cup</label>
+                    <input type="number" class="form-control" name="kcalPerCup" id="kcalPerCup" placeholder="kCal Per Cup" data-ng-model="foodkCal" ng-disabled="disableInput" required>
+                    <span class="alert alert-danger alertMessage" ng-show="myForm.kcalPerCup.$error.required && myForm.kcalPerCup.$dirty">kCal per cup is required!</span>
                 </div>
             </div>
 
             <div class="form-group form-inline">
                 <div class="col-md-5">
                     <label class="pull-left" for="foodAmount">Meals per day: &nbsp</label>
-                    <input class="col-xs-3 input-small" type="number" class="form-control" name="meals" step="1" min="1" max="10" data-ng-model="patientInfo.perDay" ng-disabled="disableInput" required>
+                    <input class="col-xs-3 input-small" type="number" class="form-control" name="meals" step="1" min="1" max="10" data-ng-model="mealsPerDay" ng-disabled="disableInput" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.meals.$error.required && myForm.meals.$dirty">Meals is required!</span>
                 </div>
                 <div class="col-md-5">
                     <label class="pull-left" for="foodAmount">Cups of food per meal: &nbsp</label>
-                    <input class="col-xs-3 input-small" type="number" class="form-control" name="cups" step="any" id="foodAmount" min="1" max="10" data-ng-model="patientInfo.cups" ng-disabled="disableInput" required>
+                    <input class="col-xs-3 input-small" type="number" class="form-control" name="cups" step="any" id="foodAmount" min="1" max="10" data-ng-model="cupsPerMeal" ng-disabled="disableInput" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.cups.$error.required && myForm.cups.$dirty">Cups is required!</span>
                 </div>
             </div>
@@ -127,26 +134,29 @@
                 <div class="col-md-12">
                     <label for="currentMedications">Current Medications/Supplements:</label><br>
                     <div class="col-md-2">
-                        <input type="checkbox" name="currentMedications" value="None" checked> None
+                        <input data-ng-model="currentMedications.none" type="checkbox" name="currentMedications"checked> None
                     </div>
                     <div class="col-md-2">
-                        <input type="checkbox" name="currentMedications" value="antibiotics"> antibiotics
+                        <input data-ng-model="currentMedications.antibiotics" type="checkbox" name="currentMedications"> antibiotics
                     </div>
                     <div class="col-md-2">
-                        <input type="checkbox" name="currentMedications" value="steroids"> steroids
+                        <input data-ng-model="currentMedications.steroids" type="checkbox" name="currentMedications"> steroids
                     </div>
                     <div class="col-md-2">
-                        <input type="checkbox" name="currentMedications" value="NSAIDs"> NSAIDs
+                        <input data-ng-model="currentMedications.NSAIDs" type="checkbox" name="currentMedications"> NSAIDs
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Glucosamine-Chondroitin "> Glucosamine-Chondroitin
+                        <input data-ng-model="currentMedications.glucChon" type="checkbox" name="currentMedications"> Glucosamine-Chondroitin
                     </div>
                     <div class="col-md-11">
-                        <input type="checkbox" class="pull-left" name="currentMedications" value="other"><span class="col-md-2 pull-left">Other</span>
-                        <input type="text" class="col-md-9 pull-left" name="currentMedicationsOther" value="">
+                        <input ng-checked="currentMedications.other != null && currentMedications.other != undefined && currentMedications.other != ''" type="checkbox" class="pull-left" name="currentMedications"><span class="col-md-2 pull-left">Other</span>
+                        <input data-ng-model="currentMedications.other" type="text" class="col-md-9 pull-left" name="currentMedicationsOther" value="">
                     </div>
                 </div>
             </div>
+
+            none: {{currentMedications.none}}
+            antibiotics: {{currentMedications.antibiotics}}
 
             <br>
 
@@ -154,44 +164,44 @@
                 <div class="col-md-12">
                     <label for="significantMedicalHistory">Significant Medical History:</label><br>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Osteoarthritis"> Osteoarthritis
+                        <input data-ng-model="medicalHistory.osteoarthritis" type="checkbox" name="medicalHistory"> Osteoarthritis
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Diabetes mellitus"> Diabetes mellitus
+                        <input data-ng-model="medicalHistory.diabetesMellitus" type="checkbox" name="medicalHistory" value="Diabetes mellitus"> Diabetes mellitus
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Hypertension"> Hypertension
+                        <input data-ng-model="medicalHistory.hypertension" type="checkbox" name="medicalHistory" value="Hypertension"> Hypertension
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Degenerative joint disease"> Degenerative joint disease
+                        <input data-ng-model="medicalHistory.jointDis" type="checkbox" name="medicalHistory" value="Degenerative joint disease"> Degenerative joint disease
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Hypothyroidism"> Hypothyroidism
+                        <input data-ng-model="medicalHistory.hypothyroidism" type="checkbox" name="medicalHistory" value="Hypothyroidism"> Hypothyroidism
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Kidney disease"> Kidney disease
+                        <input data-ng-model="medicalHistory.kidneyDis" type="checkbox" name="medicalHistory" value="Kidney disease"> Kidney disease
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Heart disease"> Heart disease
+                        <input data-ng-model="medicalHistory.heartDis" type="checkbox" name="medicalHistory" value="Heart disease"> Heart disease
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Hyperadrenocorticism"> Hyperadrenocorticism
+                        <input data-ng-model="medicalHistory.hyperadrenocorticism" type="checkbox" name="medicalHistory" value="Hyperadrenocorticism"> Hyperadrenocorticism
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="GI disorder"> GI disorder
+                        <input data-ng-model="medicalHistory.GIDis" type="checkbox" name="medicalHistory" value="GI disorder"> GI disorder
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Insulinoma"> Insulinoma
+                        <input data-ng-model="medicalHistory.insulinoma" type="checkbox" name="medicalHistory" value="Insulinoma"> Insulinoma
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Other cancer"> Other cancer
+                        <input data-ng-model="medicalHistory.otherCancer" type="checkbox" name="medicalHistory" value="Other cancer"> Other cancer
                     </div>
                     <div class="col-md-4">
-                        <input type="checkbox" name="currentMedications" value="Other endocrine disorder"> Other endocrine disorder
+                        <input data-ng-model="medicalHistory.otherEndocrineDis" type="checkbox" name="medicalHistory" value="Other endocrine disorder"> Other endocrine disorder
                     </div>
                     <div class="col-md-11">
-                        <input type="checkbox" class="pull-left" name="currentMedications" value="other"> <span class="col-md-2 pull-left">Other</span>
-                        <input type="text" class="col-md-9 pull-left" name="currentMedicationsOther" value="">
+                        <input ng-checked="medicalHistory.other != null && medicalHistory.other != undefined && medicalHistory.other != ''" type="checkbox" class="pull-left" name="medicalHistory" value="other"> <span class="col-md-2 pull-left">Other</span>
+                        <input data-ng-model="medicalHistory.other" type="text" class="col-md-9 pull-left" name="medicalHistoryOther" value="">
                     </div>
                 </div>
             </div>
@@ -202,11 +212,11 @@
                 <div class="col-md-12">
                     <label for="peFindings">Today's Significant PE Findings:</label><br>
                     <div class="col-md-4">
-                        <input type="checkbox" name="peFindings" value="None" checked> None
+                        <input ng-checked="peFindings == null || peFindings == undefined || peFindings == ''" type="checkbox" name="peFindings" value="None" checked> None
                     </div>
                     <div class="col-md-11">
-                        <input type="checkbox" class="pull-left" name="significantPEFindings" value="other"> <span class="col-md-2 pull-left">Other</span>
-                        <input type="text" class="col-md-9 pull-left" name="significantPEFindingsOther" value="">
+                        <input ng-checked="peFindings != null && peFindings != undefined && peFindings != ''" type="checkbox" class="pull-left" name="significantPEFindings" value="other"> <span class="col-md-2 pull-left">Other</span>
+                        <input data-ng-model="peFindings" type="text" class="col-md-9 pull-left" name="significantPEFindingsOther" value="">
                     </div>
                 </div>
             </div>
@@ -277,15 +287,14 @@
             <div class="form-group">
                 <div class="col-md-12">
                     <label for="eligibleDog">Veterinarian, please review any potential exclusion criteria. Is this dog eligible to proceed with Trimauxil treatment?</label>
-                    <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval" ng-checked="vetApproval" value="true" ng-disabled="disableInput">Yes</label>
-                    <label class="radio-inline"><input type="radio" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval" ng-checked="!vetApproval" value="false" ng-disabled="disableInput">No</label>
+                    <label class="radio-inline"><input type="checkbox" id="eligibleDog" name="patientProceed" data-ng-model="vetApproval" ng-checked="vetApproval" value="true" ng-disabled="disableInput" required>Yes</label>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-12">
                     <label for="vetSig">Veterinarian Signature</label>
-                    <input type="text" class="form-control" id="vetSig" placeholder="Signature" data-ng-model="vetSig" ng-disabled="disableInput" required>
+                    <input data-ng-model="vetSig" type="text" class="form-control" id="vetSig" placeholder="Signature" ng-disabled="disableInput" required>
                 </div>
             </div>
 

@@ -1,12 +1,61 @@
-.heading{
+.heading {
 
-	text-align: center;
-	font-family: "Trajan Pro";
-	color: #1E5687;
+    text-align: center;
+    font-family: "Trajan Pro";
+    color: #1E5687;
 
 }
 
-.feedbackWrapper{
-		
-	margin-left: 300px;
+.feedbackWrapper {
+        
+    margin-left: 300px;
+}
+
+.tableTitle {
+
+    font-size: 30px;
+    color: #1E5687;
+}
+
+.tHeading {
+
+    font-size:26px;
+}
+
+.feedbackRow { 
+   font-size: 24px;
+}
+
+.feedbackRow:hover { 
+   cursor: pointer;
+   background-color:#F4F4F4
+}
+
+.returnToList {
+
+    padding-top: 60px;
+    text-align: center
+}
+
+.messageText {
+
+    font-size: 36px;
+}
+
+.threadView {
+
+    text-align: center;
+}
+
+.showMoreButton {
+
+    padding-top: 20px;
+    text-align:center;
+}
+
+.TableSection {
+
+    padding-top:30px;
+    padding:15px;
+    font-size: 24px;
 }

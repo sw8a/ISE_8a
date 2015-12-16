@@ -371,8 +371,8 @@ exports.getDogFood = function (req, res) {
 };
 
 exports.getAllDogFoods = function (req, res) {
-    console.log('in getAllDogFoods');
-    DogFood.find().sort('name').exec(function (err, foods) {
+    // Returns the list of all validated dog foods
+    DogFood.find({validated: true}).sort('name').exec(function (err, foods) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)

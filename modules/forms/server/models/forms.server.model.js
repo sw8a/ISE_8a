@@ -27,9 +27,9 @@ var ProgressFormSchema = new Schema({
 		enum: ['Overuse', 'Just Right', 'Underuse']
 	},
 	
-	weightLossAppropriate: Boolean,
-	
 	foodChanged: Boolean,
+
+    feedingAdjustment: Boolean,
 
     overrideCupsPerFeeding: Number,
 
@@ -100,6 +100,10 @@ var EnrollmentFormSchema = new Schema({
         default: Date.now
     },
 
+    mealsPerDay: Number,
+
+    cupsPerMeal: Number,
+
 	treats: {
         type: String, 
         default: '',
@@ -107,15 +111,55 @@ var EnrollmentFormSchema = new Schema({
     },
 
 	currentMedications: {
-        type: String, 
-        default: '',
-        trim: true
+
+        none: Boolean,
+
+        antibiotics: Boolean,
+
+        steroids: Boolean,
+
+        NSAIDs: Boolean,
+
+        glucChon: Boolean,
+
+        other: {
+            type: String, 
+            default: '',
+            trim: true
+        }
     },
 
     medicalHistory: {
-        type: String, 
-        default: '',
-        trim: true
+
+        osteoarthritis: Boolean,
+
+        diabetesMellitus: Boolean,
+
+        hypertension: Boolean,
+
+        jointDis: Boolean,
+
+        hypothyroidism: Boolean,
+
+        kidneyDis: Boolean,
+
+        heartDis: Boolean,
+
+        hyperadrenocorticism: Boolean,
+
+        GIDis: Boolean,
+
+        insulinoma: Boolean,
+
+        otherCancer: Boolean,
+
+        otherEndocrineDis: Boolean,
+
+        other: {
+            type: String, 
+            default: '',
+            trim: true
+        }
     },
 
     peFindings: {
@@ -147,11 +191,57 @@ var EnrollmentFormSchema = new Schema({
 
         dateCreated: Date,
 
+        mealsPerDay: Number,
+
+        cupsPerMeal: Number,
+
         treats: String,
 
-        currentMedications: String,
+        currentMedications: {
 
-        medicalHistory: String,
+            none: Boolean,
+
+            antibiotics: Boolean,
+
+            steroids: Boolean,
+
+            NSAIDs: Boolean,
+
+            glucChon: Boolean,
+
+            other: String 
+
+        },
+
+        medicalHistory: {
+
+            osteoarthritis: Boolean,
+
+            diabetesMellitus: Boolean,
+
+            hypertension: Boolean,
+
+            jointDis: Boolean,
+
+            hypothyroidism: Boolean,
+
+            kidneyDis: Boolean,
+
+            heartDis: Boolean,
+
+            hyperadrenocorticism: Boolean,
+
+            GIDis: Boolean,
+
+            insulinoma: Boolean,
+
+            otherCancer: Boolean,
+
+            otherEndocrineDis: Boolean,
+
+            other: String,
+
+        },
 
         peFindings: String,
 

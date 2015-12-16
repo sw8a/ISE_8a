@@ -50,31 +50,30 @@ var FeedbackSchema = new Schema({
         default: Date.now
     },
     
-    important: {
+    name: {
+        type: String,
+        trim: true
+    },
+
+    email: {
+        type: String,
+        trim: true
+    },
+
+    phone: {
+        type: String,
+        trim: true
+    },
+
+    message: {
+        type: String,
+        trim: true
+    },
+
+    read: {
         type: Boolean,
         default: false
     },
-
-    //dateViewed: Date,
-
-    messages: [{
-        message: {
-            type: String,
-            trim: true
-        },
-        dateCreated: {
-            type: Date,
-            default: Date.now
-        },
-        read: {
-            type: Boolean,
-            default: false
-        },
-        sentBy: {
-            type: String,
-            enum: ['Auxthera', 'Practice']
-        }
-    }],
 
     patientId: {
         type: Schema.ObjectId,
@@ -124,7 +123,9 @@ var DogFoodsSchema = new Schema({
     kcalPerCup: {
         type: Number,
         min: 0
-    }
+    },
+
+    validated: Boolean
 },
 { collection: 'dog_foods' });
 

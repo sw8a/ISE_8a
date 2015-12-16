@@ -41,7 +41,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // var food = new DogFoodService({
             //     name: 'Diamond Puppy',
-            //     kcalPerCup: 438
+            //     kcalPerCup: 438,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -50,7 +51,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Diamond Original',
-            //     kcalPerCup: 317
+            //     kcalPerCup: 317,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -59,7 +61,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Diamond Naturals Chicken and Rice',
-            //     kcalPerCup: 368
+            //     kcalPerCup: 368,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -68,7 +71,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Purina Dog Chow Complete Nutrition',
-            //     kcalPerCup: 430
+            //     kcalPerCup: 430,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -77,7 +81,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Purina Brand Mainstay',
-            //     kcalPerCup: 350
+            //     kcalPerCup: 350,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -86,7 +91,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Wysong Vegan',
-            //     kcalPerCup: 375
+            //     kcalPerCup: 375,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -95,39 +101,42 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             //var foods = new DogFoodService();
             
-     //these next few lines implement the analytics
-                 $http.get('/api/totalPatients').success(function(response) {
-                               // console.log(response);
-                                $scope.totalPatients = response;
-                            }).error(function(response) {
-                                $scope.error = response.message;
-                            });
-                $http.get('/api/newPatientsThisMonth').success(function(response) {
-                               // console.log(response);
-                                $scope.newPatientsThisMonth = response;
-                            }).error(function(response) {
-                                $scope.error = response.message;
-                            });
-                $http.get('/api/newPracticesThisMonth').success(function(response) {
-                               // console.log(response);
-                                $scope.newPracticesThisMonth = response;
-                            }).error(function(response) {
-                                $scope.error = response.message;
-                            });
-                $http.get('/api/totalPractices').success(function(response) {
-                               // console.log(response);
-                                $scope.totalPractices = response;
-                            }).error(function(response) {
-                                $scope.error = response.message;
-                            });  
+            //these next few lines implement the analytics
+            $http.get('/api/totalPatients').success(function(response) {
+                // console.log(response);
+                $scope.totalPatients = response;
+            }).error(function(response) {
+                $scope.error = response.message;
+            });
+
+            $http.get('/api/newPatientsThisMonth').success(function(response) {
+                // console.log(response);
+                $scope.newPatientsThisMonth = response;
+            }).error(function(response) {
+                $scope.error = response.message;
+            });
+
+            $http.get('/api/newPracticesThisMonth').success(function(response) {
+                // console.log(response);
+                $scope.newPracticesThisMonth = response;
+            }).error(function(response) {
+                $scope.error = response.message;
+            });
+
+            $http.get('/api/totalPractices').success(function(response) {
+                // console.log(response);
+                $scope.totalPractices = response;
+            }).error(function(response) {
+                $scope.error = response.message;
+            });  
 
             //console.log(JSON.stringify(DogFoodService.query(), null, 4));
-            var foods = DogFoodService.query(function( getDogFoodsResponse ) {
-                //console.log(getDogFoodsResponse);
-                $scope.dogFoods = getDogFoodsResponse;
-                console.log(JSON.stringify(getDogFoodsResponse, null, 4));
-                console.log($scope.dogFoods[0].name);
-            });
+            // var foods = DogFoodService.query(function( getDogFoodsResponse ) {
+            //     //console.log(getDogFoodsResponse);
+            //     $scope.dogFoods = getDogFoodsResponse;
+            //     console.log(JSON.stringify(getDogFoodsResponse, null, 4));
+            //     console.log($scope.dogFoods[0].name);
+            // });
 
             // Get the auxthera database document Id from the user credentials and load it
             var auxthera;
@@ -221,7 +230,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                         name: $scope.practiceSignup.name,
                         address: $scope.practiceSignup.address,
                         practiceId: $scope.practiceSignup.practiceId,
-                        email: $scope.practiceSignup.email
+                        email: $scope.practiceSignup.email,
+                        auxthera: ActiveAuxthera.getActiveAuxthera()._id
                     });
 
                     practice.$save(function (practiceResponse) {
@@ -313,14 +323,30 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
 
 
-        $scope.sendMessage = function(){
+        // Initialize list of feedback threads.
+        $scope.initFeedback = function() {
 
-            var message = $scope.messages.message;
-            var sentBy = 'auxthera';
-            var read = false;
-            var important = false;
+            //Sample JSON 
+            $scope.feedback = [
+                {index:0,
+                practice: 'Vet 001',
+                messages: {message:'In an effort to protect and determine patient identification, a photo ID will be requested for every encounter of care and prescription unless the person is well-known to the organization. In acute situations in which no photo ID is with the patient at the time of treatment, patients may provide UFID number, date of birth and/or address.'}
+                },
+                {index:1,
+                practice: 'Vet 002',
+                messages: {message:'test'}
+                }
+            ];
         };
 
+        //methods changing variables in the feedback page
+        $scope.isActive = function(){
+            $scope.threadActive = !$scope.threadActive;
+        };
+
+        $scope.setCurrent= function(item){
+            $scope.currThread = item;
+        };
 
         // Initialize the list of patients to call
         $scope.initCallList = function() {

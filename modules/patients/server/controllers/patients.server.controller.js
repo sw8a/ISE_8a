@@ -184,3 +184,18 @@ exports.newPatientsThisMonth = function (req, res) {
         }
     });
 };
+
+// returns how many patients in total
+exports.totalPatients = function (req, res) {
+    Patient.count(
+     function(err, count){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            res.json(count);
+        }
+    });
+};
+

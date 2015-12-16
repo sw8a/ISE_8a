@@ -117,3 +117,41 @@ exports.practiceById = function (req, res, next, id) {
         });
     });
 };
+
+// Checks how many new practices have been made this month
+exports.newPracticesThisMonth = function (req, res) {
+    
+   
+   // get the current date
+     var currentDate = new Date();
+     // from the currentDate we derive the first date of the month by doing the following:
+     var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+    //call to db to count the new practices where the 'dateCreated' field is greater than the 'firstDayOfMonth' field
+    // return the count from the query
+    Practice.count( { dateCreated: { $gt: firstDayOfMonth } },
+     function(err, count){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            res.json(count);
+        }
+    });
+};
+
+// returns how many practices are registered in total
+exports.totalPractices = function (req, res) {
+
+    Practice.count(
+     function(err, count){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            res.json(count);
+        }
+    });
+};

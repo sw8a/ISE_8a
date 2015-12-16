@@ -237,13 +237,31 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         };
 
         $scope.analytics = function(){
-            console.log('analytics has been called:');
-            $http.get('/api/newPatientsThisMonth').success(function(response) {
-                            console.log(response);
+           // console.log('analytics has been called:');
+             $http.get('/api/totalPatients').success(function(response) {
+                           // console.log(response);
+                            $scope.totalPatients = response;
                         }).error(function(response) {
                             $scope.error = response.message;
                         });
-
+            $http.get('/api/newPatientsThisMonth').success(function(response) {
+                           // console.log(response);
+                            $scope.newPatientsThisMonth = response;
+                        }).error(function(response) {
+                            $scope.error = response.message;
+                        });
+            $http.get('/api/newPracticesThisMonth').success(function(response) {
+                           // console.log(response);
+                            $scope.newPracticesThisMonth = response;
+                        }).error(function(response) {
+                            $scope.error = response.message;
+                        });
+            $http.get('/api/totalPractices').success(function(response) {
+                           // console.log(response);
+                            $scope.totalPractices = response;
+                        }).error(function(response) {
+                            $scope.error = response.message;
+                        });            
         }
     }
 ]);

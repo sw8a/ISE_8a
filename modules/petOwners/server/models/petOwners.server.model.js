@@ -39,6 +39,8 @@ var PetOwnerSchema = new Schema({
         trim: true
     },
 
+    contactAuthorized: Boolean,
+
     pet: {
         type: Schema.ObjectId,
         ref: 'Patient'

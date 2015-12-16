@@ -11,6 +11,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.activePatient = ActivePatient.getActivePatient();
         //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
+        console.log('APt: ' + JSON.stringify($scope.activePatient, null, 4));
         
         // List of dog breeds already in database
         $scope.dogBreeds = [];
@@ -30,6 +31,11 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             $scope.clientFirstName = $scope.activePatient.petOwner.firstName;
             $scope.clientTelephone = $scope.activePatient.petOwner.phoneNumber;
             $scope.clientEmail = $scope.activePatient.petOwner.email;
+            $scope.confirmEmail = $scope.activePatient.petOwner.email;
+            $scope.contactAuthorized = $scope.activePatient.petOwner.contactAuthorized;
+
+            $scope.mealsPerDay = $scope.activePatient.enrollmentForm.mealsPerDay;
+            $scope.cupsPerMeal = $scope.activePatient.enrollmentForm.cupsPerMeal;
 
             $scope.birthDate = new Date($scope.activePatient.birthDate);
             $scope.startWeight = $scope.activePatient.startWeight;
@@ -226,7 +232,6 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
             var breeds = new DogBreedsService();
             
             breeds.$get(function( getDogBreedsResponse ) {
-                console.log(getDogBreedsResponse);
                 $scope.dogBreeds = getDogBreedsResponse.breeds;
             });
 
@@ -260,11 +265,14 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 lastName: $scope.clientLastName,
                 phoneNumber: $scope.clientTelephone,
                 email: $scope.clientEmail,
+                contactAuthorized: $scope.contactAuthorized,
                 practice: ActivePatient.getActivePractice()._id
             });
 
             var enrollmentForm = new EnrollmentFormsService({
                 dateCreated: $scope.dateCreated,
+                mealsPerDay: $scope.mealsPerDay,
+                cupsPerMeal: $scope.cupsPerMeal,
                 treats: this.treats,
                 currentMedications: this.currentMedications,
                 medicalHistory: this.medicalHistory,

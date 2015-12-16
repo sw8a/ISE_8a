@@ -41,7 +41,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // var food = new DogFoodService({
             //     name: 'Diamond Puppy',
-            //     kcalPerCup: 438
+            //     kcalPerCup: 438,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -50,7 +51,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Diamond Original',
-            //     kcalPerCup: 317
+            //     kcalPerCup: 317,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -59,7 +61,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Diamond Naturals Chicken and Rice',
-            //     kcalPerCup: 368
+            //     kcalPerCup: 368,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -68,7 +71,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Purina Dog Chow Complete Nutrition',
-            //     kcalPerCup: 430
+            //     kcalPerCup: 430,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -77,7 +81,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Purina Brand Mainstay',
-            //     kcalPerCup: 350
+            //     kcalPerCup: 350,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {
@@ -86,7 +91,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
             // food = new DogFoodService({
             //     name: 'Wysong Vegan',
-            //     kcalPerCup: 375
+            //     kcalPerCup: 375,
+            //     validated: true
             // });
 
             // food.$save(function(breedSaveResponse) {

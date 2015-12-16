@@ -44,6 +44,11 @@ var PracticeSchema = new Schema({
         ref: 'Feedback'
     }],
 
+    auxthera: {
+        type: Schema.ObjectId,
+        ref: 'Auxthera'
+    },
+
     changedData: [{
         dateChanged: {
             type: Date,

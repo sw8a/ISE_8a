@@ -11,7 +11,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
 
         $scope.activePatient = ActivePatient.getActivePatient();
         //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-        $scope.phoneMask = '999-999-9999';
+        
         // List of dog breeds already in database
         $scope.dogBreeds = [];
         $scope.dogFoods = [];

@@ -36,8 +36,8 @@
                 </div>
                 <div class="col-md-4">
                     <label for="clientTelephone">Telephone</label>
-                    <input data-ng-model="clientTelephone" type="text" ui-mask="{{phoneMask}}" pattern="[0-9]{10}" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" ui-mask-placeholder ui-mask-placeholder-char="_" required>
-                    <span class="alert alert-danger alertMessage" ng-show="myForm.clientTelephone.$error.required && myForm.clientTelephone.$dirty">Tel. is required!</span>
+                    <input data-ng-model="clientTelephone" type="text" ui-mask="999-999-9999" class="form-control" name="clientTelephone" id="clientTelephone" placeholder="Telephone" ng-disabled="disableInput" ui-mask-placeholder ui-mask-placeholder-char="_" novalidate="novalidate" required>
+                    <span class="alert alert-danger alertMessage" ng-show="myForm.clientTelephone.$error.required && myForm.clientTelephone.$dirty">Phone number is required!</span>
                 </div>
             </div>
 
@@ -52,8 +52,11 @@
                     <input data-ng-model="confirmEmail" type="email" class="form-control" name="confirmEmail" id="confirmEmail" placeholder="Email" ng-disabled="disableInput" ng-change="checkEmail()" required>
                     <span class="alert alert-danger alertMessage" ng-show="myForm.confirmEmail.$dirty && myForm.confirmEmail.$error.dontMatch">Emails have to match</span>
                 </div>
+            </div>
+                
+            <div class="form-group">
                 <div class="col-md-8">
-                  A “use and compliance” follow up call has been explained to (and agreed by) client:
+                  <label for="followUpCall">A “use and compliance” follow up call has been explained to (and agreed by) client:</label>
                 </div>
                 <div class="col-md-2">
                   <input data-ng-model="followUpCall" type="radio" name="followUpCall" value="true" ng-checked="followUpCall != undefined && followUpCall" ng-disabled="disableInput" required> Yes
@@ -68,7 +71,7 @@
                     <label for="dob">DOB</label>
                     <input data-ng-model="birthDate" type="date" class="form-control" id="dob" ng-disabled="disableInput" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ageCalculation">
                     <label for="age">Age:</label>
                     <span>{{ patientInfo.age() }}</span>
                 </div>

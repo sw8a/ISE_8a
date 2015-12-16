@@ -96,12 +96,12 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
             //var foods = new DogFoodService();
             
             //console.log(JSON.stringify(DogFoodService.query(), null, 4));
-            var foods = DogFoodService.query(function( getDogFoodsResponse ) {
-                //console.log(getDogFoodsResponse);
-                $scope.dogFoods = getDogFoodsResponse;
-                console.log(JSON.stringify(getDogFoodsResponse, null, 4));
-                console.log($scope.dogFoods[0].name);
-            });
+            // var foods = DogFoodService.query(function( getDogFoodsResponse ) {
+            //     //console.log(getDogFoodsResponse);
+            //     $scope.dogFoods = getDogFoodsResponse;
+            //     console.log(JSON.stringify(getDogFoodsResponse, null, 4));
+            //     console.log($scope.dogFoods[0].name);
+            // });
 
             // Get the auxthera database document Id from the user credentials and load it
             var auxthera;
@@ -193,7 +193,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                         name: $scope.practiceSignup.name,
                         address: $scope.practiceSignup.address,
                         practiceId: $scope.practiceSignup.practiceId,
-                        email: $scope.practiceSignup.email
+                        email: $scope.practiceSignup.email,
+                        auxthera: ActiveAuxthera.getActiveAuxthera()._id
                     });
 
                     practice.$save(function (practiceResponse) {

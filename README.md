@@ -18,7 +18,7 @@ Dev Branch:
 MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid starting point for [MongoDB](http://www.mongodb.org/), [Node.js](http://www.nodejs.org/), [Express](http://expressjs.com/), and [AngularJS](http://angularjs.org/) based applications. The idea is to solve the common issues with connecting those frameworks, build a robust framework to support daily development needs, and help developers use better practices while working with popular JavaScript components.
 
 ## Link to the deployed page
-[Trimauxil WebApp deployed through Heroku](https://morning-basin-7650.herokuapp.com)
+[Trimauxil WebApp deployed through Heroku](https://trimauxil.herokuapp.com)
 
 ## List of all project features implemented and associated screenshots
 1. Project Features Implemented

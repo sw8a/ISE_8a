@@ -2,9 +2,10 @@
 
 angular.module('patients', ['chart.js']).controller('patientsController', ['$scope', 'Authentication', '$location', '$stateParams', 'PatientsService', 'ActivePatient', /*'$localStorage',*/
     function($scope, Authentication, $location, $stateParams, PatientsService, ActivePatient) {
-
+        // This provides Authentication context.
         $scope.authentication = Authentication;
 
+        // If the user is not logged in, redirect
         if (!$scope.authentication.user) {
             $location.path('/');
         }

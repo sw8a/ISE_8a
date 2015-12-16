@@ -5,14 +5,15 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
+        // If the user is not logged in, redirect
         if (!$scope.authentication.user) {
             $location.path('/');
         }
 
         $scope.activePatient = ActivePatient.getActivePatient();
         //console.log('APt: ' + JSON.stringify(ActivePatient.getActivePatient(), null, 4));
-        console.log('APt: ' + JSON.stringify($scope.activePatient, null, 4));
-        
+        //console.log('APt: ' + JSON.stringify($scope.activePatient, null, 4));
+
         // List of dog breeds already in database
         $scope.dogBreeds = [];
         $scope.dogFoods = [];
@@ -239,6 +240,7 @@ angular.module('forms').controller('enrollmentFormController', ['$scope', 'Authe
                 //console.log(getDogFoodsResponse);
                 $scope.dogFoods = getDogFoodsResponse;
                 for(var i = 0; i < $scope.dogFoods.length; i++) {
+                    $scope.dogFoods[i].index = i;
                     $scope.dogFoodNames[i] = $scope.dogFoods[i].name;
                 }
 

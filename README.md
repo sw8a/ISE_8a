@@ -1,39 +1,13 @@
-CEN 3031 Group 8a
+# CEN 3031 Group 8a
 
-Demo Images:
-
-Vet Homepage:
-![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Patient%20List.png)
-
-Overview:
-![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Overview%20Page.png)
-
-Enrollment Form:
-![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Initial%20Health%20Assessment.png)
-
-Progress Form:
-![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Progress%20Form.png)
-
-Exit Form:
-![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Exit%20Health%20Assessment.png)
-
-Feedback Form:
-![](https://github.com/sw8a/ISE_8a/blob/master/modules/core/client/img/demo-images/Feedback.png)
-
-
-
-
-
-
-
-We are utilizing MEAN.JS:
+## We are utilizing MEAN.JS:
 -------------------------
 
 [![MEAN.JS Logo](http://meanjs.org/img/logo-small.png)](http://meanjs.org/)
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/meanjs/mean?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Master Branch: 
+Master Branch:
 [![Build Status](https://travis-ci.org/meanjs/mean.svg?branch=master)](https://travis-ci.org/meanjs/mean)
 [![Dependencies Status](https://david-dm.org/meanjs/mean.svg)](https://david-dm.org/meanjs/mean)
 
@@ -43,10 +17,77 @@ Dev Branch:
 
 MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid starting point for [MongoDB](http://www.mongodb.org/), [Node.js](http://www.nodejs.org/), [Express](http://expressjs.com/), and [AngularJS](http://angularjs.org/) based applications. The idea is to solve the common issues with connecting those frameworks, build a robust framework to support daily development needs, and help developers use better practices while working with popular JavaScript components.
 
+## Link to the deployed page
+[Trimauxil WebApp deployed through Heroku](https://trimauxil.herokuapp.com)
+
+## List of all project features implemented and associated screenshots
+1. Project Features Implemented
+  * User authentication
+    * Differing roles for users
+  * Multiple forms serving various purposes (enrollment, progress, exit, contact)
+    * Make use of Bootstrap for a clean layout and user interface
+    * Proper validation
+    * Connected to the backend to store the form's information
+  * Progress tracker page in order to easily visualize the data
+    * Makes use of Chart.js and angular-chart.js to display beautiful graphs
+    * Information is clearly displayed
+    * Graphs use live data (pull latest data from backend)
+  * MongoDB for the backend
+    * Information is stored efficiently
+    * Saves new changes to forms, while keeping old information for record-keeping
+
+2. Project Screenshots
+  * Login Page:
+  ![](modules/core/client/img/demo-images/Login.png)
+
+  * Vet Homepage (Active Patient List - Landing page):
+  ![](modules/core/client/img/demo-images/Patient%20List.png)
+
+  * Progress Tracker:
+  ![](modules/core/client/img/demo-images/Progress%20Tracker%201.png)
+  ![](modules/core/client/img/demo-images/Progress%20Tracker%202.png)
+
+  * Enrollment Form:
+  ![](modules/core/client/img/demo-images/Enrollment%20Form.png)
+
+  * Progress Form:
+  ![](modules/core/client/img/demo-images/Progress%20Form.png)
+
+  * Exit Form:
+  ![](modules/core/client/img/demo-images/Exit%20Form.png)
+
+  * Contact Us Form:
+  ![](modules/core/client/img/demo-images/Contact%20Us.png)
+
+## Instructions for how to run the project locally
+1. Install the [MEAN stack](https://github.com/meanjs/mean)
+2. Clone our [repo](https://github.com/sw8a/ISE_8a)
+3. Navigate to where you cloned the repo and run:
+  * npm install
+  * bower install
+4. Run grunt
+5. The project should now be displayed if you go to localhost:3000
+
+## How to update database and server connections
+* To change the database connection, edit the uri in either the config/env/development.js or config/env/production.js
+* The server port number can be changed in config/env/default.js.
 
 ## Credits
-Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
-The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
+* Libraries/Plugins:
+  * Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
+  * The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
+  * [Bootstrap](http://getbootstrap.com/)
+  * [AngularJS](https://angularjs.org/)
+  * [jQuery](https://jquery.com/)
+  * [AngularUI](https://angular-ui.github.io/)
+  * [Font Awesome](https://fortawesome.github.io/Font-Awesome/)
+  * [malihu custom scrollbar plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)
+  * [Chart.js](http://www.chartjs.org/)
+  * [angular-chart.js](http://jtblin.github.io/angular-chart.js/)
+  * [Mongoose](https://github.com/Automattic/mongoose)
+* Code Snippets Used:
+  * [Bootstrap Sidebar](http://startbootstrap.com/template-overviews/simple-sidebar/)
+  * [Angular Form Validation](http://product.moveline.com/angular-validation-part-1-form-basics.html)
 
 ## License
 (The MIT License)

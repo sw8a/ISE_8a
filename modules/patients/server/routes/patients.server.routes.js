@@ -12,6 +12,12 @@ module.exports = function(app) {
         .post(patients.saveNewPatient)
         .put(patients.updatePatient);
 
+    app.route('/api/newPatientsThisMonth')
+        .get(patients.newPatientsThisMonth);
+
+    app.route('/api/totalPatients')
+        .get(patients.totalPatients);
+
     // If a patientId parameter is included, this is called first to get the patient and add it to the req
     app.param('patientId', patients.patientById);   
 

@@ -12,6 +12,13 @@ module.exports = function(app) {
         .post(practices.saveNewPractice)
         .put(practices.updatePractice);
 
+    app.route('/api/newPracticesThisMonth')
+        .get(practices.newPracticesThisMonth);
+
+    app.route('/api/totalPractices')
+        .get(practices.totalPractices);
+
+
     app.param('practiceId', practices.practiceById);   
 
 };

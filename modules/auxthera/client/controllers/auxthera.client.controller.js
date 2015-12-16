@@ -292,14 +292,30 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
 
 
 
-        $scope.sendMessage = function(){
+        // Initialize list of feedback threads.
+        $scope.initFeedback = function() {
 
-            var message = $scope.messages.message;
-            var sentBy = 'auxthera';
-            var read = false;
-            var important = false;
+            //Sample JSON 
+            $scope.feedback = [
+                {index:0,
+                practice: 'Vet 001',
+                messages: {message:'In an effort to protect and determine patient identification, a photo ID will be requested for every encounter of care and prescription unless the person is well-known to the organization. In acute situations in which no photo ID is with the patient at the time of treatment, patients may provide UFID number, date of birth and/or address.'}
+                },
+                {index:1,
+                practice: 'Vet 002',
+                messages: {message:'test'}
+                }
+            ];
         };
 
+        //methods changing variables in the feedback page
+        $scope.isActive = function(){
+            $scope.threadActive = !$scope.threadActive;
+        };
+
+        $scope.setCurrent= function(item){
+            $scope.currThread = item;
+        };
 
         // Initialize the list of patients to call
         $scope.initCallList = function() {

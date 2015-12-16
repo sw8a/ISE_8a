@@ -23,7 +23,7 @@ exports.saveNewAuxthera = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(Auxthera);
+            res.json(auxthera);
         }
     });
 };
@@ -35,31 +35,58 @@ exports.getAuxthera = function (req, res) {
 exports.updateAuxthera = function (req, res) {
     var auxthera = req.body;
 
-    var changedData = auxthera.changedData;
-    var auxtheraId = auxthera._id;
-    delete auxthera.changedData;
-    delete auxthera._id;
-
-    Auxthera.findByIdAndUpdate(
-        auxtheraId,
-        {
-            $push: { 'changedData': changedData },
-            $set: auxthera
-        },
-        {
-            safe: true,
-            new: true
-        },
-        function(err) {
-            if (err) {
-                return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            } else {
-                res.json(auxthera);
+    if(auxthera.addAdminTasks) {
+        Auxthera.findByIdAndUpdate(
+            auxthera._id,
+            {
+                $set: { 
+                    adminTasks: auxthera.adminTasks
+                } 
+            },
+            {
+                safe: true,
+                new: true
+            },
+            function(err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(auxthera);
+                }
             }
-        }
-    );
+
+        );
+    }
+    else {
+
+        var changedData = auxthera.changedData;
+        var auxtheraId = auxthera._id;
+        delete auxthera.changedData;
+        delete auxthera._id;
+
+        Auxthera.findByIdAndUpdate(
+            auxtheraId,
+            {
+                $push: { 'changedData': changedData },
+                $set: auxthera
+            },
+            {
+                safe: true,
+                new: true
+            },
+            function(err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(auxthera);
+                }
+            }
+        );
+    }
 };
 
 
@@ -124,7 +151,7 @@ exports.saveNewAuxAdminTasks = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(AuxAdminTasks);
+            res.json(auxAdminTasks);
         }
     });
 };
@@ -204,7 +231,18 @@ exports.saveNewFeedback = function (req, res) {
 };
 
 exports.getFeedback = function (req, res) {
-    res.json(req.feedback);
+    console.log(req.body);
+    Feedback.find({ read: false }).sort('dateCreated').populate('practiceId').exec(function (err, feedbacks) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } 
+        else {
+            console.log(feedbacks);
+            res.json(feedbacks);
+        }
+    });
 };
 
 exports.updateFeedback = function (req, res) {
@@ -278,7 +316,6 @@ exports.saveNewDogBreeds = function (req, res) {
 };
 
 exports.getDogBreeds = function (req, res) {
-    console.log('in getDogBreeds');
     DogBreeds.findOne({}, function(err, obj) {
         if (err) {
             return res.status(400).send({

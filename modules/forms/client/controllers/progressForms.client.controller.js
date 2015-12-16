@@ -10,7 +10,7 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.feedAdjustFlag = false;                                  // Flag use to override feeding adjustment in new form 
         $scope.constProgForm = [];                                      // Empty array to store progress form before it is changed
         $scope.dateCreated = new Date();                                // Today's date for new forms
-        $scope.selectedFood = '';                                       // Use for user's food selection
+        $scope.foodBrand = '';                                       // Use for user's food selection
         $scope.dogFoodNames = [];
 
         // Fields for use in automatic conversion when entering weight in New progress form
@@ -45,7 +45,36 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
         $scope.createProgressForm = function() {
             // Create new ProgressForm object
 
-            console.log('create p form');
+            if($scope.foodChanged) {
+                var dogFoodId;
+
+                for(var i = 0; i < $scope.dogFoods.length; i++) {
+                    if($scope.foodBrand === $scope.dogFoods[i].name) {
+                        dogFoodId = $scope.dogFoods[i]._id;
+                        break;
+                    }
+                }
+
+                if(dogFoodId === undefined || dogFoodId === null) {
+                    var food = new DogFoodService({
+                        name: $scope.foodBrand,
+                        kcalPerCup: $scope.foodkCal,
+                        validated: false
+                    });
+
+                    food.$save(function(breedSaveResponse) {
+                        dogFoodId = breedSaveResponse;
+
+                        var patient = new PatientsService({
+                            _id: ActivePatient.getActivePatient()._id,
+                            food: dogFoodId,
+                            changedData: {
+                                food: ActivePatient.getActivePatient().food
+                            }
+                        });
+                    });
+                }
+            }
 
             var progressForm = new ProgressFormsService({
                 weight: this.weight.kg,
@@ -419,13 +448,13 @@ angular.module('forms').controller('progressFormsController', ['$scope', '$locat
             // For call from past edited form and new form
             console.log('ans: ' + ans);
             if(pFormId === -1) {
-                $scope.selectedFood = ans;
-                $scope.foodKCalPerCup = $scope.getFoodInfo(ans);
+                $scope.foodBrand = ans;
+                $scope.foodkCal = $scope.getFoodInfo(ans);
             }
             else {
                 $scope.activePatient.progressForms[pFormId].foodName = ans;
                 console.log('$scope.getFoodInfo(ans): ' + $scope.getFoodInfo(ans));
-                $scope.activePatient.progressForms[pFormId].foodKCalPerCup = $scope.getFoodInfo(ans);
+                $scope.activePatient.progressForms[pFormId].foodkCal = $scope.getFoodInfo(ans);
             }
             return ans;
         };

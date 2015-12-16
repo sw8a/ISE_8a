@@ -114,12 +114,12 @@
                                             <small class="pull-right control-label">Enter the food name</small>
                                         </div>
                                         <div class="col-sm-7 input-group">
-                                            <input data-ng-model="selectedFood" typeahead="food.index as food.name for food in dogFoods | filter:$viewValue | limitTo:8" typeahead-input-formatter="formatLabel($model, -1)" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
+                                            <input data-ng-model="foodBrand" typeahead="food.index as food.name for food in dogFoods | filter:$viewValue | limitTo:8" typeahead-input-formatter="formatLabel($model, -1)" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
                                         </div>
                                     </div>
                                     <div class="row form-group form-inline">
                                         <div class="col-sm-3 col-sm-offset-4 input-group">
-                                            <input data-ng-model="foodKCalPerCup" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/cup</em>
+                                            <input data-ng-model="foodkCal" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/cup</em>
                                         </div>
                                         <div class="col-sm-3 col-sm-offset-1 input-group">
                                             <input data-ng-model="foodKCalPerKg" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/kg</em>
@@ -297,7 +297,7 @@
                                 </div>
                                 <div class="row form-group form-inline">
                                     <div class="col-sm-3 col-sm-offset-4 input-group">
-                                        <input data-ng-model="form.foodKCalPerCup" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/cup</em>
+                                        <input data-ng-model="form.foodkCal" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/cup</em>
                                     </div>
                                     <div class="col-sm-3 col-sm-offset-1 input-group">
                                         <input data-ng-model="form.foodKCalPerKg" ng-disabled="!form.edit" class="form-control" id="focusedInput" type="text"><em class="input-group-addon">kcal/kg</em>

@@ -197,6 +197,16 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                         $scope.signUpError += 'Practice email required<br />';
                     }  
                 }
+                if($scope.practiceSignup.phone === '' || $scope.practiceSignup.phone === undefined) {
+                    if(!error) {
+                        $scope.signUpError = 'Sign up unsuccessful<br />';
+                        $scope.signUpError += 'Error:<br />Practice phone number required<br />';
+                        error = true;
+                    }
+                    else {
+                        $scope.signUpError += 'Practice phone number required<br />';
+                    }  
+                }
             }
             if($scope.signUp.username === '' || $scope.signUp.username === undefined) {
                 if(!error) {
@@ -231,6 +241,7 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                         address: $scope.practiceSignup.address,
                         practiceId: $scope.practiceSignup.practiceId,
                         email: $scope.practiceSignup.email,
+                        phoneNumber: $scope.practiceSignup.phone,
                         auxthera: ActiveAuxthera.getActiveAuxthera()._id
                     });
 
@@ -269,6 +280,7 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                         var auxthera = new AuxtheraService();
 
                         auxthera.$save(function (auxtheraResponse) {
+                            console.log(auxtheraResponse);
                             var auxAdminTasks = new AuxAdminTasksService({
                                 auxtheraId: auxtheraResponse._id
                             });
@@ -276,7 +288,8 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
                             auxAdminTasks.$save(function (auxAdminTasksResponse) {
                                 auxthera = new AuxtheraService({
                                     _id: auxtheraResponse._id,
-                                    adminTasks: auxAdminTasksResponse._id
+                                    adminTasks: auxAdminTasksResponse._id,
+                                    addAdminTasks: true
                                 });
 
                                 auxthera.$update(function (auxtheraUpdateResponse) {
@@ -326,17 +339,11 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         // Initialize list of feedback threads.
         $scope.initFeedback = function() {
 
-            //Sample JSON 
-            $scope.feedback = [
-                {index:0,
-                practice: 'Vet 001',
-                messages: {message:'In an effort to protect and determine patient identification, a photo ID will be requested for every encounter of care and prescription unless the person is well-known to the organization. In acute situations in which no photo ID is with the patient at the time of treatment, patients may provide UFID number, date of birth and/or address.'}
-                },
-                {index:1,
-                practice: 'Vet 002',
-                messages: {message:'test'}
-                }
-            ];
+            //({ auxtheraId: ActiveAuxthera.getActiveAuxthera()._id })
+
+            FeedbackService.query(function( getFeedbackResponse ) {
+                $scope.feedback = getFeedbackResponse;
+            });
         };
 
         //methods changing variables in the feedback page

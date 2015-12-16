@@ -20,9 +20,9 @@
                     </thead>
                     <tbody>
                         <tr class="feedbackRow" ng-repeat="thread in feedback | limitTo: limitVar" ng-click="isActive(); setCurrent(thread)">
-                            <td class="col-md-5 col-sm-5"> {{ thread.practice }} </td>
+                            <td class="col-md-5 col-sm-5"> {{ thread.name }} </td>
 
-                            <td class="col-md-3 col-sm-3"> {{ thread.dateCreated }} </td>
+                            <td class="col-md-3 col-sm-3"> {{ thread.dateCreated | date : 'MM/dd/yyyy'}} </td>
                         </tr>
                     </tbody>
                 </table>
@@ -36,11 +36,11 @@
 
         <!-- Alternate view showing message -->
         <div class="messageList" ng-show="threadActive">
-            <h1 style="color:#1E5687">Feedback sent by <i>{{currThread.practice}}</i> submitted [date]:</h1>
+            <h1 style="color:#1E5687">Feedback sent by <i>{{currThread.name}}</i> submitted {{ currThread.dateCreated | date : 'MM/dd/yyyy'}}:</h1>
 
             <div class="threadView top-buffer jumbotron">
                 <div class="messageText">
-                    <p> {{currThread.messages.message}}</p>
+                    <p> {{currThread.message}}</p>
                 </div>
             </div>
 

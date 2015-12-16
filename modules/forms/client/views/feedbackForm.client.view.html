@@ -1,16 +1,16 @@
-<div class="formContentWrapper">
+<div class="formContentWrapper" data-ng-init="initPatient()">
   <div class="formWrapper" data-ng-controller="feedbackFormController">
 
-    <form class="form-horizontal">
+    <form data-ng-submit="sendContact()" class="form-horizontal">
 
       <div class="page-header text-center">
         <h1 class="text-center">Contact AuxThera</h1>
       </div>
 
       <div class="practiceInfo">
-        Practice Name: Acme <br>
-        Address: 234 Acme Way <br>
-        Phone: 999-999-9999
+        Practice Name: {{ activePractice.name }} <br>
+        Address: {{ activePractice.address }} <br>
+        Phone: {{ activePractice.phoneNumber | phoneFormat }}
       </div>
 
       <br><br><br><br><br>
@@ -20,7 +20,7 @@
         <div class="col-md-6 inputGroupContainer">
           <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input name="first_name" placeholder="Name" class="form-control" type="text" required>
+            <input data-ng-model="name" name="first_name" placeholder="Name" class="form-control" type="text" required>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
           <div class="col-md-6 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-              <input name="email" placeholder="E-Mail Address" class="form-control" type="text" required>
+              <input data-ng-model="email" name="email" placeholder="E-Mail Address" class="form-control" type="text" required>
             </div>
           </div>
       </div>
@@ -40,7 +40,7 @@
         <div class="col-md-6 inputGroupContainer">
           <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-            <input name="phone" placeholder="(845) 555-1212" class="form-control" type="text" required>
+            <input data-ng-model="phone" name="phone" placeholder="(845) 555-1212" class="form-control" type="text" required>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
         <div class="col-md-6 inputGroupContainer">
           <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-            <textarea class="form-control" name="comment" placeholder="Comments"></textarea>
+            <textarea data-ng-model="comment" class="form-control" name="comment" placeholder="Comments"></textarea>
           </div>
         </div>
       </div>

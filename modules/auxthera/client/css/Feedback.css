@@ -6,11 +6,6 @@
 
 }
 
-.feedbackWrapper {
-        
-    margin-left: 300px;
-}
-
 .tableTitle {
 
     font-size: 30px;
@@ -54,7 +49,7 @@
 }
 
 .TableSection {
-
+    max-width: 100%;
     padding-top:30px;
     padding:15px;
     font-size: 24px;

@@ -1,17 +1,8 @@
-.overviewPage{
-
+.overviewPage {
 	margin-left: 302px;
 }
 
-.heading{
-	
-	text-align: center;
-	font-family: "Trajan Pro";
-	color: #1E5687;
-}
-
-.info{
-
+.info {
 	color: #1E5687;
 }
 
@@ -20,12 +11,10 @@
 }
 
 .auxthera-container {
-	padding-top: 10px;
-	padding-left: 310px;
-	padding-right: auto;
+	padding-left: 300px;
+	width: 100%;
 }
 .auxthera-body-wrapper {
-	padding-left: 5%;
-	padding-right: 5%;
-	padding-top: 3%;
+	margin: 0 auto;
+	width: 90%;
 }

@@ -1,44 +1,38 @@
-.heading {
-	text-align: center;
-	font-family: "Trajan Pro";
-	color: #1E5687;
-}
-
-.TableComponents {
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 310px;
-}
 
 .heavy-top-buffer {
     margin-top: 100px;
 }
-
 
 .custom-panel .panel {
 	background-color: #fff;
 	border-radius: 0 !important;
 	margin-bottom: 0 !important;
 }
+
 .custom-panel .panel-group {
 	margin-bottom: 20px;
 }
+
 .custom-panel .panel-group .panel + .panel {
  	margin-top: 0;
 }
+
 .custom-panel .panel-heading {
 	padding: 8px;
 	border-top: none;
 	border-left: none;
 	border-right: none;
 }
+
 .custom-panel .callList-table-heading {
 	background-color: inherit;
 }
+
 .custom-panel .callList-table-heading .panel-heading {
-    padding: 8px;
+    /*padding: 8px;*/
     margin-bottom: 2px;
 }
+
 .custom-panel .callList-table-heading .panel-heading h3 {
     white-space: nowrap;
     overflow: hidden;
@@ -48,6 +42,7 @@
     padding-top: 0;
 
 }
+
 .custom-panel .panel-heading h3 {
     white-space: nowrap;
     overflow: hidden;

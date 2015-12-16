@@ -98,6 +98,34 @@
                                         <span class="static-data">{{getTrimauxilDose(weight.lb)}}</span>
                                     </div>
                                 </div>
+                                <!-- Food Changed -->
+                                <div class="row form-group form-inline">
+                                    <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true" data-ng-change="enterFood = true"> yes</label>
+                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false" data-ng-change="enterFood = false"> no</label>
+                                    </div>
+                                </div>
+
+                                <!-- Food changed extended form -->
+                                <div ng-hide="!enterFood">
+                                    <div class="row form-group form-inline">
+                                        <div class="col-sm-4">
+                                            <small class="pull-right control-label">Enter the food name</small>
+                                        </div>
+                                        <div class="col-sm-7 input-group">
+                                            <input data-ng-model="selectedFood" typeahead="food.index as food.name for food in dogFoods | filter:$viewValue | limitTo:8" typeahead-input-formatter="formatLabel($model, -1)" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group form-inline">
+                                        <div class="col-sm-3 col-sm-offset-4 input-group">
+                                            <input data-ng-model="foodKCalPerCup" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/cup</em>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-offset-1 input-group">
+                                            <input data-ng-model="foodKCalPerKg" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/kg</em>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- Feeding adjustment needed -->
                                 <div class="row form-inline">
                                     <label class="col-sm-4 control-label">Feeding Adjustment needed</label>
@@ -117,34 +145,6 @@
                                         </div>
                                         <div class="col-sm-5 pull-right">
                                             <input data-ng-model="vetIdOverrideCPF" class="form-control" id="focusedInput" type="text" placeholder="Enter Vet ID" data-ng-required="feedAdjustFlag">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Food Changed -->
-                                <div class="row form-group form-inline">
-                                    <label class="col-xs-12 col-sm-4 control-label">Food Changed</label>
-                                    <div class="col-xs-12 col-sm-8">
-                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="true" data-ng-change="enterFood = true"> yes</label>
-                                        <label class="radio-inline"><input data-ng-model="foodChanged" type="radio" name="foodChanged" value="false" data-ng-change="enterFood = false"> no</label>
-                                    </div>
-                                </div>
-
-                                <!-- Food changed extended form -->
-                                <div ng-hide="!enterFood">
-                                    <div class="row form-group form-inline">
-                                        <div class="col-sm-4">
-                                            <small class="pull-right control-label">Enter the food name</small>
-                                        </div>
-                                        <div class="col-sm-7 input-group">
-                                            <input data-ng-model="selectedFood" typeahead="food for food in foodNames | filter:$viewValue | limitTo:8" class="form-control" id="focusedInput" type="text" data-ng-required="enterFood">
-                                        </div>
-                                    </div>
-                                    <div class="row form-group form-inline">
-                                        <div class="col-sm-3 col-sm-offset-4 input-group">
-                                            <input data-ng-model="foodCalPerCup" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/cup</em>
-                                        </div>
-                                        <div class="col-sm-3 col-sm-offset-1 input-group">
-                                            <input data-ng-model="foodKCalPerKg" class="form-control" id="focusedInput" type="text"><em class="input-group-addon" data-ng-required="enterFood">kcal/kg</em>
                                         </div>
                                     </div>
                                 </div>

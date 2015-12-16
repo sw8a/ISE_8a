@@ -339,18 +339,6 @@ angular.module('auxthera').controller('auxtheraController', ['$scope', '$state',
         // Initialize list of feedback threads.
         $scope.initFeedback = function() {
 
-            //Sample JSON 
-            $scope.feedback = [
-                {index:0,
-                practice: 'Vet 001',
-                messages: {message:'In an effort to protect and determine patient identification, a photo ID will be requested for every encounter of care and prescription unless the person is well-known to the organization. In acute situations in which no photo ID is with the patient at the time of treatment, patients may provide UFID number, date of birth and/or address.'}
-                },
-                {index:1,
-                practice: 'Vet 002',
-                messages: {message:'test'}
-                }
-            ];
-
             //({ auxtheraId: ActiveAuxthera.getActiveAuxthera()._id })
 
             FeedbackService.query(function( getFeedbackResponse ) {
